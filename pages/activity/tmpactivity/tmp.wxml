@@ -1,0 +1,49 @@
+<!--pages/activity/tmpactivity/tmp.wxml-->
+<view class="page">
+
+  <view class="title"><text>{{activity.activityName}}</text></view>
+  <view class="tags-back">
+    <scroll-view class="scroll-tags" scroll-x="true">
+      <view wx:for="{{activity.activityTag}}">
+        <button class="tags">{{item}}</button></view>
+    </scroll-view>
+  </view>
+<view class="divline"></view>
+<view>----------------------------------------------------</view>
+<view>----------------------------------------------------</view>
+<view>---------------------{{activity.activityIntro}}---------------------</view>
+<view>----------------------------------------------------</view>
+<view>----------------------------------------------------</view>
+<view>----------------------------------------------------</view>
+<view class="divline"></view>
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">用户名</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+            
+        </view>
+    </view>
+</view>
+<view class="divline"></view>
+<label>课程提纲</label>
+<view class="divline"></view>
+<scroll-view scroll-y style="height: 140px">
+  <view class="activityDetail">
+    <label>活动时间</label>
+    <view>{{activity.activityTime}}</view>
+  </view>
+  <view class="activityDetail">
+    <label>活动地点</label>
+    <view>{{activity.activityLocation}}</view>
+  </view>
+  <view class="activityDetail">
+    <label>活动对象</label>
+    <view wx:for="{{activity.activityObject}}">
+      <view>{{item}}</view>
+    </view>
+  </view>
+</scroll-view>
+<view class="divline"></view>
+<button style="color:white;background-color:#4b0080;height:40px">报名</button>

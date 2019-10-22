@@ -1,0 +1,40 @@
+<view class="page">
+
+    <view class="page__hd"></view>
+    <view class="page__bd" >
+        <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+               
+                   <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                    <icon class="weui-icon-search" type="search" size="14"></icon>
+                    <view class="weui-search-bar__text">搜索</view>
+                </label>
+          
+                    <input  class="weui-search-bar__input" bindtap="inputTyping" />
+                  
+              
+            </view>
+        </view>
+ 
+    </view>
+
+    <scroll-view scroll-top = "20" scroll-x="true" class="activities-button" >
+      <view  wx:for="{{activityTypes}}">
+            <button class="weui-btn mini-btn" type="default" size="mini"    bindtap="chooseActivityType" data-value="{{item}}">{{item}}</button>
+            </view>  
+     </scroll-view>
+     <scroll-view scroll-y="true" class="activities" style="height: 400px" data-activity = "{{item}}">
+      <view class="ACT" wx:for="{{activity}}" data-activity= "{{item}}"bindtap="openActivity">
+        <view class="activity-name" >{{item.activityName}}</view>
+        <view class="activity-intro">
+            <view>{{item.activityIntro}}</view>
+            <view class="activity-tags">
+            <view wx:for="{{item.activityTag}}" wx:for-item="a">
+              <button class="tag"  >{{a}}</button>
+            </view>
+        </view>
+        </view>
+      </view>
+     </scroll-view>
+
+</view>
