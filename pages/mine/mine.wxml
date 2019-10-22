@@ -1,0 +1,27 @@
+<!-- pages/mine/mine.wxml -->
+<view class="aboutuser">
+    <view class="user-personal">
+        <view>个人信息</view>
+    </view>
+    <view class="user-personal">
+        <view>学籍信息</view>
+    </view>
+</view>
+<view class="div-line1"></view>
+<view class="aboutapp">
+    <view class="aboutthis">
+        <view>关于</view>
+    </view>
+    <view class="aboutthis">
+        <view>帮助信息</view>
+    </view>
+</view>
+<view class="div-line2"></view>
+<view class="deleteuser">
+    <view class="deleteuser-acc">
+        <view>注销</view>
+    </view>
+    <view class="deleteuser-acc">
+        <view>设置</view>
+    </view>
+</view>
