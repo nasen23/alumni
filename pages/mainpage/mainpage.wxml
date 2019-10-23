@@ -12,7 +12,7 @@
   </scroll-view>
 
   <scroll-view class="activity-scroll-view" scroll-y>
-    <view class="activity-view" wx:for="{{ activities }}" bindtap="toActivityDetail" data-id="{{ item.id }}">
+    <view class="activity-view" wx:for-items="{{ activities }}" bindtap="toActivityDetail" data-id="{{ item.id }}">
       <view class="activity-banner">
       </view>
       <view class="activity-detail">
