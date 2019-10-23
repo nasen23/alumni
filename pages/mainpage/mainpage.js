@@ -7,7 +7,8 @@ Page({
       { "name": "活动名称", "intro": "活动简介", "tags": ["1"] },
       { "name": "活动名称", "intro": "活动简介", "tags": ["1"] },
       { "name": "活动名称", "intro": "活动简介", "tags": ["1"] },
-      { "name": "活动名称", "intro": "活动简介", "tags": ["1"] }]
+      { "name": "活动名称", "intro": "活动简介", "tags": ["1"] }
+    ]
   },
   inputTyping: function () {
     var obj = JSON.stringify(this.data.history);

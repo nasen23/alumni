@@ -1,13 +1,18 @@
 /* pages/mainpage/mainpage.wxss */
-page__bd{
-  z-index: 5;
+
+van-search {
+  width: 100%;
+ 
+}
+
+.history-activity-scroll-view, .activity-scroll-view {
+  display: flex;
+  margin: 10px;
 }
 
 .history-activity-scroll-view {
-  display: flex;
   flex-direction: row;
   white-space: nowrap;
-  margin: 0 10px;
 }
 
 .history-activity-view {
@@ -20,81 +25,43 @@ page__bd{
   flex-direction: row;
 }
 
-.activities-button{
-  display: flex;
-  margin-top: 5pt;
-  flex-direction: row;
-  white-space: nowrap;
-  
-}
-.activities-button view{
-    z-index: 5;
-    margin-right:5pt;
-    width: 50pt;
-    height: 20pt; 
-    font-size: 8pt;
-    display: inline-block;
-}
-
-.activities{
-  z-index: 3;
-  margin-top: 5pt;
-  display: flex;
-  align-items: center;
-}
-
-.ACT{
-  height:80pt;
-  border-radius: 30pt;
-  margin-top: 10pt;
-  color: black;
-  
-  display: flex;
-}
-
-.activity-name{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width: 100pt;
-  margin-top: 5pt;
-  margin-bottom: 5pt;
-  margin-left: 5pt;
-  border-radius: 10pt;
-  border: 1rpx solid gray;
-  background-color: blueviolet;
-}
-
-.activity-intro{
-  display:flex;
+.activity-scroll-view {
+  height: 100%;
   flex-direction: column;
-  width:180pt;
-  align-items:center;
-  justify-content:center;
-  border-top: 1rpx solid gray;
-  border-bottom: 1rpx solid gray;
-  margin-top: 5pt;
-  margin-bottom: 5pt;
-  margin-left: 5pt;
-  margin-right: 5pt;
 }
 
-.activity-tags{
-  width:180pt;
+.activity-view {
+  height: 200rpx;
+  margin: 10px 10px;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  align-items: left;
-  flex-wrap:wrap;
+  vertical-align: center;
+  text-align: center;
 }
 
-.tag{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:8px;
-  width: 15px;
-  height:15px;
-  background-color: gray;
-  margin-left: 5px;
-  margin-top: 5px;
+.activity-banner {
+  align-self: center;
+  width: 150rpx;
+  height: 150rpx;
+  margin: 10px;
+  background-color: blue;
+  background-size: 100%;
+  border-radius: 3px;
+}
+
+.activity-detail {
+  padding: 10px;
+}
+
+.activity-name {
+  font-weight: bold;
+ 
+}
+
+.activity-intro {
+}
+
+.activity-detail {
+  width: 100%;
 }

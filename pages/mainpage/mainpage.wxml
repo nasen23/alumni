@@ -1,25 +1,28 @@
-<view class="page">
-  <view class="page__hd"></view>
-  <view class="page__bd" >
-    <view class="mainpage-search-bar">
-      <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:search="onSearch" />
-    </view>
-  </view>
+<view class="container page">
+  <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:search="onSearch" />
 
   <scroll-view class="history-activity-scroll-view" scroll-x>
     <view class="history-activity-view" wx:for="{{ historyActivities }}">
-      <van-button class="history-activity-button" round type="default" size="mini" data-value="{{ item }}">{{ item }}</van-button>
+      <van-button
+          class="history-activity-button" color="red"
+          type="default" size="mini" data-value="{{ item }}" round plain >
+        {{ item }}
+      </van-button>
     </view>
   </scroll-view>
 
   <scroll-view class="activity-scroll-view" scroll-y>
-    <view class="activity-view" wx:for="{{ activities }}" bindtap="openActivity">
-      <view class="activity-name">{{ item.name }}</view>
-      <view class="activity-intro">
-        <view>{{ item.activityIntro }}</view>
-        <view class="activity-tags">
-          <view wx:for="{{item.activityTag}}" wx:for-item="a">
-            <button class="tag"  >{{a}}</button>
+    <view class="activity-view" wx:for="{{ activities }}">
+      <view class="activity-banner">
+      </view>
+      <view class="activity-detail">
+        <view class="activity-name">{{ item.name }}</view>
+        <view class="activity-intro">
+          <view>{{ item.intro }}</view>
+          <view class="activity-tags">
+            <view wx:for="{{ item.activityTag }}" wx:for-item="a">
+              <button class="tag">{{ a }}</button>
+            </view>
           </view>
         </view>
       </view>
