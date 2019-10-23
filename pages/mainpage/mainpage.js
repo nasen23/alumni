@@ -12,12 +12,11 @@ Page({
   },
   inputTyping: function () {
     var obj = JSON.stringify(this.data.history);
-    wx.navigateTo({url:"./searchpage/search?history=" + obj});
+    wx.navigateTo({url:"./searchpage/search?history=" + obj})
   },
-  openActivity:function (e){
-    var obj = JSON.stringify(e.currentTarget.dataset.activity.activityTag);
-    var nbj = JSON.stringify(e.currentTarget.dataset.activity);
+  toActivityDetail: function (e) {
     wx.navigateTo({
-      url: "../activity/tmpactivity/tmp?&activity=" + nbj});
+      url: "/pages/activity-details/index?id=" + e.currentTarget.dataset.id
+    })
   }
-});
+})

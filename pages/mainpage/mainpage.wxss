@@ -7,10 +7,11 @@ van-search {
 
 .history-activity-scroll-view, .activity-scroll-view {
   display: flex;
-  margin: 10px;
+  margin: 0 20rpx;
 }
 
 .history-activity-scroll-view {
+  margin-top: 10rpx;
   flex-direction: row;
   white-space: nowrap;
 }
@@ -37,15 +38,14 @@ van-search {
   display: flex;
   flex-direction: row;
   vertical-align: center;
-  text-align: center;
 }
 
 .activity-banner {
   align-self: center;
-  width: 150rpx;
+  width: 200rpx;
   height: 150rpx;
   margin: 10px;
-  background-color: blue;
+  background-color: #009fff;
   background-size: 100%;
   border-radius: 3px;
 }
@@ -55,11 +55,13 @@ van-search {
 }
 
 .activity-name {
-  font-weight: bold;
- 
+
 }
 
 .activity-intro {
+  color: #c2cbd2;
+  font-weight: 100;
+  font-size: small;
 }
 
 .activity-detail {
