@@ -2,6 +2,24 @@
 page__bd{
   z-index: 5;
 }
+
+.history-activity-scroll-view {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  margin: 0 10px;
+}
+
+.history-activity-view {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.history-activity-button {
+  display: flex;
+  flex-direction: row;
+}
+
 .activities-button{
   display: flex;
   margin-top: 5pt;

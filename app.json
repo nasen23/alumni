@@ -40,5 +40,9 @@
         "text": "我的"
       }
     ]
+  },
+  "usingComponents": {
+    "van-button": "vant-weapp/button",
+    "van-search": "vant-weapp/search"
   }
 }
