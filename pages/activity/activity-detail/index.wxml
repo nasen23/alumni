@@ -1,6 +1,17 @@
 <view class="container page">
+  <view class="activity-image"></view>
   <view class="activity-title">活动名称</view>
-  <view class="divline"></view>
+  <view class="activity-details">
+    <view><van-icon name="clock-o" />
+      报名时间：
+    </view>
+    <view><van-icon name="gold-coin-o"/>
+      报名费用：
+    </view>
+    <view><van-icon name="user-o"/>
+      报名人数：
+    </view>
+  </view>
   <view>----------------------------------------------------</view>
   <view>----------------------------------------------------</view>
   <view>---------------------活动简介---------------------</view>

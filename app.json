@@ -44,6 +44,7 @@
   },
   "usingComponents": {
     "van-button": "vant-weapp/button",
-    "van-search": "vant-weapp/search"
+    "van-search": "vant-weapp/search",
+    "van-icon": "vant-weapp/icon"
   }
 }
