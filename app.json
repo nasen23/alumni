@@ -2,7 +2,8 @@
   "pages": [
     "pages/mainpage/mainpage",
     "pages/logs/logs",
-    "pages/activity/tmpactivity/tmp",
+    "pages/activity/activity-detail/index",
+    "pages/activity/activity-create/index",
     "pages/mine/mine",
     "pages/mine/settings/settings",
     "pages/mine/logout/logout",
@@ -28,7 +29,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/activity/tmpactivity/tmp",
+        "pagePath": "pages/activity/activity-create/index",
         "iconPath": "images/nav/activity.png",
         "selectedIconPath": "images/nav/activity.png",
         "text": "活动"

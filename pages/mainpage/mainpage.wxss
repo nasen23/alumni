@@ -42,7 +42,7 @@ van-search {
 
 .activity-banner {
   align-self: center;
-  width: 200rpx;
+  width: 220rpx;
   height: 150rpx;
   margin: 10px;
   background-color: #009fff;

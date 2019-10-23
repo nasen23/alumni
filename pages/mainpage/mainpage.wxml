@@ -1,17 +1,17 @@
 <view class="container page">
   <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:search="onSearch" />
 
-  <scroll-view class="history-activity-scroll-view" scroll-x>
-    <view class="history-activity-view" wx:for="{{ historyActivities }}">
-      <van-button
-          class="history-activity-button" color="red"
-          type="default" size="mini" data-value="{{ item }}" round plain >
-        {{ item }}
-      </van-button>
-    </view>
-  </scroll-view>
-
   <scroll-view class="activity-scroll-view" scroll-y>
+    <scroll-view class="history-activity-scroll-view" scroll-x>
+      <view class="history-activity-view" wx:for="{{ historyActivities }}">
+        <van-button
+            class="history-activity-button" color="red"
+            type="default" size="mini" data-value="{{ item }}" round plain >
+          {{ item }}
+        </van-button>
+      </view>
+    </scroll-view>
+
     <view class="activity-view" wx:for-items="{{ activities }}" bindtap="toActivityDetail" data-id="{{ item.id }}">
       <view class="activity-banner">
       </view>

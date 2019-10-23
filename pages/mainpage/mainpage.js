@@ -16,7 +16,7 @@ Page({
   },
   toActivityDetail: function (e) {
     wx.navigateTo({
-      url: "/pages/activity/tmpactivity/tmpactivity?id=" + e.currentTarget.dataset.id
+      url: "/pages/activity/activity-detail/index?id=" + e.currentTarget.dataset.id
     })
   }
 })
