@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/nasen23/alumni#readme",
   "dependencies": {
+    "fontawesome": "^5.6.3",
     "vant-weapp": "^1.0.0-beta.0"
   }
 }
