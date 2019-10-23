@@ -1,10 +1,10 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/mainpage/mainpage",
+    "pages/logs/logs",
+    "pages/activity/tmpactivity/tmp",
     "pages/mine/mine",
     "pages/mine/settings/settings",
-    "pages/logs/logs",
-    "pages/activity/activity",
     "pages/mine/logout/logout",
     "pages/mine/status_info/status_info"
   ],
