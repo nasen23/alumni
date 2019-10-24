@@ -1,26 +1,8 @@
-/*pages/mine/mine.wxss */
-
+/* pages/mine/status_info/status_info.wxss */
 .container {
   min-height: 100%;
   overflow: hidden;
   overflow-y: hidden;
-}
-
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 750rpx;
-  /* margin-bottom: 20rpx; */
-}
-.userinfo-avatar {
-  width: 160rpx;
-  height: 160rpx;
-}
-.userinfo-nickname {
-  margin-top: 20rpx;
-  margin-bottom: 20rpx;
-  font-size: 14px;
 }
 
 .div-line-thin {
@@ -34,7 +16,7 @@
   height: 15rpx;
 }
 
-.mine-item {
+.info-item {
     width: 100%;
     background: url(https://cdn.it120.cc/images/weappshop/arrow-right.png) no-repeat 750rpx center;
     background-size: 16rpx auto,750rpx auto;

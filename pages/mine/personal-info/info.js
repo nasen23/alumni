@@ -1,4 +1,4 @@
-// pages/mine/logout/logout.js
+// pages/mine/personal-info/personal-info.js
 Page({
 
   /**

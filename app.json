@@ -1,4 +1,7 @@
 {
+  "usingComponents": {
+    "van-button": "miniprogram_npm/vant-weapp/button/index"
+  },
   "pages": [
     "pages/mainpage/mainpage",
     "pages/logs/logs",
@@ -6,8 +9,9 @@
     "pages/activity/activity-create/index",
     "pages/mine/mine",
     "pages/mine/settings/settings",
-    "pages/mine/logout/logout",
-    "pages/mine/status_info/status_info"
+    "pages/mine/status-info/info",
+    "pages/mine/personal-info/info",
+    "pages/mine/help/help"
   ],
   "window": {
     "backgroundTextStyle": "light",
