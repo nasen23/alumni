@@ -1,0 +1,37 @@
+<!--pages/mine/personal-info/personal-info.wxml-->
+
+<view class="div-line-thick"></view>
+
+<view class="info-item-small">实名信息</view>
+<view class="div-line-thin"></view>
+<view class="info-item">姓名</view>
+<view class="div-line-thin"></view>
+<view class="info-item">证件类型</view>
+<view class="div-line-thin"></view>
+<view class="info-item">证件号码</view>
+<view class="div-line-thin"></view>
+
+<view class="div-line-thick"></view>
+
+<view class="info-item-small">联系方式</view>
+<view class="div-line-thin"></view>
+<view class="info-item">手机号</view>
+<view class="div-line-thin"></view>
+<view class="info-item">邮箱</view>
+<view class="div-line-thin"></view>
+<view class="info-item">居住地</view>
+
+<view class="div-line-thick"></view>
+
+<view class="info-item-small">工作信息</view>
+<view class="div-line-thin"></view>
+<view class="info-item">行业</view>
+<view class="div-line-thin"></view>
+<view class="info-item">单位</view>
+<view class="div-line-thin"></view>
+<view class="info-item">职务</view>
+
+<view class="div-line-thick"></view>
+
+<van-button type="primary" formType="submit" color="linear-gradient(to right, #4bb0ff, #6149f6)" size="large">保存</van-button>
+
