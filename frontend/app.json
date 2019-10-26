@@ -1,7 +1,4 @@
 {
-  "usingComponents": {
-    "van-button": "miniprogram_npm/vant-weapp/button/index"
-  },
   "pages": [
     "pages/mainpage/mainpage",
     "pages/logs/logs",
@@ -49,6 +46,8 @@
   "usingComponents": {
     "van-button": "vant-weapp/button",
     "van-search": "vant-weapp/search",
-    "van-icon": "vant-weapp/icon"
+    "van-icon": "vant-weapp/icon",
+    "van-cell": "vant-weapp/cell",
+    "van-panel": "vant-weapp/panel"
   }
 }
