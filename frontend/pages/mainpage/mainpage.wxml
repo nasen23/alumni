@@ -1,7 +1,7 @@
 <view class="container">
   <view class="top-bar">
     <span class="top-title">清友活动圈</span>
-    <span><view class="avatar" /></span>
+    <span class="top-avatar"><view class="avatar" /></span>
   </view>
   <view class="search">
     <view class="search-field">
@@ -10,22 +10,21 @@
     </view>
   </view>
   <view class="history">
-    <view class="recent">Recent</view>
+    <view class="recent">最近</view>
     <text class="fa fa-angle-down" />
   </view> 
   <view class="activity-scroll-view" scroll-y>
-    <view class="activity-view" wx:for-items="{{ activities }}" bindtap="toActivityDetail" data-id="{{ item.id }}">
-      <view class="activity-card">
+    <view class="activity-view" 
+      wx:for="{{ activities }}" 
+      wx:key="{{ item.id }}"
+      style="padding-{{ index % 2 ? 'left' : 'right' }}:10px" 
+    >
+      <view class="activity-card" bindTap="toActivityDetail">
         <view class="activity-banner"></view>
         <view class="activity-detail">
           <view class="activity-name">{{ item.name }}</view>
           <view class="activity-intro">
             <view>{{ item.intro }}</view>
-            <view class="activity-tags">
-              <view wx:for="{{ item.activityTag }}" wx:for-item="a">
-                <button class="tag">{{ a }}</button>
-              </view>
-            </view>
           </view>
         </view>
       </view>
