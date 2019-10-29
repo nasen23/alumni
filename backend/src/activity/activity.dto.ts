@@ -2,9 +2,9 @@ import { UserEntity } from 'src/user/user.entity';
 
 export class ActivityDTO {
   readonly id: string
-  actHost: UserEntity
+  // actHost: UserEntity
   actName: string
-  actTime: Date
+  // actTime: Date
   actSite: string
   actIntro: string
 }

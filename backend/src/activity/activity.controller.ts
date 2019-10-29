@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common'
 
 import { ActivityService } from './activity.service'
-import { ActivityDTO } from 'src/activity/activity.dto'
+import { ActivityDTO } from './activity.dto'
 
 @Controller('activity')
 export class ActivityController {
@@ -17,18 +17,18 @@ export class ActivityController {
     return this.activityService.create(data)
   }
 
-  @Get(':name')
-  readActivity(@Param() name: string) {
-    return this.activityService.read(name)
+  @Get(':id')
+  readActivity(@Param('id') id: string) {
+    return this.activityService.read(id)
   }
 
-  @Put()
-  updateActivity(@Param() name: string, @Body() data: Partial<ActivityDTO>) {
-    return this.activityService.update(name, data)
+  @Put(':id')
+  updateActivity(@Param('id') id: string, @Body() data: Partial<ActivityDTO>) {
+    return this.activityService.update(id, data)
   }
 
-  @Delete()
-  destroyActivity(@Param() name: string) {
-    return this.activityService.destroy(name)
+  @Delete(':id')
+  destroyActivity(@Param('id') id: string) {
+    return this.activityService.destroy(id)
   }
 }

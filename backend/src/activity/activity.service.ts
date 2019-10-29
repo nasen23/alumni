@@ -13,7 +13,7 @@ export class ActivityService {
   ) {}
 
   async showAll() {
-    return this.activityRepository.find()
+    return await this.activityRepository.find()
   }
 
   async create(data: ActivityDTO) {
@@ -22,16 +22,22 @@ export class ActivityService {
     return activity
   }
 
-  async read(name: string) {
-    return this.activityRepository.findOne({ where: { "name": name }})
+  async read(id: string) {
+    return await this.activityRepository.findOne(id)
   }
 
-  async update(name: string, data: Partial<ActivityDTO>) {
-    await this.activityRepository.update(name, data)
+  async update(id: string, data: Partial<ActivityDTO>) {
+    await this.activityRepository.update(id, data)
+    return await this.activityRepository.findOne(id)
+
   }
 
-  async destroy(name: string) {
-    await this.activityRepository.delete(name)
+  async destroy(id: string) {
+    const activity = await this.activityRepository.findOne(id)
+    if (!activity) {
+      return { noid: id }
+    }
+    await this.activityRepository.delete(id)
     return { deleted: true }
   }
 }
