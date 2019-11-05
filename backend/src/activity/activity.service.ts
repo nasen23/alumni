@@ -1,9 +1,9 @@
-import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm'
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 
-import { ActivityEntity } from './activity.entity';
-import { ActivityDTO } from 'src/activity/activity.dto';
+import { ActivityDTO } from './activity.dto'
+import { ActivityEntity } from './activity.entity'
 
 @Injectable()
 export class ActivityService {
@@ -23,21 +23,45 @@ export class ActivityService {
   }
 
   async read(id: string) {
-    return await this.activityRepository.findOne(id)
+    try {
+      const activity = await this.activityRepository.findOne(id)
+      if (!activity) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+      }
+
+      return activity
+    } catch(error) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    }
   }
 
   async update(id: string, data: Partial<ActivityDTO>) {
-    await this.activityRepository.update(id, data)
-    return await this.activityRepository.findOne(id)
+    try {
+      const activity = await this.activityRepository.findOne(id)
+      if (!activity) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+      }
 
+      await this.activityRepository.update(id, data)
+
+      return this.activityRepository.findOne(id)
+    } catch(error) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    }
   }
 
   async destroy(id: string) {
-    const activity = await this.activityRepository.findOne(id)
-    if (!activity) {
-      return { noid: id }
+    try {
+      const activity = await this.activityRepository.findOne(id)
+      if (!activity) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+      }
+
+      await this.activityRepository.delete(id)
+
+      return activity
+    } catch(error) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
-    await this.activityRepository.delete(id)
-    return { deleted: true }
   }
 }

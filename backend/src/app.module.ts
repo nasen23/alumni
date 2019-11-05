@@ -1,18 +1,21 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from '@nestjs/common'
+import { APP_FILTER } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserModule } from './user/user.module';
-import { ActivityModule } from './activity/activity.module';
+
+import { AppService } from './app.service'
+import { AppController } from './app.controller'
+import { UserModule } from './user/user.module'
+// import { UserEntity } from './user/user.entity'
+// import { ActivityEntity } from './activity/activity.entity'
+import { ActivityModule } from './activity/activity.module'
+import { HttpErrorFilter } from './shared/http-error.filter'
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    UserModule,
-    ActivityModule
-  ],
+  imports: [TypeOrmModule.forRoot(), UserModule, ActivityModule],
+  providers: [AppService, {
+    provide: APP_FILTER,
+    useClass: HttpErrorFilter
+  }],
   controllers: [AppController],
-  providers: [AppService],
-
 })
 export class AppModule {}
