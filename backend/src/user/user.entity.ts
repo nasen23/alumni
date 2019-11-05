@@ -12,6 +12,6 @@ export class UserEntity {
   @Column('text')
   password: string
 
-  @OneToMany(() => ActivityEntity, activity => activity.actHost)
-  activities: ActivityEntity[]
+  // @OneToMany(() => ActivityEntity, activity => activity.actHost)
+  // activities: ActivityEntity[]
 }
