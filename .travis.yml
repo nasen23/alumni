@@ -1,1 +1,8 @@
 language:node_js
+node_js:
+	- '12'
+	- '10'
+	- '9'
+install:
+	-npm install
+script: ant build
