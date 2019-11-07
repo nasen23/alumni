@@ -1,0 +1,10 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: 11
+      before_install:
+        - cd backend
+      install:
+        - npm install
+      script:
+        - npm test
