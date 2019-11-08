@@ -1,3 +1,5 @@
+<!-- BUG: van-tabbar takes up bottom space, making content under tabbar not visable -->
+<!-- consider leaving some space on the bottom of page -->
 <view class="container">
   <view class="activity-image"></view>
 
