@@ -19,7 +19,7 @@
       wx:key="{{ item.id }}"
       style="padding-{{ index % 2 ? 'left' : 'right' }}:10px" 
     >
-      <view class="activity-card" bindTap="toActivityDetail">
+      <view class="activity-card" bindtap="toActivityDetail">
         <view class="activity-banner"></view>
         <view class="activity-detail">
           <view class="activity-name">{{ item.name }}</view>

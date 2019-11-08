@@ -1,6 +1,35 @@
 /* pages/activity/tmpactivity/tmp.wxss */
-van-panel, van-cell, .activity-image {
-  width: 100%
+
+.line-separator {
+  display: block;
+  width: 95%;
+  padding: 0;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ff790e;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border: 1px solid #c2cbd2;
+  border-radius: 100%;
+  background-color: #ff790e;
+}
+
+.detail-list {
+  color: #c2cbd2;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail {
+  display: flex;
+  flex-direction: row;
+}
+
+.detail text {
+  margin-right: 18rpx;
 }
 
 .activity-image {
@@ -8,68 +37,110 @@ van-panel, van-cell, .activity-image {
   background-color: #52658f;
 }
 
+.activity-header {
+  display: flex;
+  flex-direction: row;
+  padding: 30rpx;
+  justify-content: space-between;
+}
+
 .activity-title {
-  text-align: left;
-  margin: 20rpx 30rpx;
+  color: #364E65;
+  font-size: 50rpx;
+  font-weight: 300;
+  padding: 18rpx 0;
 }
 
-.activity-intro {
-  font-weight: 100;
-  font-size: small;
-}
-
-.activity-details {
-  font-weight: 100;
-  font-size: small;
-  text-align: left;
+.activity-header-detail-list {
   color: #c2cbd2;
-  margin: 20rpx 20rpx;
+  font-weight: 100;
 }
 
-.tags-back {
-  width:200pt;
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  flex-wrap:wrap;
+.activity-header-detail {
+  margin: 10rpx 0;
 }
 
-.scroll-tags {
-  display: flex;
-  width: 200%;
-  flex-direction: row;
-  white-space:nowrap;
+.activity-header-detail text {
+  width: 35rpx;
+  text-align: center;
 }
 
-.scroll-tags view{
-  width: 20%;
-  display: inline-block;
-}
-
-.tags {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color: white;
-  font-size:15px;
-  height:20px;
-  background-color: orange;
-  margin-left: 5px;
-  margin-top: 5px;
-}
-
-.divline {
-  margin: 5px;
-  background:black;
-  width:150%;
-  height: 3rpx;
-}
-.activityDetail {
+.activity-status {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  background: #58CEAE;
+  font-size: 46rpx;
+  font-weight: 50;
+  width: 30%;
 }
 
-.activityDetail view{
-  margin-left: 10px;
+.activity-status view {
+  text-align: center;
+  margin: 7rpx 0;
+}
+
+.activity-detail-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+}
+
+.activity-detail-item {
+  margin-bottom: 20rpx;
+}
+
+.activity-detail-title {
+  font-size: 35rpx;
+  color: #3796F6;
+  margin-bottom: 15rpx;
+}
+
+.activity-detail-content {
+  color: #90A8BE;
+}
+
+.activity-detail-creater {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 35rpx;
+  margin-bottom: 10rpx;
+}
+
+.creater-info {
+  margin: 0 25rpx;
+  flex: 1;
+}
+
+.creater-profile {
+  width: 25%;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #EC547A;
+  color: white;
+  text-align: center;
+}
+
+.avatar-link {
+  display: flex;
+  flex-direction: row;
+}
+
+.avatar-link view {
+  margin-right: -20rpx;
+}
+
+.avatar-link-last {
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 100rpx;
+  background-color: white;
 }

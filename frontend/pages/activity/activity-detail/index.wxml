@@ -1,42 +1,77 @@
-<view class="container page">
+<view class="container">
   <view class="activity-image"></view>
-  <van-panel title="活动名称" desc="描述信息" status="状态">
-    <view class="activity-details">
-      <view>
-        <van-icon name="clock-o" />
-        报名时间：
+
+  <view class="activity-header">
+    <view class="activity-maininfo">
+      <view class="activity-title">
+        活动标题
       </view>
-      <view>
-        <van-icon name="gold-coin-o" />
-        报名费用：
-      </view>
-      <view>
-        <van-icon name="user-o" />
-        报名人数：
+      <view class="activity-header-detail-list">
+        <view class="activity-header-detail">
+          <text class="fa fa-clock-o"></text>
+          activity time
+        </view>
+        <view class="activity-header-detail">
+          <text class="fa fa-map-marker"></text>
+          location
+        </view>
       </view>
     </view>
-  </van-panel>
-  <van-panel title="活动简介" class="activity-intro">活动简介的内容</van-panel>
-  
+
+    <view class="activity-status">
+      <view>倒数</view>
+      <view>10天</view>
+    </view>
+  </view>
+
+  <view class="line-separator"></view>
+
+  <view class="activity-detail-list">
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        关于
+      </view>
+
+      <view class="activity-detail-content">
+        一些内容
+      </view>
+    </view>
+
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        活动创办者
+      </view>
+
+      <view class="activity-detail-creater">
+        <view class="avatar" />
+
+        <view class="creater-info">
+          <view class="name">名字</view>
+          <view class="detail-list">
+            <view class="detail">
+              <text class="fa fa-phone" />
+              <view class="detail-content">123456789</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="creater-profile">
+          个人资料
+        </view>
+      </view>
+    </view>
+
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        参与者
+      </view>
+      <view class="avatar-link">
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar avatar-link-last">+20</view>
+      </view>
+    </view>
+  </view>
 </view>
-<view class="divline"></view>
-<label>课程提纲</label>
-<view class="divline"></view>
-<scroll-view scroll-y style="height: 140px">
-  <view class="activityDetail">
-    <label>活动时间</label>
-    <view>{{activity.activityTime}}</view>
-  </view>
-  <view class="activityDetail">
-    <label>活动地点</label>
-    <view>{{activity.activityLocation}}</view>
-  </view>
-  <view class="activityDetail">
-    <label>活动对象</label>
-    <view wx:for="{{activity.activityObject}}">
-      <view>{{item}}</view>
-    </view>
-  </view>
-</scroll-view>
-<view class="divline"></view>
-<button style="color:white;background-color:#4b0080;height:40px">报名</button>

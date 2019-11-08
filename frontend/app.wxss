@@ -17,4 +17,5 @@ page {
 
 view, scroll-view {
   box-sizing: border-box;
+  width: 100%;
 }
