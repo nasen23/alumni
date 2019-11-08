@@ -9,9 +9,10 @@ import { UserModule } from './user/user.module'
 // import { ActivityEntity } from './activity/activity.entity'
 import { ActivityModule } from './activity/activity.module'
 import { HttpErrorFilter } from './shared/http-error.filter'
+import { ConfigModule } from './config/config.module'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UserModule, ActivityModule],
+  imports: [TypeOrmModule.forRoot(), UserModule, ActivityModule, ConfigModule],
   providers: [AppService, {
     provide: APP_FILTER,
     useClass: HttpErrorFilter

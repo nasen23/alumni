@@ -29,6 +29,8 @@ export class ActivityService {
         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
       }
 
+      console.log(activity)
+      console.log(typeof(activity))
       return activity
     } catch(error) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
