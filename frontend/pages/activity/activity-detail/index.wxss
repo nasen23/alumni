@@ -144,3 +144,16 @@
   line-height: 100rpx;
   background-color: white;
 }
+
+van-tabbar view {
+  width: auto;
+}
+
+.wide-tabitem {
+  flex: 2;
+}
+
+.wide-tabitem .van-tabbar-item__text {
+  color: white;
+  font-size: 20px;
+}

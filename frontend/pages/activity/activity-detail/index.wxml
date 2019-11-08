@@ -74,4 +74,16 @@
       </view>
     </view>
   </view>
+
+  <van-tabbar fixed>
+    <van-tabbar-item name="share" icon="share">分享</van-tabbar-item>
+    <van-tabbar-item name="message" icon="chat-o" info="3">消息</van-tabbar-item>
+    <van-tabbar-item name="manage" class="wide-tabitem" style="background: #42dee1">
+      <text class="fa fa-bars" />
+      管理
+    </van-tabbar-item>
+    <van-tabbar-item name="signup" class="wide-tabitem" style="background: #6decb9">
+      报名
+    </van-tabbar-item>
+  </van-tabbar>
 </view>

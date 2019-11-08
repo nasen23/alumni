@@ -48,6 +48,8 @@
     "van-search": "vant-weapp/search",
     "van-icon": "vant-weapp/icon",
     "van-cell": "vant-weapp/cell",
-    "van-panel": "vant-weapp/panel"
+    "van-panel": "vant-weapp/panel",
+    "van-tabbar": "vant-weapp/tabbar",
+    "van-tabbar-item": "vant-weapp/tabbar-item"
   }
 }
