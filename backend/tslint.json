@@ -12,7 +12,9 @@
     "member-ordering": [false],
     "interface-name": [false],
     "arrow-parens": false,
-    "object-literal-sort-keys": false
+    "indent": [true, "spaces", 2],
+    "object-literal-sort-keys": false,
+    "whitespace": [true, "check-branch", "check-module"]
   },
   "rulesDirectory": []
 }
