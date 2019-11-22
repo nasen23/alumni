@@ -58,9 +58,7 @@ export class ActivityService {
       if (!activity) {
         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
       }
-
       await this.activityRepository.delete(id)
-
       return activity
     } catch(error) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)

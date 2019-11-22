@@ -19,7 +19,7 @@ export class ActivityController {
   @UsePipes(new ValidationPipe())
   createActivity(@Body() data: ActivityDTO) {
     this.logger.log(JSON.stringify(data))
-    return this.activityService.create(data)
+    return  this.activityService.create(data)
   }
 
   @Get(':id')

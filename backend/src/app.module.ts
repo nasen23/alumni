@@ -16,7 +16,7 @@ import { ConfigModule } from './config/config.module'
   providers: [AppService, {
     provide: APP_FILTER,
     useClass: HttpErrorFilter
-  }],
+  },],
   controllers: [AppController],
 })
 export class AppModule {}
