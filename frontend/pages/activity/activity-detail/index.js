@@ -1,10 +1,31 @@
+const config = require('../../../config.js')
 Page({
 
-  data: {
-  },
+  data: {},
 
   onLoad: function (e) {
-    this.data.id = e.id
+    let this_ = this
+    wx.request({
+      url: config.host + 'activity/get',
+      method: "GET",
+      data: {
+        id: e.id
+      },
+      success: res => {
+        console.log(res)
+        this_.setData({
+          id: e.id,
+          name: res.data.name,
+          site: res.data.site,
+          intro: res.data.intro,
+          time: new Date(parseInt(res.data.time)).toLocaleString(),
+          timeLeft: (new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24)
+        })
+      },
+      fail: e => {
+
+      }
+    })
   },
 
   /**
