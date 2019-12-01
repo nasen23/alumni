@@ -1,21 +1,17 @@
-// pages/mine/mine.js
 const app = getApp()
 const CONFIG = require('../../config.js')
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
+  data: {},
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      "userInfo": app.globalData.userInfo
+    })
+    console.log(app.globalData.userInfo)
   },
 
   /**
@@ -28,23 +24,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow() {
-    const _this = this
-    this.setData({
-      version: CONFIG.version,
-      userInfo: "",
-      // vipLevel: app.globalData.vipLevel
-    })
-    // AUTH.checkHasLogined().then(isLogined => {
-    //   if (isLogined) {
-    //     _this.setData({
-    //       userInfo: wx.getStorageSync('userInfo')
-    //     })
-    //     _this.getUserApiInfo();
-    //     _this.getUserAmount();
-    //   }
-    // })
-  },
+  onShow() {},
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -82,22 +62,43 @@ Page({
   },
 
   onGotUserInfo(e) {
-    // if (!e.detail.userInfo) {
-    //   wx.showToast({
-    //     title: '您已取消登录',
-    //     icon: 'none'
-    //   })
-    //   return;
-    // }
-    // if (app.globalData.isConnected) {
-    //   wx.setStorageSync('userInfo', e.detail.userInfo)
-    //   AUTH.login(this);
-    // } else {
-    //   wx.showToast({
-    //     title: '当前无网络',
-    //     icon: 'none'
-    //   })
-    // }
+    if (e.detail.userInfo) {
+      let this_ = this
+      wx.request({
+        url: app.globalData.urlPath + 'user/add',
+        data: {
+          openid: getApp().globalData.openid,
+          nickName: e.detail.userInfo.nickName,
+          avatarUrl: e.detail.userInfo.avatarUrl,
+        },
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function (res) {
+            // 从数据库获取用户信息
+            this_.queryUserInfo();
+            console.log("插入小程序登录用户信息成功！");
+        }
+      })
+    } else {
+      console.log('refuse')
+    }
+  },
+
+  queryUserInfo() {
+    wx.request({
+        url: app.globalData.urlPath + 'user/userInfo',
+        data: {
+          openid: getApp().globalData.openid
+        },
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function (res) {
+          console.log(res.data)
+          getApp().globalData.userInfo = res.data
+        }
+    })
   },
 
   about: function () {
