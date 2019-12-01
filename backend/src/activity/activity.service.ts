@@ -1,5 +1,5 @@
-import { Repository } from 'typeorm'
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
+import { Repository, getRepository } from 'typeorm'
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { ActivityDTO } from './activity.dto'
@@ -16,6 +16,23 @@ export class ActivityService {
     return await this.activityRepository.find()
   }
 
+  // Return all activities including only the specified fields
+  async showAllPartially(data: Object) {
+    let selection = []
+    for (let key in data) {
+      if (data[key]) {
+        selection = selection.concat('activity.' + key)
+      }
+    }
+
+    const activities = await getRepository(ActivityEntity)
+      .createQueryBuilder('activity')
+      .select(selection)
+      .getMany()
+
+    return activities
+  }
+
   async create(data: ActivityDTO) {
     const activity = this.activityRepository.create(data)
     await this.activityRepository.save(activity)
@@ -29,8 +46,6 @@ export class ActivityService {
         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
       }
 
-      console.log(activity)
-      console.log(typeof(activity))
       return activity
     } catch(error) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)

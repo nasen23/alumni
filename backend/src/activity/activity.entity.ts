@@ -1,25 +1,25 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 
-// import { UserEntity } from '../user/user.entity'
+import { UserEntity } from '../user/user.entity'
 
 @Entity('activity')
 export class ActivityEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  // @ManyToOne(() => UserEntity, user => user.activities)
-  // actHost: UserEntity
+  // @ManyToOne(() => UserEntity, user => user.heldActivities)
+  // organizer: UserEntity
 
   @Column('text')
-  actName: string
-
-  // @Column('time with time zone')
-  // actTime: Date
+  name: string
 
   @Column('text')
-  actSite: string
+  time: string
 
   @Column('text')
-  actIntro: string
+  site: string
+
+  @Column('text')
+  intro: string
 }
 

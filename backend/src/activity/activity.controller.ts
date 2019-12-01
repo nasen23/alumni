@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UsePipes, Logger } from '@nestjs/common'
+import { Controller, Get, Post, Put, Delete, Body, Query, UsePipes, Logger } from '@nestjs/common'
 
 import { ActivityService } from './activity.service'
 import { ActivityDTO } from './activity.dto'
@@ -10,32 +10,37 @@ export class ActivityController {
 
   constructor(private activityService: ActivityService) {}
 
-  @Get()
+  @Get('/all')
   showAllActivities() {
     return this.activityService.showAll()
   }
 
-  @Post()
+  @Post('/all')
+  showAllPartially(@Body() data: Object) {
+    return this.activityService.showAllPartially(data)
+  }
+
+  @Post('add')
   @UsePipes(new ValidationPipe())
   createActivity(@Body() data: ActivityDTO) {
     this.logger.log(JSON.stringify(data))
     return this.activityService.create(data)
   }
 
-  @Get(':id')
-  readActivity(@Param('id') id: string) {
+  @Get('get')
+  readActivity(@Query('id') id: string) {
     return this.activityService.read(id)
   }
 
-  @Put(':id')
+  @Put('put')
   @UsePipes(new ValidationPipe())
-  updateActivity(@Param('id') id: string, @Body() data: Partial<ActivityDTO>) {
+  updateActivity(@Query('id') id: string, @Body() data: Partial<ActivityDTO>) {
     this.logger.log(JSON.stringify(data))
     return this.activityService.update(id, data)
   }
 
-  @Delete(':id')
-  destroyActivity(@Param('id') id: string) {
+  @Delete('delete')
+  destroyActivity(@Query('id') id: string) {
     return this.activityService.destroy(id)
   }
 }
