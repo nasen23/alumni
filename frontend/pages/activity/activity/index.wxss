@@ -1,0 +1,53 @@
+.activity-list {
+    width: 100%;
+    display:flex;
+    margin-top: 12px;
+}
+
+.activity {
+    padding: 10px;
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;  
+}
+
+.activity-title {
+    color: #364e65;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    font-size: 14px;
+}
+
+.activity-header van-tag {
+    margin-right: 20px;
+    margin-left: 30px;
+    justify-content: space-evenly;
+}
+
+.vertical-line {
+    height: 100%;
+    border: none;
+    background: none;
+    border-left: 1px solid #aaa;
+}
+
+.activity-person {
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-right: 15px;
+    color: #364e65;
+}
+
+.fa-user::before {
+    color: #ec547a;
+    margin-right: 3px;
+    font-size: 16px;
+}
+
+.activity-person text {
+   /* color: #ec547a; */
+}
+
