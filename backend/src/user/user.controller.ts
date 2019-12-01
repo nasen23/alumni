@@ -1,4 +1,4 @@
-import { Controller, Get, UsePipes, Post } from '@nestjs/common'
+import { Controller, Get, UsePipes, Post, Body } from '@nestjs/common'
 
 import { UserEntity } from './user.entity'
 import { UserService } from './user.service'
@@ -17,8 +17,13 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   auth() {
     let resp = this.userService.auth()
-    console.log(typeof(resp))
-    console.log(resp)
+    return resp
+  }
+
+  @Post('/login')
+  @UsePipes(new ValidationPipe())
+  login(@Body() data: Object) {
+    let resp = this.userService.login(data)
     return resp
   }
 }

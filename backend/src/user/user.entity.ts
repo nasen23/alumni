@@ -1,17 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { Entity, PrimaryColumn, Column, OneToMany, ManyToMany } from 'typeorm'
 import { ActivityEntity } from '../activity/activity.entity'
 
 @Entity('user')
 export class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string
-
+ 
   @Column('text')
   username: string
 
-  @Column('text')
-  password: string
+  // alumni identity authentication
+  @Column()
+  authed: boolean
 
-  // @OneToMany(() => ActivityEntity, activity => activity.actHost)
-  // activities: ActivityEntity[]
+  // phone number
+  @Column()
+  phone: string
+
+  // enrollment year
+  @Column()
+  grade: string
+
+  // department
+  @Column()
+  department: string
+
+  // @OneToMany(() => ActivityEntity, activity => activity.organizer)
+  // heldActivities: ActivityEntity[]
+
+  // @ManyToMany(() => ActivityEntity, activity => activity.organizer)
+  // attendedActivities: ActivityEntity[]
 }
