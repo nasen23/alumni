@@ -1,7 +1,12 @@
 <view class="container">
   <view class="top-bar">
     <span class="top-title">清友活动圈</span>
-    <span class="top-avatar"><view class="avatar" /></span>
+    <span class="top-avatar">
+      <view wx:if="{{ userInfo }}">
+        <image wx:if="{{ userInfo.avatarUrl }}" src="{{ userInfo.avatarUrl }}" class="avatar" background-size="cover" >
+        </image>
+      </view>
+    </span>
   </view>
   <view class="search">
     <view class="search-field">
@@ -17,9 +22,9 @@
     <view class="activity-view" 
       wx:for="{{ activities }}" 
       wx:key="{{ item.id }}"
-      style="padding-{{ index % 2 ? 'left' : 'right' }}:10px" 
+      style="padding-{{ index % 2 ? 'left' : 'right' }}:10px"
     >
-      <view class="activity-card" bindtap="toActivityDetail">
+      <view class="activity-card" data-id="{{ item.id }}" bindtap="toActivityDetail">
         <view class="activity-banner"></view>
         <view class="activity-detail">
           <view class="activity-name">{{ item.name }}</view>
