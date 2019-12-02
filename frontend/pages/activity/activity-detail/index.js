@@ -53,5 +53,9 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  toActivityMessage: function() {
+    wx.navigateTo({ url: '/pages/activity-message/index?id=' })
   }
 })
