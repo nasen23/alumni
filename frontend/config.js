@@ -1,6 +1,6 @@
 module.exports = {
   version: "0.0.1",
-  note: '',
-  subDomain: "tz", // https://admin.it120.cc 登录后台首页的专属域名
-  requireBindMobile: true, // 是否强制绑定手机号码才能使用
+  host: "http://localhost:3000/",
+  appId: "wx97a987f625c04b01",
+  appSecret: "c0121d2e27bc2c1e1f394c83b503d4e6"
 }

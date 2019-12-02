@@ -7,7 +7,8 @@
 
   <view wx:else class="userinfo" style="margin-bottom:50rpx;">
     <image class="userinfo-avatar" src="/images/nologin.png" background-size="cover"></image>
-    <button class="weui-btn mini-btn" plain="true" size="mini" open-type="getUserInfo">点击登录账户</button>
+    <button class="weui-btn mini-btn" plain="true" size="mini"
+    open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">点击登录账户</button>
   </view>
 
   <view class="div-line-thick"></view>

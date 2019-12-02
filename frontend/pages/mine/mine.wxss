@@ -16,6 +16,7 @@
 .userinfo-avatar {
   width: 160rpx;
   height: 160rpx;
+  border-radius: 50%;
 }
 .userinfo-nickname {
   margin-top: 20rpx;

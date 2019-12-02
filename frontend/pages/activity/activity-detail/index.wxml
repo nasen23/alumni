@@ -6,23 +6,23 @@
   <view class="activity-header">
     <view class="activity-maininfo">
       <view class="activity-title">
-        活动标题
+        {{ name }}
       </view>
       <view class="activity-header-detail-list">
         <view class="activity-header-detail">
           <text class="fa fa-clock-o"></text>
-          activity time
+          {{ time }}
         </view>
         <view class="activity-header-detail">
           <text class="fa fa-map-marker"></text>
-          location
+          {{ site }}
         </view>
       </view>
     </view>
 
     <view class="activity-status">
       <view>倒数</view>
-      <view>10天</view>
+      <view>{{ timeLeft }}天</view>
     </view>
   </view>
 
@@ -35,7 +35,7 @@
       </view>
 
       <view class="activity-detail-content">
-        一些内容
+        {{ intro }}
       </view>
     </view>
 

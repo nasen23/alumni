@@ -1,4 +1,5 @@
 //app.js
+const config = require('config.js')
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -10,13 +11,31 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if (res.code) {
+          wx.request({
+            url: config.host + 'user/login',
+            method: "POST",
+            data: {
+              appId: config.appId,
+              secret: config.appSecret,
+              code: res.code,
+            },
+            success: res => {
+              console.log(res)
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '登录失败',
+            duration: 2000
+          })
+        }
       }
     })
     // 获取用户信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
