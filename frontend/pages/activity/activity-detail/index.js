@@ -19,7 +19,7 @@ Page({
           site: res.data.site,
           intro: res.data.intro,
           time: new Date(parseInt(res.data.time)).toLocaleString(),
-          timeLeft: (new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24)
+          timeLeft: parseInt((new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24))
         })
       },
       fail: e => {

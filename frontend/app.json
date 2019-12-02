@@ -8,8 +8,7 @@
     "pages/mine/settings/settings",
     "pages/mine/status-info/info",
     "pages/mine/personal-info/info",
-    "pages/mine/help/help",
-    "pages/activity/activity"
+    "pages/mine/help/help"
   ],
   "window": {
     "backgroundTextStyle": "light",
