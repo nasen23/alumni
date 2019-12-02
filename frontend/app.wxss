@@ -12,10 +12,9 @@
 
 page {
   height: 100%;
-  background: #f2f2f2;
+  background: #f7fafc;
 }
 
 view, scroll-view {
   box-sizing: border-box;
-  width: 100%;
 }
