@@ -43,4 +43,9 @@ export class ActivityController {
   destroyActivity(@Query('id') id: string) {
     return this.activityService.destroy(id)
   }
+
+  @Delete('delete/all')
+  destroyAll() {
+    return this.activityService.destroyAll()
+  }
 }
