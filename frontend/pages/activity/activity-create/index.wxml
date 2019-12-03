@@ -1,0 +1,50 @@
+<van-cell-group>
+  <van-row>
+    <van-col span="24">
+      <van-field value="{{ name }}" label="活动名称" placeholder="请填写活动名称" bind:change="onNameFilledIn"/>
+    </van-col>
+  </van-row>
+
+  <van-field value="{{ site }}" label="活动地点" placeholder="请填写活动地点" bind:change="onSiteFilledIn"/>
+
+  <van-field value="{{ intro }}" label="活动简介" placeholder="请填写活动简介" bind:change="onIntroFilledIn"/>
+
+  <van-cell title="活动时间" is-link bind:click="onChooseAct" value="{{ actTime }}"/>
+
+  <van-popup show = "{{ show }}" position="bottom" custom-style="height: 50%">
+    <van-datetime-picker
+      type="datetime"
+      value="{{ today }}"
+      min-date="{{ today }}"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-popup>
+
+  <van-cell title="报名开始" is-link bind:click="onChooseStart" value="{{ signupStartTime }}"/>
+
+  <van-popup show = "{{ show }}" position="bottom" custom-style="height: 50%">
+    <van-datetime-picker
+      type="datetime"
+      value="{{ today }}"
+      min-date="{{ today }}"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-popup>
+
+  <van-cell title="报名结束" is-link bind:click="onChooseEnd" value="{{ signupEndTime }}"/>
+
+  <van-popup show = "{{ show }}" position="bottom" custom-style="height: 50%">
+    <van-datetime-picker
+      type="datetime"
+      value="{{ today }}"
+      min-date="{{ today }}"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-popup>
+
+  <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
+
+</van-cell-group>
