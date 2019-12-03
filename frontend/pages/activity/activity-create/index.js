@@ -12,6 +12,7 @@ Page({
     name: "",
     site: "",
     intro: "",
+    phone: "",
     show: false,
     popupType: 0,
     actTime: "",
@@ -36,6 +37,11 @@ Page({
   // Field intro has been filled in
   onIntroFilledIn (e) {
     this.setData({ intro: e.detail })
+  },
+
+  // Field phone has been filled in
+  onPhoneFilledIn (e) {
+    this.setData({ phone: e.detail })
   },
 
   // Choose activity time
@@ -176,10 +182,11 @@ Page({
         name: this.data.name,
         site: this.data.site,
         intro: this.data.intro,
+        phone: this.data.phone,
         time: this.data.actTimestamp.toString(),
         signupStart: this.data.signupStartTimestamp.toString(),
         signupEnd: this.data.signupEndTimestamp.toString(),
-        userInfo: app.globalData.userInfo
+        openid: app.globalData.openid
       },
       success: res => {
         if (res.statusCode == 201) {

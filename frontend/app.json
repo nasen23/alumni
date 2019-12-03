@@ -2,7 +2,7 @@
   "pages": [
     "pages/mainpage/mainpage",
     "pages/logs/logs",
-    "pages/activity/activity/index",
+    "pages/activity/index",
     "pages/activity/activity-detail/index",
     "pages/activity/activity-create/index",
     "pages/mine/mine",
@@ -31,7 +31,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/activity/activity/index",
+        "pagePath": "pages/activity/index",
         "iconPath": "images/nav/activity.png",
         "selectedIconPath": "images/nav/activity.png",
         "text": "活动"
@@ -45,11 +45,16 @@
     ]
   },
   "usingComponents": {
+    "van-col": "vant-weapp/col",
+    "van-row": "vant-weapp/row",
     "van-button": "vant-weapp/button",
     "van-search": "vant-weapp/search",
     "van-icon": "vant-weapp/icon",
     "van-cell": "vant-weapp/cell",
+    "van-datetime-picker": "vant-weapp/datetime-picker",
+    "van-field": "vant-weapp/field",
     "van-panel": "vant-weapp/panel",
+    "van-popup": "vant-weapp/popup",
     "van-tabbar": "vant-weapp/tabbar",
     "van-tabbar-item": "vant-weapp/tabbar-item",
     "van-tab": "vant-weapp/tab",

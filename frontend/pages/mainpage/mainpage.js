@@ -9,15 +9,11 @@ Page({
   },
 
   onLoad() {
-    if(!app.userInfoReadyCallback) {
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          "userInfo": res.userInfo
-        })
-      }
-    }
-
     let this_ = this
+    app.getUserInfo().then(function (res) {
+      this_.setData({ userInfo: res })
+    })
+
     wx.request({
       url: config.host + 'activity/all',
       method: "POST",

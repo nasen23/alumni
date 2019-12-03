@@ -1,3 +1,4 @@
+const app = getApp()
 const config = require('../../../config.js')
 Page({
 
@@ -18,6 +19,8 @@ Page({
           name: res.data.name,
           site: res.data.site,
           intro: res.data.intro,
+          phone: res.data.phone,
+          userInfo: app.globalData.userInfo,
           time: new Date(parseInt(res.data.time)).toLocaleString(),
           timeLeft: parseInt((new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24))
         })

@@ -9,6 +9,8 @@
 
   <van-field value="{{ intro }}" label="活动简介" placeholder="请填写活动简介" bind:change="onIntroFilledIn"/>
 
+  <van-field value="{{ phone }}" label="联系方式" placeholder="请填写举办者联系方式" bind:change="onPhoneFilledIn"/>
+
   <van-cell title="活动时间" is-link bind:click="onChooseAct" value="{{ actTime }}"/>
 
   <van-popup show = "{{ show }}" position="bottom" custom-style="height: 50%">

@@ -45,14 +45,16 @@
       </view>
 
       <view class="activity-detail-creater">
-        <view class="avatar" />
+        <view class="avatar">
+            <image src="{{ userInfo.avatarUrl }}" class="avatar"></image>
+        </view>
 
         <view class="creater-info">
-          <view class="name">名字</view>
+          <view class="name">{{ userInfo.nickName }}</view>
           <view class="detail-list">
             <view class="detail">
               <text class="fa fa-phone" />
-              <view class="detail-content">123456789</view>
+              <view class="detail-content">{{ phone }}</view>
             </view>
           </view>
         </view>
