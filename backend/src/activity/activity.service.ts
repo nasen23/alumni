@@ -1,9 +1,10 @@
-import { Repository, getRepository } from 'typeorm'
+import { Repository, getRepository, createConnection, createQueryBuilder } from 'typeorm'
 import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { ActivityDTO } from './activity.dto'
 import { ActivityEntity } from './activity.entity'
+import { UserEntity } from 'src/user/user.entity'
 
 @Injectable()
 export class ActivityService {
@@ -13,21 +14,23 @@ export class ActivityService {
   ) {}
 
   async showAll() {
-    return await this.activityRepository.find()
+    return await getRepository(ActivityEntity)
+      .createQueryBuilder('act')
+      .leftJoinAndSelect('act.organizer', 'user')
+      .getMany()
   }
 
   // Return all activities including only the specified fields
   async showAllPartially(data: Object) {
-    Logger.log(data)
     let selection = []
     for (let key in data) {
       if (data[key]) {
-        selection = selection.concat('activity.' + key)
+        selection = selection.concat('act.' + key)
       }
     }
 
     const activities = await getRepository(ActivityEntity)
-      .createQueryBuilder('activity')
+      .createQueryBuilder('act')
       .select(selection)
       .getMany()
 
@@ -35,14 +38,24 @@ export class ActivityService {
   }
 
   async create(data: ActivityDTO) {
-    const activity = this.activityRepository.create(data)
+    const user = await getRepository(UserEntity)
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: data.openid })
+      .getOne()
+    data['organizer'] = user
+
+    const activity = await this.activityRepository.create(data)
     await this.activityRepository.save(activity)
     return activity
   }
 
   async read(id: string) {
     try {
-      const activity = await this.activityRepository.findOne(id)
+      const activity = await getRepository(ActivityEntity)
+        .createQueryBuilder('act')
+        .leftJoinAndSelect('act.organizer', 'user')
+        .where('act.id = :id', { id: id })
+        .getOne()
       if (!activity) {
         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
       }

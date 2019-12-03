@@ -10,12 +10,12 @@ export class ActivityController {
 
   constructor(private activityService: ActivityService) {}
 
-  @Get('/all')
+  @Get('all')
   showAllActivities() {
     return this.activityService.showAll()
   }
 
-  @Post('/all')
+  @Post('all')
   showAllPartially(@Body() data: Object) {
     return this.activityService.showAllPartially(data)
   }

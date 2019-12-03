@@ -1,11 +1,12 @@
 import { IsString, IsNumber } from 'class-validator'
 
-// import { UserEntity } from '../user/user.entity'
+import { UserEntity } from '../user/user.entity'
 
 export class ActivityDTO {
   readonly id: string
 
-  // actHost: UserEntity
+  @IsString()
+  openid: string
 
   @IsString()
   name: string
@@ -20,9 +21,11 @@ export class ActivityDTO {
   intro: string
 
   @IsString()
+  phone: string
+
+  @IsString()
   signupStart: string
 
   @IsString()
   signupEnd: string
 }
-

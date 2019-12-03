@@ -7,8 +7,10 @@ export class ActivityEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  // @ManyToOne(() => UserEntity, user => user.heldActivities)
-  // organizer: UserEntity
+  @ManyToOne(() => UserEntity, user => user.heldActivities, {
+    cascade: true
+  })
+  organizer: UserEntity
 
   @Column('text')
   name: string
@@ -21,6 +23,9 @@ export class ActivityEntity {
 
   @Column('text')
   intro: string
+
+  @Column('text')
+  phone: string
 
   @Column('text')
   signupStart: string

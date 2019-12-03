@@ -25,8 +25,8 @@ export class UserEntity {
   @Column()
   department: string
 
-  // @OneToMany(() => ActivityEntity, activity => activity.organizer)
-  // heldActivities: ActivityEntity[]
+  @OneToMany(() => ActivityEntity, activity => activity.organizer)
+  heldActivities: ActivityEntity[]
 
   // @ManyToMany(() => ActivityEntity, activity => activity.organizer)
   // attendedActivities: ActivityEntity[]
