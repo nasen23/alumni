@@ -18,4 +18,11 @@ export class ActivityDTO {
 
   @IsString()
   intro: string
+
+  @IsString()
+  signupStart: string
+
+  @IsString()
+  signupEnd: string
 }
+

@@ -18,6 +18,7 @@ export class ActivityService {
 
   // Return all activities including only the specified fields
   async showAllPartially(data: Object) {
+    Logger.log(data)
     let selection = []
     for (let key in data) {
       if (data[key]) {
@@ -80,5 +81,10 @@ export class ActivityService {
     } catch(error) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
+  }
+
+  async destroyAll() {
+    this.activityRepository.clear()
+    return { delete: 'success' }
   }
 }

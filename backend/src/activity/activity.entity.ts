@@ -21,5 +21,11 @@ export class ActivityEntity {
 
   @Column('text')
   intro: string
+
+  @Column('text')
+  signupStart: string
+
+  @Column('text')
+  signupEnd: string
 }
 
