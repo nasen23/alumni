@@ -1,0 +1,7 @@
+<van-cell-group>
+  <van-cell title="活动创建" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
+  <van-cell title="活动管理" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
+  <van-cell title="活动历史" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
+  <van-cell title="活动签到" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
+
+</van-cell-group>
