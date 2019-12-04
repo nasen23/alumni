@@ -1,10 +1,10 @@
-import { Repository, getRepository, createConnection, createQueryBuilder } from 'typeorm'
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, getRepository, createQueryBuilder } from 'typeorm'
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common'
 
 import { ActivityDTO } from './activity.dto'
+import { UserEntity } from '../user/user.entity'
 import { ActivityEntity } from './activity.entity'
-import { UserEntity } from 'src/user/user.entity'
 
 @Injectable()
 export class ActivityService {
@@ -99,5 +99,13 @@ export class ActivityService {
   async destroyAll() {
     this.activityRepository.clear()
     return { delete: 'success' }
+  }
+
+  async uploadPicture(file: object, data: object) {
+    const activity = await this.activityRepository.findOne(data['pictureId'])
+    activity.pictures.push(file['filename'])
+    await this.activityRepository.save(activity)
+
+    return { picture: file['filename']}
   }
 }

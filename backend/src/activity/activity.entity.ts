@@ -32,5 +32,12 @@ export class ActivityEntity {
 
   @Column('text')
   signupEnd: string
+
+  @Column({
+    type: 'simple-array',
+    default: '',
+    nullable: true
+  })
+  pictures: string[]
 }
 
