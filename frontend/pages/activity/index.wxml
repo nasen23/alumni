@@ -1,7 +1,30 @@
-<van-cell-group>
-  <van-cell title="活动创建" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
-  <van-cell title="活动管理" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
-  <van-cell title="活动历史" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
-  <van-cell title="活动签到" is-link link-type="navigateTo" url="/pages/activity/activity-create/index"/>
+<view class="container">
+  <van-tabs class="tabs" active="{{ active }}">
+    <van-tab title="我创建的">
+      <view class="inner-container">
+        <view wx:if="{{ activityCreated.length == 0 }}" class="noactivity">
+          还没有创建任何活动
+        </view>
+        <view wx:else class="activity-list">
+          <view
+            class="activity-card"
+            wx:for="{{ activityCreated }}"
+            wx:key="item.id"
+          >
+            <view class="activity-title">
+              {{ item.title }}
+            </view>
+            <view class="activity-introduction">
+              {{ item.intro }}
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+    <van-tab title="我参与的"></van-tab>
+  </van-tabs>
 
-</van-cell-group>
+  <view class="plus" bindtap="toCreateActivity">
+    <text class="fa fa-plus" />
+  </view>
+</view>

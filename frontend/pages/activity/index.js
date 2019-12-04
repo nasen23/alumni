@@ -1,11 +1,14 @@
 Page({
-    data:{
-        activities:[
-            {
-                title: "七字班软学院聚餐",
-                countPerson: 20,
-                tags: ["七字班","聚餐"]
-            }
-        ]
-    }
+  data: {
+    activityCreated: [
+      { id: 1, title: '有点意思', intro: '一些简介' }
+    ],
+    activity: []
+  },
+
+  toCreateActivity (event) {
+    wx.navigateTo({
+      url: './activity-create/index'
+    })
+  }
 })
