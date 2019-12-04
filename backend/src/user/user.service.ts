@@ -60,9 +60,12 @@ export class UserService {
           user.authed = false
           user.grade = ''
           user.phone = ''
-          user.username = ''
+          user.username = data['username']
           user.department = ''
 
+          await this.userRepository.save(user)
+        } else {
+          user.username = data['username']
           await this.userRepository.save(user)
         }
 
