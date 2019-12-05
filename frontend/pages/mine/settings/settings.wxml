@@ -1,13 +1,4 @@
-<!-- pages/settings/settings.wxml -->
 <view class="container">
-    <view class="settings">
-        <view class="options">
-            <view>账号</view>
-            <view class='arrow'></view>
-            <view>通用</view>
-            <view class='arrow'></view>
-            <view>更换密码</view>
-            <view class='arrow'></view>
-        </view>
-    </view>
+  <van-cell title="通用" is-link />
+  <van-cell title="账号" is-link />
 </view>
