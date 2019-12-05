@@ -1,14 +1,38 @@
+const app = getApp()
+const config = require('../../config.js')
+
 Page({
   data: {
-    activityCreated: [
-      { id: 1, title: '有点意思', intro: '一些简介' }
-    ],
-    activity: []
+    held: [],
+    attended: [],
   },
 
-  toCreateActivity (event) {
+  onShow () {
+    wx.request({
+      url: config.host + 'activity/user',
+      method: "GET",
+      data: {
+        openid: app.globalData.openid
+      },
+      success: res => {
+        console.log(res)
+        this.setData({
+          held: res.data.held,
+          attended: res.data.attended,
+        })
+      }
+    })
+  },
+
+  toActivityDetail (e) {
     wx.navigateTo({
-      url: './activity-create/index'
+      url: '/pages/activity/detail/index?id=' + e.currentTarget.dataset.id,
+    })
+  },
+
+  toCreateActivity (e) {
+    wx.navigateTo({
+      url: './create/index'
     })
   }
 })
