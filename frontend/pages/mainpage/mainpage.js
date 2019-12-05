@@ -43,7 +43,7 @@ Page({
 
   toActivityDetail(e) {
     wx.navigateTo({
-      url: '/pages/activity/activity-detail/index?id=' + e.currentTarget.dataset.id,
+      url: '/pages/activity/detail/index?id=' + e.currentTarget.dataset.id,
     })
   }
 })

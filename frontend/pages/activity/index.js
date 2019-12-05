@@ -8,7 +8,7 @@ Page({
 
   toCreateActivity (event) {
     wx.navigateTo({
-      url: './activity-create/index'
+      url: './create/index'
     })
   }
 })
