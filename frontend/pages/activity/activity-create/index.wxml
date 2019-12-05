@@ -47,6 +47,8 @@
     />
   </van-popup>
 
+  <van-uploader file-list="{{ pictureList }}" max-count="3" bind:after-read="afterRead" bind:delete="onDeletePicture"/>
+
   <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
 
 </van-cell-group>

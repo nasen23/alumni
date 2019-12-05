@@ -15,6 +15,7 @@ Page({
     phone: "",
     show: false,
     popupType: 0,
+    pictureList: [],
     actTime: "",
     actTimestamp: 0,
     signupStartTime: "",
@@ -99,6 +100,13 @@ Page({
     this.setData({ show: false })
   },
 
+  // Delete picture
+  onDeletePicture (event) {
+    let list = this.data.pictureList
+    list.splice(event.detail.index, 1)
+    this.setData({ pictureList: list })
+  },
+
   // Check if all the data has been filled in properly
   checkData () {
     if (!this.data.name) {
@@ -175,38 +183,72 @@ Page({
     if (!this.checkData()) {
       return
     }
-    wx.request({
-      url: config.host + 'activity/add',
-      method: "POST",
-      data: {
-        name: this.data.name,
-        site: this.data.site,
-        intro: this.data.intro,
-        phone: this.data.phone,
-        time: this.data.actTimestamp.toString(),
-        signupStart: this.data.signupStartTimestamp.toString(),
-        signupEnd: this.data.signupEndTimestamp.toString(),
-        openid: app.globalData.openid
-      },
-      success: res => {
-        if (res.statusCode == 201) {
-          wx.showModal({
-            title: "提示",
-            content: "活动创建成功",
-            showCancel: false,
-            success: res => {
-              wx.navigateBack()
-            }
-          })
+
+    let this_ = this
+    this.submitLiteral().then(function (res) {
+      this_.submitPictures(res.data.id)
+    })
+  },
+
+  afterRead (event) {
+    const { file } = event.detail
+    let list = this.data.pictureList
+    this.setData({ pictureList: list.concat(file) })
+  },
+
+  // Submit literal data, e.g. name, site, intro, etc.
+  submitLiteral () {
+    let this_ = this
+    return new Promise(function( resolve, reject ) {
+      wx.request({
+        url: config.host + 'activity/add',
+        method: "POST",
+        data: {
+          name: this_.data.name,
+          site: this_.data.site,
+          intro: this_.data.intro,
+          phone: this_.data.phone,
+          time: this_.data.actTimestamp.toString(),
+          signupStart: this_.data.signupStartTimestamp.toString(),
+          signupEnd: this_.data.signupEndTimestamp.toString(),
+          openid: app.globalData.openid
+        },
+        success: res => {
+          resolve(res)
+        },
+        fail: res => {
+          reject(res)
         }
-      },
-      fail: res => {
-        console.log(res)
+      })
+    })
+  },
+
+  // Submit pictures
+  submitPictures (pictureId) {
+    for (const [index, file] of this.data.pictureList.entries()) {
+      wx.uploadFile({
+        url: config.host + 'activity/upload-picture',
+        filePath: file.path,
+        name: "file",
+        formData: {
+          pictureId,
+          index,
+        },
+        success: res => {}
+      })
+    }
+
+    wx.showModal({
+      title: "提示",
+      content: "活动创建成功",
+      showCancel: false,
+      success: res => {
+        wx.navigateBack()
       }
     })
   },
 
-  onLoad: function (options) {
+  onLoad (options) {
 
   },
 
