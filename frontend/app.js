@@ -2,12 +2,44 @@
 const config = require('config.js')
 App({
   onLaunch () {
+    let this_ = this
+    wx.clearStorageSync()
     this.getUserInfo().then(function (res) {
-
+      this_.getUserOpenId()
     }).catch(function (res) {
       console.log(res)
     })
 
+
+  },
+
+  getUserInfo () {
+    let this_ = this
+    return new Promise(function (resolve, reject) {
+      let userInfo = wx.getStorageSync('userInfo') || ''
+      if (!userInfo) {
+        // Get the user information
+        wx.getSetting({
+          success: res => {
+            if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                success: res => {
+                  wx.setStorageSync('userInfo', res.userInfo)
+                  this_.globalData.userInfo = res.userInfo
+                  resolve(this_.globalData.userInfo)
+                }
+              })
+            }
+          }
+        })
+      } else {
+        this_.globalData.userInfo = userInfo
+        resolve(this_.globalData.userInfo)
+      }
+    })
+  },
+
+  getUserOpenId () {
     let this_ = this
     let openid = wx.getStorageSync('openid') || ''
     if (!openid) {
@@ -44,33 +76,6 @@ App({
       // The openid was already cached
       this_.globalData.openid = openid
     }
-
-  },
-
-  getUserInfo () {
-    let this_ = this
-    return new Promise(function (resolve, reject) {
-      let userInfo = wx.getStorageSync('userInfo') || ''
-      if (!userInfo) {
-        // Get the user information
-        wx.getSetting({
-          success: res => {
-            if (res.authSetting['scope.userInfo']) {
-              wx.getUserInfo({
-                success: res => {
-                  wx.setStorageSync('userInfo', res.userInfo)
-                  this_.globalData.userInfo = res.userInfo
-                  resolve(this_.globalData.userInfo)
-                }
-              })
-            }
-          }
-        })
-      } else {
-        this_.globalData.userInfo = userInfo
-        resolve(this_.globalData.userInfo)
-      }
-    })
   },
 
   globalData: {
