@@ -1,16 +1,23 @@
 .profile {
+  background-color: #fff;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding: 35rpx;
+  width: 100%;
 }
 
 .avatar {
   width: 55px;
   height: 55px;
-  border-radius: 50%;
+  border-radius: 6px;
   background-color: black;
-  margin-bottom: 15px;
+  margin-right: 15px;
+}
+
+.username {
+  font-size: 18px;
+  font-weight: 290;
 }
 
 van-divider {

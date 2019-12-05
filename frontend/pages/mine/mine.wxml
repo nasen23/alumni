@@ -14,9 +14,33 @@
 
   <van-divider />
   <van-cell-group>
-    <van-cell title="个人信息">
-      <text slot="icon" class="fa fa-user-o" />
-    </van-cell>
+    <van-cell
+      title="个人信息"
+      icon="user-o"
+      is-link
+      link-type="navigateTo"
+      url="./personal-info/info"
+    />
+    <van-cell
+      title="学籍信息"
+      icon="description"
+      is-link
+      link-type="navigateTo"
+      url="./status-info/info"
+    />
+    <van-cell
+      title="设置"
+      icon="setting-o"
+      is-link
+      link-type="navigateTo"
+      url="./settings/settings"
+    />
+    <van-cell
+      title="关于"
+      icon="info-o"
+      is-link
+      link-type="navigateTo"
+    />
   </van-cell-group>
 
 </view>

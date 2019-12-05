@@ -1,37 +1,20 @@
-<!--pages/mine/personal-info/personal-info.wxml-->
+<view class="container">
+  <van-cell-group title="实名信息">
+    <van-cell title="姓名" />
+    <van-cell title="证件类型" />
+    <van-cell title="证件号码" />
+  </van-cell-group>
 
-<view class="div-line-thick"></view>
+  <van-cell-group title="联系方式">
+    <van-cell title="手机号" />
+    <van-cell title="邮箱" />
+    <van-cell title="居住地" />
+  </van-cell-group>
 
-<view class="info-item-small">实名信息</view>
-<view class="div-line-thin"></view>
-<view class="info-item">姓名</view>
-<view class="div-line-thin"></view>
-<view class="info-item">证件类型</view>
-<view class="div-line-thin"></view>
-<view class="info-item">证件号码</view>
-<view class="div-line-thin"></view>
+  <van-cell-group title="工作信息">
+    <van-cell title="行业" />
+    <van-cell title="单位" />
+    <van-cell title="职务" />
+  </van-cell-group>
 
-<view class="div-line-thick"></view>
-
-<view class="info-item-small">联系方式</view>
-<view class="div-line-thin"></view>
-<view class="info-item">手机号</view>
-<view class="div-line-thin"></view>
-<view class="info-item">邮箱</view>
-<view class="div-line-thin"></view>
-<view class="info-item">居住地</view>
-
-<view class="div-line-thick"></view>
-
-<view class="info-item-small">工作信息</view>
-<view class="div-line-thin"></view>
-<view class="info-item">行业</view>
-<view class="div-line-thin"></view>
-<view class="info-item">单位</view>
-<view class="div-line-thin"></view>
-<view class="info-item">职务</view>
-
-<view class="div-line-thick"></view>
-
-<van-button type="primary" formType="submit" color="linear-gradient(to right, #4bb0ff, #6149f6)" size="large">保存</van-button>
-
+</view>

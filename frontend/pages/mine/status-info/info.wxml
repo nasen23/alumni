@@ -1,18 +1,14 @@
-<!--pages/mine/status_info/status_info.wxml-->
-<!-- <view class="personal-info">                  -->
-<!--     <view class="details">姓名</view>       -->
-<!--     <view class="details">班级</view>       -->
-<!--     <view class="details">性别</view>       -->
-<!--     <view class="details">年龄</view>       -->
-<!--     <view class="details">国籍</view>       -->
-<!-- </view>                                       -->
-<!-- <view class="course-info">                    -->
-<!--     <view class="details">入学日期</view> -->
-<!--     <view class="details">毕业日期</view> -->
-<!--     <view class="details">学院</view>       -->
-<!--     <view class="details">科系</view>       -->
-<!--     <view class="details">年级</view>       -->
-<!--   </view>                                     -->
-<view class="info-item">入学年份</view>
-<view class="info-item">所属院系</view>
-<view class="info-item">学号</view>
+<view class="container">
+  <van-cell
+    title="入学年份"
+    icon="clock-o"
+  />
+  <van-cell
+    title="所属院系"
+    icon="wap-home-o"
+  />
+  <van-cell
+    title="学号"
+    icon="description"
+  />
+</view>
