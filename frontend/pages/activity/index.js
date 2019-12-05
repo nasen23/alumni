@@ -15,7 +15,6 @@ Page({
         openid: app.globalData.openid
       },
       success: res => {
-        console.log(res)
         this.setData({
           held: res.data.held,
           attended: res.data.attended,
@@ -26,7 +25,7 @@ Page({
 
   toActivityDetail (e) {
     wx.navigateTo({
-      url: '/pages/activity/detail/index?id=' + e.currentTarget.dataset.id,
+      url: './detail/index?id=' + e.currentTarget.dataset.id,
     })
   },
 

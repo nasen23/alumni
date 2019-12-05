@@ -194,6 +194,7 @@ Page({
     const { file } = event.detail
     let list = this.data.pictureList
     this.setData({ pictureList: list.concat(file) })
+    console.log(this.data.pictureList)
   },
 
   // Submit literal data, e.g. name, site, intro, etc.

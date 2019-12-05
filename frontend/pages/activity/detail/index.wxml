@@ -90,7 +90,7 @@
   <van-tabbar fixed>
     <van-tabbar-item name="share" icon="share">分享</van-tabbar-item>
     <van-tabbar-item name="message" icon="chat-o" info="3" bindtap="toActivityMessage">消息</van-tabbar-item>
-    <van-tabbar-item name="manage" class="wide-tabitem" style="background: #42dee1">
+    <van-tabbar-item name="manage" class="wide-tabitem" style="background: #42dee1" bindtap="toActivityManage">
       <text class="fa fa-bars" />
       管理
     </van-tabbar-item>

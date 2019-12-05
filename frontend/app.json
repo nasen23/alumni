@@ -10,7 +10,8 @@
     "pages/mine/status-info/info",
     "pages/mine/personal-info/info",
     "pages/mine/help/help",
-    "pages/activity/signup/index"
+    "pages/activity/signup/index",
+    "pages/activity/manage/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
