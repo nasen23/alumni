@@ -1,0 +1,7 @@
+<van-cell-group>
+  <van-field value="{{ name }}" label="姓名" placeholder="请填写个人姓名" bind:change="onNameFilledIn"/>
+
+  <van-field value="{{ phone }}" label="联系方式" placeholder="请填写个人联系方式" bind:change="onPhoneFilledIn"/>
+
+  <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
+</van-cell-group>

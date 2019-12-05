@@ -82,5 +82,9 @@ Page({
 
   toActivityMessage: function() {
     wx.navigateTo({ url: '/pages/activity-message/index?id=' })
-  }
+  },
+
+  toActivitySignup: function() {
+    wx.navigateTo({ url: '/pages/activity/signup/index?id=' + this.data.id})
+  },
 })

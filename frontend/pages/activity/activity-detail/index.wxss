@@ -1,5 +1,9 @@
 /* pages/activity/tmpactivity/tmp.wxss */
 
+swiper {
+  height: 100%;
+}
+
 .line-separator {
   display: block;
   width: 95%;
@@ -34,6 +38,7 @@
 
 .activity-image {
   height: 300rpx;
+  width: 100%;
   background-color: #52658f;
 }
 

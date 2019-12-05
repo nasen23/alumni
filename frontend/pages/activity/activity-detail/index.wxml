@@ -2,7 +2,7 @@
 <!-- consider leaving some space on the bottom of page -->
 <view class="container">
   <view class="activity-image">
-    <swiper autoplay="True" indicator-dots="True" interval="2000">
+    <swiper autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
       <block wx:for="{{ pictures }}" wx:key="*this">
         <swiper-item class='activity-image'>
             <image src="{{ rootPath + item }}" class="activity-image"/>
@@ -94,7 +94,7 @@
       <text class="fa fa-bars" />
       管理
     </van-tabbar-item>
-    <van-tabbar-item name="signup" class="wide-tabitem" style="background: #6decb9">
+    <van-tabbar-item name="signup" class="wide-tabitem" style="background: #6decb9" bindtap="toActivitySignup">
       报名
     </van-tabbar-item>
   </van-tabbar>
