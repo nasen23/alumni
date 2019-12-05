@@ -3,8 +3,7 @@ const config = require('../../config.js');
 
 Page({
   data: {
-    historyActivities: [],
-    activityTypes: [],
+    rootPath: config.host,
     activities: [],
   },
 
@@ -13,7 +12,10 @@ Page({
     app.getUserInfo().then(function (res) {
       this_.setData({ userInfo: res })
     })
+  },
 
+  onShow() {
+    let this_ = this
     wx.request({
       url: config.host + 'activity/all',
       method: "POST",
@@ -21,7 +23,7 @@ Page({
         id: true,
         name: true,
         intro: true,
-        site: false
+        pictures: true,
       },
       success: res => {
         this_.setData({
@@ -33,8 +35,6 @@ Page({
       }
     })
   },
-
-  onShow() {},
 
   inputTyping() {
     var obj = JSON.stringify(this.data.history);
