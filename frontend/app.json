@@ -51,6 +51,7 @@
     "van-search": "vant-weapp/search",
     "van-icon": "vant-weapp/icon",
     "van-cell": "vant-weapp/cell",
+    "van-cell-group": "vant-weapp/cell-group",
     "van-datetime-picker": "vant-weapp/datetime-picker",
     "van-field": "vant-weapp/field",
     "van-panel": "vant-weapp/panel",
@@ -60,7 +61,7 @@
     "van-tab": "vant-weapp/tab",
     "van-tabs": "vant-weapp/tabs",
     "van-tag": "vant-weapp/tag",
-    "van-uploader": "vant-weapp/uploader"
-
+    "van-uploader": "vant-weapp/uploader",
+    "van-divider": "vant-weapp/divider"
   }
 }
