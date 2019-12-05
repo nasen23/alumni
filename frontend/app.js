@@ -3,14 +3,14 @@ const config = require('config.js')
 App({
   onLaunch () {
     this.getUserInfo().then(function (res) {
-      console.log(res)
+
     }).catch(function (res) {
       console.log(res)
     })
 
     let this_ = this
     let openid = wx.getStorageSync('openid') || ''
-    if (openid) {
+    if (!openid) {
       // The openid has not been cached yet
       // Get it from the backend
       wx.login({
