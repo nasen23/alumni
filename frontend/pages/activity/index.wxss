@@ -14,8 +14,10 @@ van-tab {
 }
 
 .noactivity {
-  color: blue;
-  font-size: 12px;
+  margin-top: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
 }
 
 .activity-list {
