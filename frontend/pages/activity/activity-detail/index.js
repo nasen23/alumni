@@ -13,13 +13,14 @@ Page({
         id: e.id
       },
       success: res => {
-        console.log(res)
         this_.setData({
           id: e.id,
           name: res.data.name,
           site: res.data.site,
+          rootPath: config.host,
           intro: res.data.intro,
           phone: res.data.phone,
+          pictures: res.data.pictures,
           userInfo: app.globalData.userInfo,
           time: new Date(parseInt(res.data.time)).toLocaleString(),
           timeLeft: parseInt((new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24))
