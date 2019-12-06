@@ -11,7 +11,9 @@
     "pages/mine/personal-info/info",
     "pages/mine/help/help",
     "pages/activity/signup/index",
-    "pages/activity/manage/index"
+    "pages/activity/manage/index",
+    "pages/mine/personal-homepage/homepage",
+    "pages/mine/personal-info/fill-in/fill"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -63,6 +65,7 @@
     "van-tab": "vant-weapp/tab",
     "van-tabs": "vant-weapp/tabs",
     "van-tag": "vant-weapp/tag",
+    "van-toast": "vant-weapp/toast",
     "van-uploader": "vant-weapp/uploader",
     "van-divider": "vant-weapp/divider"
   }

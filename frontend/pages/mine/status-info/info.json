@@ -1,7 +1,4 @@
 {
   "usingComponents": {},
-  "backgroundTextStyle": "light",
-  "navigationBarBackgroundColor": "#8600FF",
-  "navigationBarTitleText": "个人信息",
-  "navigationBarTextStyle": "white"
+  "navigationBarTitleText": "学籍信息"
 }

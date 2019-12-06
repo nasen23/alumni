@@ -1,9 +1,5 @@
 <van-cell-group>
-  <van-row>
-    <van-col span="24">
-      <van-field value="{{ name }}" label="活动名称" placeholder="请填写活动名称" bind:change="onNameFilledIn"/>
-    </van-col>
-  </van-row>
+  <van-field value="{{ name }}" label="活动名称" placeholder="请填写活动名称" bind:change="onNameFilledIn"/>
 
   <van-field value="{{ site }}" label="活动地点" placeholder="请填写活动地点" bind:change="onSiteFilledIn"/>
 

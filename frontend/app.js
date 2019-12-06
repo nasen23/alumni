@@ -3,14 +3,11 @@ const config = require('config.js')
 App({
   onLaunch () {
     let this_ = this
-    wx.clearStorageSync()
     this.getUserInfo().then(function (res) {
       this_.getUserOpenId()
     }).catch(function (res) {
       console.log(res)
     })
-
-
   },
 
   getUserInfo () {

@@ -1,20 +1,46 @@
 <view class="container">
-  <van-cell-group title="实名信息">
-    <van-cell title="姓名" />
-    <van-cell title="证件类型" />
-    <van-cell title="证件号码" />
+  <van-cell-group title="常用信息（填写后，报名时会自动填充）">
+    <van-cell
+      value="{{ realname }}"
+      title="姓名"
+      is-link
+      link-type="navigateTo"
+      url="./fill-in/fill?type=姓名&value={{ realname }}"
+    />
+    <van-cell
+        value="{{ phone }}"
+        title="手机号"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=手机号&value={{ phone }}"
+    />
+    <van-cell
+        value="{{ wechatId }}"
+        title="微信号"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=微信号&value={{ wechatId }}"
+    />
+    <van-cell
+        value="{{ idNumber }}"
+        title="身份证号码"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=身份证号码&value={{ idNumber }}"
+    />
+    <van-cell
+        value="{{ email }}"
+        title="邮箱"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=邮箱&value={{ email }}"
+    />
+    <van-cell
+        value="{{ address }}"
+        title="居住地"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=居住地&value={{ address }}"
+    />
   </van-cell-group>
-
-  <van-cell-group title="联系方式">
-    <van-cell title="手机号" />
-    <van-cell title="邮箱" />
-    <van-cell title="居住地" />
-  </van-cell-group>
-
-  <van-cell-group title="工作信息">
-    <van-cell title="行业" />
-    <van-cell title="单位" />
-    <van-cell title="职务" />
-  </van-cell-group>
-
 </view>

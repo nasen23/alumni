@@ -15,6 +15,13 @@
   <van-divider />
   <van-cell-group>
     <van-cell
+      title="个人主页"
+      icon="wap-home-o"
+      is-link
+      link-type="navigateTo"
+      url="./personal-homepage/homepage"
+    />
+    <van-cell
       title="个人信息"
       icon="user-o"
       is-link
