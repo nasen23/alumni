@@ -5,19 +5,25 @@ Page({
 
   data: {
     PopupTypeEnum: {
-      ACT: 1,
+      ACTSTART: 0,
+      ACTEND: 1,
       START: 2,
       END: 3,
+
     },
     name: "",
-    site: "",
+    location: null,
     intro: "",
     phone: "",
+    switchChecked: false,
     show: false,
+    maxParticipants: 0,
     popupType: 0,
     pictureList: [],
-    actTime: "",
-    actTimestamp: 0,
+    actStartTime: "",
+    actStartTimestamp: 0,
+    actEndTime: "",
+    actEndTimestamp: 0,
     signupStartTime: "",
     signupStartTimestamp: 0,
     signupEndTime: "",
@@ -32,7 +38,14 @@ Page({
 
   // Field site has been filled in
   onSiteFilledIn (e) {
-    this.setData({ site: e.detail })
+    const _this = this
+    wx.chooseLocation({
+      success (res) {
+        _this.setData({
+          location: res
+        })
+      }
+    })
   },
 
   // Field intro has been filled in
@@ -45,11 +58,28 @@ Page({
     this.setData({ phone: e.detail })
   },
 
+  onMaxParticipants (e) {
+    this.setData({ maxParticipants: e.detail })
+  },
+
+  setLocationDetail(e) {
+    this.setData({
+      location: { ...location, detail: e.detail }
+    })
+  },
+
   // Choose activity time
-  onChooseAct () {
+  onChooseActStart () {
     this.setData({
       show: true,
-      popupType: this.data.PopupTypeEnum.ACT
+      popupType: this.data.PopupTypeEnum.ACTSTART
+    })
+  },
+
+  onChooseActEnd () {
+    this.setData({
+      show: true,
+      popupType: this.data.PopupTypeEnum.ACTEND
     })
   },
 
@@ -73,23 +103,30 @@ Page({
   onConfirm (e) {
     this.setData({ show: false })
 
+    const dateStr = new Date(e.detail).toLocaleString('zh-CN')
     switch (this.data.popupType) {
-      case this.data.PopupTypeEnum.ACT:
+      case this.data.PopupTypeEnum.ACTSTART:
         this.setData({
-          actTimestamp: e.detail,
-          actTime: new Date(e.detail).toLocaleString()
+          actStartTimestamp: e.detail,
+          actStartTime: dateStr
+        })
+        break
+      case this.data.PopupTypeEnum.ACTEND:
+        this.setData({
+          actEndTimestamp: e.detail,
+          actEndTime: dateStr
         })
         break
       case this.data.PopupTypeEnum.START:
         this.setData({
           signupStartTimestamp: e.detail,
-          signupStartTime: new Date(e.detail).toLocaleString()
+          signupStartTime: dateStr
         })
         break
       case this.data.PopupTypeEnum.END:
         this.setData({
           signupEndTimestamp: e.detail,
-          signupEndTime: new Date(e.detail).toLocaleString()
+          signupEndTime: dateStr
         })
         break
     }
@@ -98,6 +135,10 @@ Page({
   // Time canceled
   onCancel () {
     this.setData({ show: false })
+  },
+
+  onSwitchChange ({ detail }) {
+    this.setData({ switchChecked: detail })
   },
 
   // Delete picture

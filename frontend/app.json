@@ -67,6 +67,7 @@
     "van-tag": "vant-weapp/tag",
     "van-toast": "vant-weapp/toast",
     "van-uploader": "vant-weapp/uploader",
-    "van-divider": "vant-weapp/divider"
+    "van-divider": "vant-weapp/divider",
+    "van-switch": "vant-weapp/switch"
   }
 }
