@@ -20,14 +20,14 @@ Page({
         this_.setData({
           id: this_.data.id,
           name: res.data.name,
-          site: res.data.site,
+          site: res.data.site.address,
           rootPath: config.host,
           intro: res.data.intro,
           phone: res.data.phone,
           pictures: res.data.pictures,
           userInfo: app.globalData.userInfo,
-          time: new Date(parseInt(res.data.time)).toLocaleString(),
-          timeLeft: parseInt((new Date(parseInt(res.data.time)) - new Date()) / (1000 * 60 * 60 * 24))
+          time: new Date(parseInt(res.data.actStart)).toLocaleString('zh-CN'),
+          timeLeft: parseInt((new Date(parseInt(res.data.actStart)) - new Date()) / (1000 * 60 * 60 * 24))
         })
       },
       fail: e => {

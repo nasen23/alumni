@@ -9,7 +9,6 @@ Page({
       ACTEND: 1,
       START: 2,
       END: 3,
-
     },
     name: "",
     location: null,
@@ -44,6 +43,9 @@ Page({
         _this.setData({
           location: res
         })
+      },
+      fail (res) {
+        console.log(res)
       }
     })
   },
@@ -63,9 +65,11 @@ Page({
   },
 
   setLocationDetail(e) {
+    const this_ = this
     this.setData({
-      location: { ...location, detail: e.detail }
+      location: { ...this_.data.location, detail: e.detail }
     })
+    console.log(this.data.location)
   },
 
   // Choose activity time
@@ -157,27 +161,6 @@ Page({
         showCancel: false
       })
       return false
-    } else if (!this.data.site) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动地点",
-        showCancel: false
-      })
-      return false
-    } else if (!this.data.intro) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动简介",
-        showCancel: false
-      })
-      return false
-    } else if (!this.data.actTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动时间",
-        showCancel: false
-      })
-      return false
     } else if (!this.data.signupStartTimestamp) {
       wx.showModal({
         title: "提示",
@@ -189,6 +172,13 @@ Page({
       wx.showModal({
         title: "提示",
         content: "请填写活动报名截止时间",
+        showCancel: false
+      })
+      return false
+    } else if (!this.data.maxParticipants) {
+      wx.showModal({
+        title: "提示",
+        content: "请填写活动报名最大报名人数",
         showCancel: false
       })
       return false
@@ -240,19 +230,23 @@ Page({
 
   // Submit literal data, e.g. name, site, intro, etc.
   submitLiteral () {
-    let this_ = this
+    const this_ = this
+    delete this.data.location.errMsg
+
     return new Promise(function( resolve, reject ) {
       wx.request({
         url: config.host + 'activity/add',
         method: "POST",
         data: {
           name: this_.data.name,
-          site: this_.data.site,
+          site: this_.data.location,
           intro: this_.data.intro,
           phone: this_.data.phone,
-          time: this_.data.actTimestamp.toString(),
+          actStart: this_.data.actStartTimestamp.toString(),
+          actEnd: this_.data.actEndTimestamp.toString(),
           signupStart: this_.data.signupStartTimestamp.toString(),
           signupEnd: this_.data.signupEndTimestamp.toString(),
+          maxParticipants: this_.data.maxParticipants.toString(),
           openid: app.globalData.openid
         },
         success: res => {
