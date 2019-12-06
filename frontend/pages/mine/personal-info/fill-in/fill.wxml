@@ -1,5 +1,7 @@
-<van-field placeholder="{{ placeholder }}" value="{{ value }}" bind:change="onInfoFilledIn" />
+<view class="container">
+  <van-field placeholder="{{ placeholder }}" value="{{ value }}" bind:change="onInfoFilledIn" />
 
-<van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
+  <van-button type="primary" size="large" bind:click="onSubmit" class="submit">提交</van-button>
 
-<van-toast bind:onClose="onClose" forbidClick="True" id="van-toast" />
+  <van-toast bind:onClose="onClose" forbidClick="True" id="van-toast" />
+</view>

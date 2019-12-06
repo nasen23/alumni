@@ -1,0 +1,7 @@
+.submit {
+  width: 95%;
+}
+van-field {
+  width: 100%;
+  margin: 10px 0;
+}
