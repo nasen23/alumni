@@ -1,36 +1,69 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
-
-import { UserEntity } from '../user/user.entity'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity('activity')
 export class ActivityEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne(() => UserEntity, user => user.heldActivities, {
-    cascade: true
+  @Column('text', {
+    default: ''
   })
-  organizer: UserEntity
-
-  @Column('text')
   name: string
 
-  @Column('text')
-  time: string
+  @Column('text', {
+    default: '',
+    nullable: true
+  })
+  actStart: string
 
-  @Column('text')
-  site: string
+  @Column('text', {
+    default: '',
+    nullable: true
+  })
+  actEnd: string
 
-  @Column('text')
+  @Column('simple-json', {
+    default: null,
+    nullable: true
+  })
+  site: {
+    name: string,
+    address: string,
+    detail: string,
+    latitude: number,
+    longitude: number
+  }
+
+  @Column('simple-json', {
+    default: null
+  })
+  fields:{}
+
+  @Column('text', {
+    default: '',
+    nullable: true
+  })
   intro: string
 
-  @Column('text')
+  @Column('text', {
+    default: ''
+  })
+  maxParticipants: string
+
+  @Column('text', {
+    default: '',
+    nullable: true
+  })
   phone: string
 
-  @Column('text')
+  @Column('text', {
+    default: ''
+  })
   signupStart: string
 
-  @Column('text')
+  @Column('text', {
+    default: ''
+  })
   signupEnd: string
 
   @Column({
@@ -39,5 +72,17 @@ export class ActivityEntity {
     nullable: true
   })
   pictures: string[]
+
+  @Column({
+    type: 'simple-json',
+    default: '',
+    nullable: true
+  })
+  participants: {}
+
+  @Column('text', {
+    default: ''
+  })
+  organizer: string
 }
 

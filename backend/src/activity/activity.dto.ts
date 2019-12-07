@@ -12,13 +12,16 @@ export class ActivityDTO {
   name: string
 
   @IsString()
-  time: string
-
-  @IsString()
-  site: string
-
-  @IsString()
   intro: string
+
+  @IsString()
+  maxParticipants: string
+
+  @IsString()
+  actStart: string
+
+  @IsString()
+  actEnd: string
 
   @IsString()
   phone: string
