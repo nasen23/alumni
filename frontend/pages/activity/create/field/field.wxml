@@ -82,20 +82,19 @@
   <van-popup
       show="{{ show }}"
       position="bottom"
-      custom-style="height:50%"
       bind:click-overlay="onOverlayClicked"
   >
-    <van-grid column-num="3">
-      <van-grid-item text="单行文本" data-type="singleLineText" bind:click="onTagClicked"/>
-      <van-grid-item text="多行文本" data-type="multiLineText" bind:click="onTagClicked"/>
-      <van-grid-item text="数字" data-type="number" bind:click="onTagClicked"/>
+    <van-grid column-num="5">
+      <van-grid-item icon="comment-o" text="单行文本" data-type="singleLineText" bind:click="onTagClicked"/>
+      <van-grid-item icon="orders-o" text="多行文本" data-type="multiLineText" bind:click="onTagClicked"/>
+      <van-grid-item icon="circle" text="数字" data-type="number" bind:click="onTagClicked"/>
       <van-grid-item icon="calender-o" text="日期" data-type="date" bind:click="onTagClicked"/>
       <van-grid-item icon="clock-o" text="时间" data-type="time" bind:click="onTagClicked"/>
       <van-grid-item icon="phone-o" text="手机号" data-type="phone" bind:click="onTagClicked"/>
-      <van-grid-item text="单项选择" data-type="singleChoice" bind:click="onTagClicked"/>
-      <van-grid-item text="多项选择" data-type="multiChoice" bind:click="onTagClicked"/>
+      <van-grid-item icon="flag-o" text="单项选择" data-type="singleChoice" bind:click="onTagClicked"/>
+      <van-grid-item icon="label-o" text="多项选择" data-type="multiChoice" bind:click="onTagClicked"/>
       <van-grid-item icon="location-o" text="地理位置" data-type="location" bind:click="onTagClicked"/>
-      <van-grid-item text="省/市/区" data-type="province" bind:click="onTagClicked"/>
+      <van-grid-item icon="points" text="省/市/区" data-type="province" bind:click="onTagClicked"/>
     </van-grid>
   </van-popup>
 
