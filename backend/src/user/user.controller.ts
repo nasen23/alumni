@@ -1,6 +1,6 @@
 import { Controller, Get, UsePipes, Post, Body, Query, Put } from '@nestjs/common'
 
-import { UserDTO } from '../user/user.dto'
+import { UserDTO } from './user.dto'
 import { UserService } from './user.service'
 import { ValidationPipe } from '../shared/validation.pipe'
 
