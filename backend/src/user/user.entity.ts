@@ -1,33 +1,80 @@
-import { Entity, PrimaryColumn, Column, OneToMany, ManyToMany } from 'typeorm'
-import { ActivityEntity } from '../activity/activity.entity'
+import { Entity, PrimaryColumn, Column } from 'typeorm'
 
 @Entity('user')
 export class UserEntity {
   @PrimaryColumn()
   id: string
- 
-  @Column('text')
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
   username: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  realname: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  wechatId: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  idNumber: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  email: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  address: string
 
   // alumni identity authentication
   @Column()
   authed: boolean
 
-  // phone number
-  @Column()
+  @Column({
+    type: 'text',
+    default: ''
+  })
   phone: string
 
   // enrollment year
-  @Column()
+  @Column({
+    type: 'text',
+    default: ''
+  })
   grade: string
 
-  // department
-  @Column()
+  @Column({
+    type: 'text',
+    default: ''
+  })
   department: string
 
-  @OneToMany(() => ActivityEntity, activity => activity.organizer)
-  heldActivities: ActivityEntity[]
+  @Column({
+    type: 'simple-array',
+    default: '',
+    nullable: true
+  })
+  heldActivities: string[]
 
-  // @ManyToMany(() => ActivityEntity, activity => activity.organizer)
-  // attendedActivities: ActivityEntity[]
+  @Column({
+    type: 'simple-array',
+    default: '',
+    nullable: true
+  })
+  attendedActivities: string[]
 }
