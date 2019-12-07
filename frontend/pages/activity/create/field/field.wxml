@@ -1,0 +1,65 @@
+<view class="container">
+  <van-cell-group title="字段名称">
+    <van-field
+      value="{{ name }}"
+      placeholder="请输入字段名称"
+      bind:change="onNameFilledIn"
+    />
+
+  </van-cell-group>
+
+  <van-cell-group title="字段描述">
+    <van-field
+      value="{{ intro }}"
+      placeholder="请说明该字段怎么填写（选填）"
+      bind:change="onIntroFilledIn"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="字段类型（支持文本/数字/日期/单选/多选）">
+    <van-cell
+      title="单行文本"
+      is-link
+      bind:click="onTypeFilledIn"
+    />
+  </van-cell-group>
+
+  <van-cell-group wx:if="{{ type == 'singleLineText' }}" title="最少字符数">
+    <van-field
+      autosize
+      value="{{ minCharCnt }}"
+      bind:click="onMinCharCntFilledIn"
+    />
+  </van-cell-group>
+
+  <van-cell-group wx:if="{{ type == 'singleLineText' }}" title="最多字符数">
+    <van-field
+      autosize
+      value="{{ maxCharCnt }}"
+      bind:click="onMaxCharCntFilledIn"
+    />
+  </van-cell-group>
+
+  <van-popup
+      show="{{ show }}"
+      position="bottom"
+      custom-style="height:50%"
+      closeable
+  >
+    <van-grid column-num="3">
+      <van-grid-item text="单行文本"/>
+      <van-grid-item text="多行文本"/>
+      <van-grid-item text="数字"/>
+      <van-grid-item icon="calender-o" text="日期"/>
+      <van-grid-item icon="clock-o" text="时间"/>
+      <van-grid-item icon="phone-o" text="手机号"/>
+      <van-grid-item text="单项选择"/>
+      <van-grid-item text="多项选择"/>
+      <van-grid-item icon="location-o" text="地理位置"/>
+      <van-grid-item text="省/市/区"/>
+    </van-grid>
+  </van-popup>
+
+  <van-button type="primary" size="large" bind:click="onSave">保存</van-button>
+
+</view>
