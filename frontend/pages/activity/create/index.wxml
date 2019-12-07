@@ -62,17 +62,29 @@
   </van-cell-group>
 
   <van-cell-group title="点击选择需要填写的信息">
-    <van-panel use-footer-slot>
-      <block wx:for="{{ allFields }}" wx:key="name">
-        <van-tag wx:if="{{ !item.chosen }}" plain size="large" data-index="{{ index }}" bindtap="onTagTapped">
-          {{ item.name }}
-        </van-tag>
-        <van-tag wx:else plain type="success" size="large" data-index="{{ index }}" bindtap="onTagTapped">
-          {{ item.name }}
-        </van-tag>
-      </block>
-      <van-button type="primary" size="mini" bind:click="toNewTagPage">添加字段</van-button>
-    </van-panel>
+    <view class="tag-panel">
+      <view class="tag-view">
+        <view class="tag" wx:for="{{ allFields }}" wx:key="name">
+          <van-tag
+            plain
+            type="{{ item.chosen ? 'primary' : 'default' }}"
+            size="large"
+            data-index="{{ index }}"
+            bindtap="onTagTapped"
+          >
+            {{ item.name }}
+          </van-tag>
+        </view>
+      </view>
+      <van-button
+        class="tag-button"
+        type="primary"
+        size="small"
+        bind:click="toNewTagPage"
+      >
+        添加字段
+      </van-button>
+    </view>
   </van-cell-group>
 
   <van-dialog use-slot id="van-dialog" show="{{ dialogShow }}" show-confirm-button="{{ false }}">

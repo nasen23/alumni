@@ -26,6 +26,21 @@ van-button {
   margin-bottom: 10px;
 }
 
-van-tag {
-  margin: 10px;
+.tag-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+.tag-view {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tag {
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
