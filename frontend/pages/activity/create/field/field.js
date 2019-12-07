@@ -9,11 +9,17 @@ Page({
       desc: "",
       chosen: false,
     },
-    type: "singleLineText",
+    type: "text",
+    // create tag or edit an existed tag
+    isNewTag: false,
   },
 
   onLoad (options) {
-
+    this.setData({
+      name: options.name || "",
+      type: options.type || "text",
+      isNewTag: options.isNewTag || false
+    })
   },
 
   onShow () {
@@ -44,8 +50,6 @@ Page({
   },
 
   onSave () {
-    const this_ = this
-         
     if (!this.data.name) {
       wx.showModal({
         title: "提示",
@@ -64,21 +68,13 @@ Page({
       }
     })
 
-    wx.showModal({
-      title: "提示",
-      content: "添加成功",
-      showCancel: false,
-      success (res) {
-        let pages = getCurrentPages()
-        // Previous page
-        let prevPage = pages[pages.length - 2]
+    const field = this.data.field
+    const isNewTag = this.data.isNewTag
 
-        prevPage.setData({
-          allFields: prevPage.data.allFields.concat(this_.data.field)
-        })
-        wx.navigateBack()
-      }
-    })
+    let pages = getCurrentPages()
+    // Previous page
+    let prevPage = pages[pages.length - 2]
+    prevPage.addNewTag(field, isNewTag)
   },
 
 })

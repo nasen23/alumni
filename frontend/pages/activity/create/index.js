@@ -113,6 +113,10 @@ Page({
     today: new Date().getTime()
   },
 
+  onLoad (options) {
+
+  },
+
   // Field name has been filled in
   onNameFilledIn (e) {
     this.setData({ name: e.detail })
@@ -152,7 +156,6 @@ Page({
     this.setData({
       location: { ...this_.data.location, detail: e.detail }
     })
-    console.log(this.data.location)
   },
 
   // Choose activity time
@@ -248,11 +251,67 @@ Page({
   },
 
   toNewTagPage () {
-    wx.navigateTo({ url: './field/field' })
+    wx.navigateTo({ url: "./field/field?isNewTag=true" })
   },
 
   editTag () {
+    this.setData({ dialogShow: false })
+    const field = this.data.allFields[this.data.index]
+    wx.navigateTo({
+      url: `./field/field?name=${ field.name }&type=${ field.type }`
+    })
+  },
 
+  addNewTag (field, isNewTag) {
+    let allFields = this.data.allFields
+    let res = this.in(field, allFields)
+
+    if (isNewTag) {
+      if (res.isIn) {
+        wx.showModal({
+          title: "提示",
+          content: "字段名已存在",
+          showCancel: false,
+          success (res) {
+          }
+        })
+        return
+      } else {
+        allFields.push(field)
+        this.setData({ allFields })
+        wx.showModal({
+          title: "提示",
+          content: "保存成功",
+          showCancel: false,
+          success (res) {
+            wx.navigateBack()
+          }
+        })
+        return
+      }
+    }
+
+    // Update existed tag
+    if (res.isIn && this.data.index != res.index) {
+      wx.showModal({
+        title: "提示",
+        content: "字段名已存在",
+        showCancel: false,
+        success (res) {}
+      })
+      return
+    }
+    allFields[this.data.index] = field
+    this.setData({ allFields })
+
+    wx.showModal({
+      title: "提示",
+      content: "保存成功",
+      showCancel: false,
+      success (res) {
+        wx.navigateBack()
+      }
+    })
   },
 
   // Whether the field(object) is in fields(object array)
@@ -265,7 +324,7 @@ Page({
     }
 
     for (let [index, f] of Object.entries(fields)) {
-      if (fields[index].name == field.name) {
+      if (f.name == field.name) {
         return {
           isIn: true,
           index
@@ -508,10 +567,6 @@ Page({
         wx.navigateBack()
       }
     })
-  },
-
-  onLoad (options) {
-
   },
 
 })

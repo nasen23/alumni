@@ -18,7 +18,7 @@
 
   <van-cell-group title="字段类型（支持文本/数字/日期/单选/多选）">
     <van-cell
-        wx:if="{{ type == 'singleLineText' }}"
+        wx:if="{{ type == 'text' }}"
         title="单行文本"
         is-link
         bind:click="onTypeFilledIn"
@@ -86,7 +86,7 @@
       bind:click-overlay="onOverlayClicked"
   >
     <van-grid column-num="3">
-      <van-grid-item text="单行文本" data-type="singleLineText" bind:click="onTagClicked"/>
+      <van-grid-item text="单行文本" data-type="text" bind:click="onTagClicked"/>
       <van-grid-item text="多行文本" data-type="multiLineText" bind:click="onTagClicked"/>
       <van-grid-item text="数字" data-type="number" bind:click="onTagClicked"/>
       <van-grid-item icon="calender-o" text="日期" data-type="date" bind:click="onTagClicked"/>
