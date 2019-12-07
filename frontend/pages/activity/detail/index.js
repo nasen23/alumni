@@ -25,15 +25,32 @@ Page({
           intro: res.data.intro,
           phone: res.data.phone,
           pictures: res.data.pictures,
+          organizer: res.data.organizer,
           userInfo: app.globalData.userInfo,
           time: new Date(parseInt(res.data.actStart)).toLocaleString('zh-CN'),
           timeLeft: parseInt((new Date(parseInt(res.data.actStart)) - new Date()) / (1000 * 60 * 60 * 24))
+        })
+
+        wx.request({
+          url: config.host + 'user/get',
+          method: "GET",
+          data: {
+            openid: this_.data.organizer
+          },
+          success: res => {
+            console.log(res)
+            this_.setData({
+              avatarUrl: res.data.avatarUrl,
+              nickName: res.data.username
+            })
+          }
         })
       },
       fail: e => {
 
       }
     })
+
   },
 
   toActivityMessage: function() {
