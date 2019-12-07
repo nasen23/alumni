@@ -10,15 +10,86 @@ Page({
       START: 2,
       END: 3,
     },
+    chosenFieldsString: "",
+    chosenFields: [],
+    allFields: [
+      {
+        name: "姓名",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name:"手机号",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "微信号",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "身份证号",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "邮箱",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "性别",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "年龄",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "地址",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "入学年份",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "院系",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "工作单位",
+        chosen: false,
+        required: false,
+        type: "text",
+      }, {
+        name: "部门",
+        chosen: false,
+        required: false,
+        type: "text",
+      }
+    ],
+    // Index of the tapped tag
+    index: 0,
+
+    show: false,
+    dialogShow: false,
+
     name: "",
-    location: null,
     intro: "",
     phone: "",
+    location: null,
     switchChecked: false,
-    show: false,
     maxParticipants: 0,
     popupType: 0,
     pictureList: [],
+
     actStartTime: "",
     actStartTimestamp: 0,
     actEndTime: "",
@@ -145,11 +216,141 @@ Page({
     this.setData({ switchChecked: detail })
   },
 
+  onTagTapped (e) {
+    let index = e.currentTarget.dataset.index
+    this.setData({ index })
+    if (this.data.allFields[index].chosen) {
+      // Chosen tag tapped
+      this.setData({ dialogShow: true })
+    } else {
+      // Normal tag tapped
+      this.setData({ dialogShow: true })
+    }
+  },
+
   // Delete picture
   onDeletePicture (event) {
     let list = this.data.pictureList
     list.splice(event.detail.index, 1)
     this.setData({ pictureList: list })
+  },
+
+  toNewTagPage () {
+    wx.navigateTo({ url: './field/field' })
+  },
+
+  editTag () {
+
+  },
+
+  // Whether the field(object) is in fields(object array)
+  in (field, fields) {
+    if (!fields) {
+      return {
+        isIn: false,
+        index: -1
+      }
+    }
+
+    for (let [index, f] of Object.entries(fields)) {
+      if (fields[index].name == field.name) {
+        return {
+          isIn: true,
+          index
+        }
+      }
+    }
+
+    return {
+      isIn: false,
+      index: -1
+    }
+  },
+
+  getChosenFieldsString (fields) {
+    let res = ""
+    for (let field of fields) {
+      if (field.required) {
+        res += '*'
+      }
+      res += (field.name + '，')
+    }
+    return res.substring(0, res.length - 1)
+  },
+
+
+  cancelTag () {
+    this.setData({ dialogShow: false })
+
+    const index = this.data.index
+    let allFields = this.data.allFields
+    let field = allFields[index]
+    let chosenFields = this.data.chosenFields
+
+    field.chosen = false
+
+    let res = this.in(field, chosenFields)
+    chosenFields.splice(res.index, 1)
+    let chosenFieldsString = this.getChosenFieldsString(chosenFields)
+
+    this.setData({
+      allFields,
+      chosenFields,
+      chosenFieldsString
+    })
+  },
+
+  setTagToOptional () {
+    this.setData({ dialogShow: false })
+
+    const index = this.data.index
+    let allFields = this.data.allFields
+    let field = allFields[index]
+
+    field.chosen = true
+    field.required = false
+
+    let chosenFields = this.data.chosenFields
+    let res = this.in(field, chosenFields)
+    if (res.isIn) {
+      chosenFields[res.index].required = false
+    } else {
+      chosenFields.push(field)
+    }
+
+    let chosenFieldsString = this.getChosenFieldsString(chosenFields)
+
+    this.setData({
+      allFields,
+      chosenFields,
+      chosenFieldsString
+    })
+  },
+
+  setTagToRequired () {
+    this.setData({ dialogShow: false })
+
+    const index = this.data.index
+    let allFields = this.data.allFields
+    let field = allFields[index]
+
+    field.chosen = true
+    field.required = true
+
+    let chosenFields = this.data.chosenFields
+    let res = this.in(field, chosenFields)
+    if (res.isIn) {
+      chosenFields[res.index].required = true
+    } else {
+      chosenFields.push(field)
+    }
+    let chosenFieldsString = this.getChosenFieldsString(chosenFields)
+
+    this.setData({
+      allFields,
+      chosenFields,
+      chosenFieldsString
+    })
   },
 
   // Check if all the data has been filled in properly
@@ -247,7 +448,8 @@ Page({
           signupStart: this_.data.signupStartTimestamp.toString(),
           signupEnd: this_.data.signupEndTimestamp.toString(),
           maxParticipants: this_.data.maxParticipants.toString(),
-          openid: app.globalData.openid
+          openid: app.globalData.openid,
+          fields: this_.data.chosenFields,
         },
         success: res => {
           resolve(res)

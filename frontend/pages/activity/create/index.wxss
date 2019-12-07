@@ -25,3 +25,7 @@ van-button {
   width: 95%;
   margin-bottom: 10px;
 }
+
+van-tag {
+  margin: 10px;
+}

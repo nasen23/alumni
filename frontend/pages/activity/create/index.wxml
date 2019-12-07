@@ -54,16 +54,75 @@
     />
   </van-cell-group>
 
+  <van-cell-group title="已选字段(*代表必填)">
+    <van-field
+      placeholder="无"
+      value="{{ chosenFieldsString }}"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="点击选择需要填写的信息">
+    <van-panel use-footer-slot>
+      <block wx:for="{{ allFields }}" wx:key="name">
+        <van-tag wx:if="{{ !item.chosen }}" plain size="large" data-index="{{ index }}" bindtap="onTagTapped">
+          {{ item.name }}
+        </van-tag>
+        <van-tag wx:else plain type="success" size="large" data-index="{{ index }}" bindtap="onTagTapped">
+          {{ item.name }}
+        </van-tag>
+      </block>
+      <van-button type="primary" size="mini" bind:click="toNewTagPage">添加字段</van-button>
+    </van-panel>
+  </van-cell-group>
+
+  <van-dialog use-slot id="van-dialog" show="{{ dialogShow }}" show-confirm-button="{{ false }}">
+    <van-cell-group>
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="编辑"
+        bind:click="editTag"
+      />
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="作为必填项"
+        bind:click="setTagToRequired"
+      />
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="作为选填项"
+        bind:click="setTagToOptional"
+      />
+
+      <van-cell
+        wx:if="{{ allFields[index].chosen }}"
+        title="不选"
+        bind:click="cancelTag"
+      />
+      <van-cell
+        wx:if="{{ allFields[index].chosen && !allFields[index].required }}"
+        title="作为必填项"
+        bind:click="setTagToRequired"
+      />
+      <van-cell
+        wx:if="{{ allFields[index].chosen && allFields[index].required }}"
+        title="作为选填项"
+        bind:click="setTagToOptional"
+      />
+    </van-cell-group>
+  </van-dialog>
+
   <van-cell-group title="报名时间">
     <van-cell
       title="报名开始"
       is-link
+      required
       bind:click="onChooseStart"
       value="{{ signupStartTime }}"
     />
     <van-cell
       title="报名结束"
       is-link
+      required
       bind:click="onChooseEnd"
       value="{{ signupEndTime }}"
     />
