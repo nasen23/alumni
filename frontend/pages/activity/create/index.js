@@ -458,7 +458,9 @@ Page({
   // Submit literal data, e.g. name, site, intro, etc.
   submitLiteral () {
     const this_ = this
-    delete this.data.location.errMsg
+    if (this.data.location) {
+      delete this.data.location.errMsg
+    }
 
     return new Promise(function( resolve, reject ) {
       wx.request({
