@@ -3,11 +3,7 @@ const config = require('config.js')
 App({
   onLaunch () {
     let this_ = this
-    this.getUserInfo().then(function (res) {
-      this_.getUserOpenId()
-    }).catch(function (res) {
-      console.log(res)
-    })
+    this.getUserInfo()
   },
 
   getUserInfo () {
@@ -24,15 +20,28 @@ App({
                   wx.setStorageSync('userInfo', res.userInfo)
                   this_.globalData.userInfo = res.userInfo
                   resolve(this_.globalData.userInfo)
+                },
+                fail: error => {
+                  console.log('getUserInfo failed: ' + error)
+                  reject(error)
                 }
               })
+            } else {
+              reject(res)
             }
+          },
+          fail: error => {
+            reject(error)
           }
         })
       } else {
         this_.globalData.userInfo = userInfo
         resolve(this_.globalData.userInfo)
       }
+    }).then(function (res) {
+      this_.getUserOpenId()
+    }).catch(function (res) {
+     
     })
   },
 
@@ -50,13 +59,13 @@ App({
               url: config.host + 'user/login',
               method: 'POST',
               data: {
+                code: res.code,
                 appId: config.appId,
                 secret: config.appSecret,
-                code: res.code,
-                username: this_.globalData.userInfo.nickName
+                username: this_.globalData.userInfo.nickName,
+                avatarUrl: this_.globalData.userInfo.avatarUrl
               },
               success: res => {
-                console.log(res)
                 wx.setStorageSync('openid', res.data.openid)
                 this_.globalData.openid = res.data.openid
               }
@@ -76,6 +85,7 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    openid: "",
+    userInfo: null,
   }
 })

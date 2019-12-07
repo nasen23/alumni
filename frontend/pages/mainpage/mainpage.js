@@ -7,15 +7,15 @@ Page({
     activities: [],
   },
 
-  onLoad() {
-    let this_ = this
-    app.getUserInfo().then(function (res) {
-      this_.setData({ userInfo: res })
-    })
-  },
-
   onShow() {
     let this_ = this
+
+    app.getUserInfo().then(function (res) {
+      this_.setData({
+        userInfo: app.globalData.userInfo
+      })
+    })
+
     wx.request({
       url: config.host + 'activity/all',
       method: "POST",

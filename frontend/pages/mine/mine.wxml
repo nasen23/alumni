@@ -8,8 +8,8 @@
     <view class="username">{{ userInfo.nickName }}</view>
   </view>
   <view class="profile" wx:else>
-    <image class="avatar"></image>
-    <view class="username">点击头像登录</view>
+    <image class="avatar" src="/images/nologin.png"></image>
+    <van-button open-type="getUserInfo" bindgetuserinfo="getUserInfo">点击登录账户</van-button>
   </view>
 
   <van-divider />

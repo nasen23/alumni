@@ -8,44 +8,21 @@ Page({
     this.setData({ userInfo: app.globalData.userInfo })
   },
 
-  onGotUserInfo(e) {
+  getUserInfo (e) {
     if (e.detail.userInfo) {
-      let this_ = this
-      wx.request({
-        url: app.globalData.urlPath + 'user/add',
-        data: {
-          openid: getApp().globalData.openid,
-          nickName: e.detail.userInfo.nickName,
-          avatarUrl: e.detail.userInfo.avatarUrl,
-        },
-        header: {
-            'content-type': 'application/json'
-        },
-        success: function (res) {
-            // 从数据库获取用户信息
-            this_.queryUserInfo();
-            console.log("插入小程序登录用户信息成功！");
-        }
-      })
-    } else {
-      console.log('refuse')
+      app.globalData.userInfo = e.detail.userInfo
+      this.setData({ userInfo: e.detail.userInfo })
+      wx.setStorageSync('userInfo', e.detail.userInfo)
+      app.getUserOpenId()
     }
   },
 
-  queryUserInfo() {
-    wx.request({
-        url: app.globalData.urlPath + 'user/userInfo',
-        data: {
-          openid: getApp().globalData.openid
-        },
-        header: {
-            'content-type': 'application/json'
-        },
-        success: function (res) {
-          console.log(res.data)
-          getApp().globalData.userInfo = res.data
-        }
-    })
+  onGotUserInfo(e) {
+    if (e.detail.userInfo) {
+      let this_ = this
+    } else {
+      console.log('refuse')
+    }
   },
 
   about: function () {
