@@ -30,3 +30,6 @@ backend/.nyc_output
 
 # IDE - VSCode
 .vscode/*
+
+# Images
+backend/imgs
