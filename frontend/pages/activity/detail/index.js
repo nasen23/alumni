@@ -41,7 +41,7 @@ Page({
   },
 
   toActivitySignup: function() {
-    wx.navigateTo({ url: '/pages/activity/signup/index?id=' + this.data.id})
+    wx.navigateTo({ url: '/pages/activity/signup/index?id=' + this.data.id })
   },
 
   toActivityManage (e) {

@@ -18,61 +18,73 @@ Page({
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name:"手机号",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "微信号",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "身份证号",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "邮箱",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "性别",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "年龄",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "地址",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "入学年份",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "院系",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "工作单位",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }, {
         name: "部门",
         chosen: false,
         required: false,
         type: "text",
+        desc: "",
       }
     ],
     // Index of the tapped tag
@@ -177,6 +189,8 @@ Page({
   // Time confirmed
   onConfirm (e) {
     this.setData({ show: false })
+
+    console.log(e)
 
     const dateStr = new Date(e.detail).toLocaleString('zh-CN')
     switch (this.data.popupType) {
@@ -315,8 +329,15 @@ Page({
     if (res.isIn) {
       chosenFields[res.index].required = false
     } else {
-      chosenFields.push(field)
+      chosenFields.push({
+        desc: field.desc,
+        name: field.name,
+        type: field.type,
+        required: field.required
+      })
     }
+
+    console.log(chosenFields)
 
     let chosenFieldsString = this.getChosenFieldsString(chosenFields)
 
@@ -342,7 +363,12 @@ Page({
     if (res.isIn) {
       chosenFields[res.index].required = true
     } else {
-      chosenFields.push(field)
+      chosenFields.push({
+        desc: field.desc,
+        name: field.name,
+        type: field.type,
+        required: field.required
+      })
     }
     let chosenFieldsString = this.getChosenFieldsString(chosenFields)
 

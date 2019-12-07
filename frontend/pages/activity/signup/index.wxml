@@ -1,7 +1,23 @@
-<van-cell-group>
-  <van-field value="{{ name }}" label="姓名" placeholder="请填写个人姓名" bind:change="onNameFilledIn"/>
-
-  <van-field value="{{ phone }}" label="联系方式" placeholder="请填写个人联系方式" bind:change="onPhoneFilledIn"/>
+<view class="container">
+  <van-cell-group>
+    <block wx:for="{{ fields }}" wx:key="{{ name }}">
+      <van-field
+          wx:if="{{ item.required }}"
+          required
+          label="{{ item.name }}"
+          placeholder="{{ item.desc ? item.desc : (holder + item.name) }}"
+          data-name="{{ item.name }}"
+          bind:change="onInfoFilledIn"
+      />
+      <van-field
+          wx:else
+          label="{{ item.name }}"
+          placeholder="{{ item.desc ? item.desc : (holder + item.name) }}"
+          data-name="{{ item.name }}"
+          bind:change="onInfoFilledIn"
+      />
+    </block>
+  </van-cell-group>
 
   <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
-</van-cell-group>
+</view>

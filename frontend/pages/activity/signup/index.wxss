@@ -1,1 +1,13 @@
-/* pages/activity/signup/index.wxss */
+van-cell-group {
+    width: 100%;
+    margin: 2px 0;
+}
+
+van-field {
+    width: 100%;
+}
+
+van-button {
+    width: 95%;
+    margin: 10px 0;
+}
