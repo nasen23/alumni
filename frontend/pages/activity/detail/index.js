@@ -20,7 +20,7 @@ Page({
         this_.setData({
           id: this_.data.id,
           name: res.data.name,
-          site: res.data.site.address,
+          site: res.data.site,
           rootPath: config.host,
           intro: res.data.intro,
           phone: res.data.phone,

@@ -190,8 +190,6 @@ Page({
   onConfirm (e) {
     this.setData({ show: false })
 
-    console.log(e)
-
     const dateStr = new Date(e.detail).toLocaleString('zh-CN')
     switch (this.data.popupType) {
       case this.data.PopupTypeEnum.ACTSTART:
@@ -337,8 +335,6 @@ Page({
       })
     }
 
-    console.log(chosenFields)
-
     let chosenFieldsString = this.getChosenFieldsString(chosenFields)
 
     this.setData({
@@ -458,7 +454,9 @@ Page({
   // Submit literal data, e.g. name, site, intro, etc.
   submitLiteral () {
     const this_ = this
-    delete this.data.location.errMsg
+    if (this.data.location) {
+      delete this.data.location.errMsg
+    }
 
     return new Promise(function( resolve, reject ) {
       wx.request({
