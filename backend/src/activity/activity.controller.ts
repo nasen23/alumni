@@ -11,7 +11,6 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common'
-import { Request } from 'express'
 import { diskStorage } from 'multer'
 import { FileInterceptor } from '@nestjs/platform-express'
 
@@ -25,13 +24,18 @@ export class ActivityController {
 
   constructor(private activityService: ActivityService) {}
 
+  @Get('user')
+  getUserActivities(@Query() data) {
+    return this.activityService.getUserActivities(data)
+  }
+
   @Get('all')
   showAllActivities() {
     return this.activityService.showAll()
   }
 
   @Post('all')
-  showAllPartially(@Body() data: Object) {
+  showAllPartially(@Body() data: object) {
     return this.activityService.showAllPartially(data)
   }
 
@@ -41,7 +45,7 @@ export class ActivityController {
   }
 
   @Post('add')
-  createActivity(@Body() data: ActivityDTO) {
+  createActivity(@Body() data: Partial<ActivityDTO>) {
     return this.activityService.create(data)
   }
 
@@ -73,5 +77,10 @@ export class ActivityController {
   @Delete('delete/all')
   destroyAll() {
     return this.activityService.destroyAll()
+  }
+
+  @Post('signup')
+  signupActivity(@Body() data: object) {
+    return this.activityService.signup(data)
   }
 }
