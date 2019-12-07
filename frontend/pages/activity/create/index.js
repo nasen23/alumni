@@ -190,8 +190,6 @@ Page({
   onConfirm (e) {
     this.setData({ show: false })
 
-    console.log(e)
-
     const dateStr = new Date(e.detail).toLocaleString('zh-CN')
     switch (this.data.popupType) {
       case this.data.PopupTypeEnum.ACTSTART:
@@ -336,8 +334,6 @@ Page({
         required: field.required
       })
     }
-
-    console.log(chosenFields)
 
     let chosenFieldsString = this.getChosenFieldsString(chosenFields)
 
