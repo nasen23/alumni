@@ -1,9 +1,11 @@
+import Dialog from 'vant-weapp/dialog/dialog'
+
 const app = getApp()
 const config = require('../../../config.js')
 Page({
 
   data: {
-    popupShow: false
+    popupShow: false,
   },
 
   onLoad: function (e) {
@@ -75,7 +77,6 @@ Page({
 
   tagEditClicked () {
     this.setData({ popupShow: false })
-    const this_ = this
     wx.navigateTo({ url: '/pages/activity/create/index?id=' + this.data.id })
   },
 
@@ -84,7 +85,39 @@ Page({
   },
 
   tagCancelClicked () {
-    this.setData({ popupShow: false })
+    this.setData({
+      popupShow: false,
+    })
+
+    Dialog.confirm({
+      title: "活动删除提醒",
+      message: "是否确认删除此活动所有信息？\n（不可恢复）"
+    }).then(() => {
+      wx.request({
+        url: config.host + 'activity/delete?id=' + this.data.id,
+        method: "DELETE",
+        success (res) {
+          wx.showModal({
+            title: "提示",
+            content: "活动删除成功",
+            showCancel: false,
+            success (res) {
+              wx.navigateBack()
+            }
+          })
+        },
+        fail (error) {
+          wx.showModal({
+            title: "提示",
+            content: "删除活动失败，请检查网络状态",
+            showCancel: false,
+            success (res) {
+              wx.navigateBack()
+            }
+          })
+        }
+      })
+    }).catch(() => {})
   },
 
   tagManagerClicked () {

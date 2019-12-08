@@ -118,4 +118,6 @@
       <van-grid-item text="数据统计" bind:click="tagStatisticClicked"/>
     </van-grid>
   </van-popup>
+
+  <van-dialog id="van-dialog"/>
 </view>
