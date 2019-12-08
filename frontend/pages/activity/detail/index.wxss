@@ -60,6 +60,7 @@ swiper {
 .activity-header-detail-list {
   color: #c2cbd2;
   font-weight: 100;
+  font-size: 80%;
 }
 
 .activity-header-detail {

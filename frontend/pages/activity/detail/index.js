@@ -2,7 +2,9 @@ const app = getApp()
 const config = require('../../../config.js')
 Page({
 
-  data: {},
+  data: {
+    popupShow: false
+  },
 
   onLoad: function (e) {
     this.setData({ id: e.id })
@@ -17,6 +19,8 @@ Page({
         id: this_.data.id
       },
       success: res => {
+        let actStart = res.data.actStart
+        let actEnd = res.data.actEnd
         this_.setData({
           id: this_.data.id,
           name: res.data.name,
@@ -26,9 +30,14 @@ Page({
           phone: res.data.phone,
           pictures: res.data.pictures,
           organizer: res.data.organizer,
-          userInfo: app.globalData.userInfo,
-          time: new Date(parseInt(res.data.actStart)).toLocaleString('zh-CN'),
-          timeLeft: parseInt((new Date(parseInt(res.data.actStart)) - new Date()) / (1000 * 60 * 60 * 24))
+          participants: res.data.participants,
+          maxParticipants: res.data.maxParticipants,
+          actStart: actStart === "0" ? "0" :
+            new Date(parseInt(actStart)).toLocaleString(),
+          actEnd: actEnd === "0" ? "0" :
+            new Date(parseInt(actEnd)).toLocaleString(),
+          signupStart: new Date(parseInt(res.data.signupStart)).toLocaleString('zh'),
+          signupEnd: new Date(parseInt(res.data.signupEnd)).toLocaleString('zh'),
         })
 
         wx.request({
@@ -38,7 +47,6 @@ Page({
             openid: this_.data.organizer
           },
           success: res => {
-            console.log(res)
             this_.setData({
               avatarUrl: res.data.avatarUrl,
               nickName: res.data.username
@@ -53,18 +61,42 @@ Page({
 
   },
 
-  toActivityMessage: function() {
-    wx.navigateTo({ url: '/pages/activity-message/index?id=' })
-  },
-
   toActivitySignup: function() {
     wx.navigateTo({ url: '/pages/activity/signup/index?id=' + this.data.id })
   },
 
   toActivityManage (e) {
-    wx.navigateTo({
-      url: '../manage/index?id=' + this.data.id
-    })
+    this.setData({ popupShow: true })
+  },
+
+  onOverlayClicked () {
+    this.setData({ popupShow: false })
+  },
+
+  tagEditClicked () {
+    this.setData({ popupShow: false })
+    const this_ = this
+    wx.navigateTo({ url: '/pages/activity/create/index?id=' + this.data.id })
+  },
+
+  tagCopyClicked () {
+    this.setData({ popupShow: false })
+  },
+
+  tagCancelClicked () {
+    this.setData({ popupShow: false })
+  },
+
+  tagManagerClicked () {
+    this.setData({ popupShow: false })
+  },
+
+  tagSignInClicked () {
+    this.setData({ popupShow: false })
+  },
+
+  tagStatisticClicked () {
+    this.setData({ popupShow: false })
   },
 
 })

@@ -10,6 +10,7 @@ Page({
       START: 2,
       END: 3,
     },
+    isNewActivity: true,
     chosenFieldsString: "",
     chosenFields: [],
     allFields: [
@@ -114,7 +115,83 @@ Page({
   },
 
   onLoad (options) {
-
+    let this_ = this
+    if (options.id) {
+      wx.setNavigationBarTitle({
+        title: "修改活动"
+      })
+      this_.setData({
+        id: options.id,
+        isNewActivity: false
+      })
+      wx.request({
+        url: config.host + 'activity/get',
+        method: "GET",
+        data: {
+          id: options.id
+        },
+        success (res) {
+          let actStartTimestamp = parseInt(res.data.actStart)
+          let actEndTimestamp = parseInt(res.data.actEnd)
+          let signupStartTimestamp = parseInt(res.data.signupStart)
+          let signupEndTimestamp = parseInt(res.data.signupEnd)
+          let actStartTime = ""
+          let actEndTime = ""
+          let switchChecked = false
+          if (actStartTimestamp) {
+            actStartTime = new Date(actStartTimestamp).toLocaleString('zh-CN')
+            switchChecked = true
+          }
+          if (actEndTimestamp) {
+            actEndTime = new Date(actEndTimestamp).toLocaleString('zh-CN')
+            switchChecked = true
+          }
+          this_.setData({
+            name: res.data.name,
+            location: res.data.site,
+            intro: res.data.intro,
+            phone: res.data.phone,
+            actStartTime,
+            actStartTimestamp,
+            actEndTime,
+            actEndTimestamp,
+            signupStartTime: new Date(signupStartTimestamp).toLocaleString('zh-CN'),
+            signupStartTimestamp,
+            signupEndTime: new Date(signupEndTimestamp).toLocaleString('zh-CN'),
+            signupEndTimestamp,
+            switchChecked,
+            maxParticipants: res.data.maxParticipants,
+            chosenFields: res.data.fields,
+            pictureList: res.data.pictures
+          })
+          let allFields = this_.data.allFields
+          let chosenFieldsString = this_.getChosenFieldsString(this_.data.chosenFields)
+          for (let field of this_.data.chosenFields) {
+            let res = this_.in(field, allFields)
+            if (res.isIn) {
+              allFields[res.index] = {
+                ...field,
+                chosen: true
+              }
+            }
+          }
+          this_.setData({
+            allFields,
+            chosenFieldsString
+          })
+        },
+        fail (error) {
+          wx.showModal({
+            title: "提示",
+            content: "获取活动数据失败",
+            showCancel: false,
+            success (res) {
+              wx.navigateBack()
+            }
+          })
+        }
+      })
+    }
   },
 
   // Field name has been filled in
@@ -497,17 +574,13 @@ Page({
       return
     }
 
-    let this_ = this
-    this.submitLiteral().then(function (res) {
-      this_.submitPictures(res.data.id)
-    })
+    this.submitLiteral()
   },
 
   afterRead (event) {
     const { file } = event.detail
     let list = this.data.pictureList
     this.setData({ pictureList: list.concat(file) })
-    console.log(this.data.pictureList)
   },
 
   // Submit literal data, e.g. name, site, intro, etc.
@@ -517,28 +590,60 @@ Page({
       delete this.data.location.errMsg
     }
 
+    let url = this.data.isNewActivity ?
+        config.host + 'activity/add' :
+        config.host + 'activity/put?id=' + this.data.id
+    let method = this.data.isNewActivity ? "POST" : "PUT"
+    let data = {
+      name: this_.data.name,
+      site: this_.data.location,
+      intro: this_.data.intro,
+      phone: this_.data.phone,
+      actStart: this_.data.actStartTimestamp,
+      actEnd: this_.data.actEndTimestamp,
+      signupStart: this_.data.signupStartTimestamp,
+      signupEnd: this_.data.signupEndTimestamp,
+      maxParticipants: this_.data.maxParticipants,
+      fields: this_.data.chosenFields,
+    }
+    if (this.data.isNewActivity) {
+      data.openid = app.globalData.openid
+    }
     return new Promise(function( resolve, reject ) {
       wx.request({
-        url: config.host + 'activity/add',
-        method: "POST",
-        data: {
-          name: this_.data.name,
-          site: this_.data.location,
-          intro: this_.data.intro,
-          phone: this_.data.phone,
-          actStart: this_.data.actStartTimestamp.toString(),
-          actEnd: this_.data.actEndTimestamp.toString(),
-          signupStart: this_.data.signupStartTimestamp.toString(),
-          signupEnd: this_.data.signupEndTimestamp.toString(),
-          maxParticipants: this_.data.maxParticipants.toString(),
-          openid: app.globalData.openid,
-          fields: this_.data.chosenFields,
-        },
+        url,
+        method,
+        data,
         success: res => {
           resolve(res)
         },
         fail: res => {
           reject(res)
+        }
+      })
+    }).then(function (res) {
+      if (this_.data.isNewActivity) {
+        this_.submitPictures(res.data.id)
+        return
+      }
+      let content = this_.data.isNewActivity ?
+          "活动创建成功" : "活动信息修改成功"
+      wx.showModal({
+        title: "提示",
+        content,
+        showCancel: false,
+        success: res => {
+          wx.navigateBack()
+        }
+      })
+    }).catch(function (res) {
+      wx.showModal({
+        title: "提示",
+        content: this_.data.isNewActivity ?
+          "创建活动失败，请检查网络状态" : "修改活动信息失败，请检查网络状态",
+        showCancel: false,
+        success (res) {
+          wx.navigateBack()
         }
       })
     })
@@ -555,7 +660,9 @@ Page({
           pictureId,
           index,
         },
-        success: res => {}
+        success: res => {
+          console.log(res)
+        }
       })
     }
 

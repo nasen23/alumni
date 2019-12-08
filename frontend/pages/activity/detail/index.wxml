@@ -1,8 +1,8 @@
 <!-- BUG: van-tabbar takes up bottom space, making content under tabbar not visable -->
 <!-- consider leaving some space on the bottom of page -->
 <view class="container">
-  <view class="activity-image">
-    <swiper wx:if="{{ pictures.length > 0 }}" autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
+  <view wx:if="{{ pictures.length > 0 }}" class="activity-image">
+    <swiper autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
       <block wx:for="{{ pictures }}" wx:key="*this">
         <swiper-item class='activity-image'>
             <image src="{{ rootPath + item }}" class="activity-image"/>
@@ -17,20 +17,24 @@
         {{ name }}
       </view>
       <view class="activity-header-detail-list">
+        <view wx:if="{{ actStart != '0' }}" class="activity-header-detail">
+          <text class="fa fa-clock-o"></text>
+          活动时间：{{ (actStart != "0" ? (actStart + '-') : "")
+          + (actEnd != "0" ? actEnd : '') }}
+        </view>
+        <view wx:if="{{ site.address }}" class="activity-header-detail">
+          <text class="fa fa-map-marker"></text>
+          活动地址：{{ site.address + (site.detail || '') }}
+        </view>
         <view class="activity-header-detail">
           <text class="fa fa-clock-o"></text>
-          {{ time }}
+          报名时间：{{ signupStart + '-' + signupEnd }}
         </view>
         <view class="activity-header-detail">
-          <text class="fa fa-map-marker"></text>
-          {{ site.address ? site.address : "" }}
+          <text class="fas fa-user-friends"></text>
+          报名人数：{{ (participants.length || 0) + '/' + maxParticipants }}
         </view>
       </view>
-    </view>
-
-    <view class="activity-status">
-      <view>倒数</view>
-      <view>{{ timeLeft }}天</view>
     </view>
   </view>
 
@@ -98,4 +102,20 @@
       报名
     </van-tabbar-item>
   </van-tabbar>
+
+  <van-popup
+      show="{{ popupShow }}"
+      position="bottom"
+      custom-style="height: 50%;"
+      bind:click-overlay="onOverlayClicked"
+  >
+    <van-grid>
+      <van-grid-item text="编辑修改" bind:click="tagEditClicked"/>
+      <van-grid-item text="复制创建" bind:click="tagCopyClicked"/>
+      <van-grid-item text="取消活动" bind:click="tagCancelClicked"/>
+      <van-grid-item text="设置管理员" bind:click="tagManagerClicked"/>
+      <van-grid-item text="核销签到" bind:click="tagSignInClicked"/>
+      <van-grid-item text="数据统计" bind:click="tagStatisticClicked"/>
+    </van-grid>
+  </van-popup>
 </view>
