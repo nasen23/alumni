@@ -8,6 +8,8 @@ import { UserEntity } from '../user/user.entity'
 
 @Injectable()
 export class ActivityService {
+  private logger = new Logger('ActivityServiceLogger')
+
   constructor(
     @InjectRepository(ActivityEntity)
     private activityRepository: Repository<ActivityEntity>
@@ -52,9 +54,10 @@ export class ActivityService {
   }
 
   async create(data: Partial<ActivityDTO>) {
-    Logger.log(data)
     let activity = await this.activityRepository.create(data)
     activity.organizer = data.openid
+    activity.administrators = []
+    activity.administrators.push(data.openid)
     activity.site = data['site']
     activity.fields = data['fields']
     await this.activityRepository.save(activity)
@@ -68,14 +71,15 @@ export class ActivityService {
 
   async read(id: string) {
     try {
-      const activity = this.activityRepository.findOne(id)
+      const activity = await this.activityRepository.findOne(id)
       if (!activity) {
         throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
       }
 
       return activity
     } catch(error) {
-      throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
+      this.logger.log(error)
+      throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -90,7 +94,8 @@ export class ActivityService {
 
       return this.activityRepository.findOne(id)
     } catch(error) {
-      throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
+      this.logger.log(error)
+      throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -105,7 +110,8 @@ export class ActivityService {
 
       return activity
     } catch(error) {
-      throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
+      this.logger.log(error)
+      throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -124,9 +130,52 @@ export class ActivityService {
 
   async signup(data: any) {
     const activity = await this.activityRepository.findOne(data.id)
-    activity.participants = data.participants
+    activity.participants.push(data.participant)
     await this.activityRepository.save(activity)
 
     return activity
+  }
+
+  async changeSignupInfo(id: string, openid: string, data: any) {
+    let activity = await this.activityRepository.findOne(id)
+
+    for (let par of activity.participants) {
+      if (par['openid'] === openid) {
+        for (let inf of data.info) {
+          let res = par['info'].find(info => {
+            return info.field === inf.field
+          })
+
+          if (res) {
+            res.value = inf.value
+          } else {
+            par['info'].push(inf)
+          }
+        }
+        await this.activityRepository.save(activity)
+        return { change: 'success' }
+      }
+    }
+
+    return null
+  }
+
+  async cancelSignup(id: string, openid: string) {
+    let activity = await this.activityRepository.findOne(id)
+    let pars = activity.participants
+
+    let index = pars.findIndex(par => {
+      return par['openid'] === openid
+    })
+    this.logger.log(index)
+    this.logger.log(openid)
+    this.logger.log(pars)
+
+    if (index != -1) {
+      pars.splice(index, 1)
+      await this.activityRepository.save(activity)
+    }
+
+    return { cancel: 'success' }
   }
 }

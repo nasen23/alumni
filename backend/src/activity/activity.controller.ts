@@ -20,7 +20,7 @@ import { ValidationPipe } from '../shared/validation.pipe'
 
 @Controller('activity')
 export class ActivityController {
-  private logger = new Logger('ActivityLogger')
+  private logger = new Logger('ActivityControllerLogger')
 
   constructor(private activityService: ActivityService) {}
 
@@ -82,5 +82,17 @@ export class ActivityController {
   @Post('signup')
   signupActivity(@Body() data: object) {
     return this.activityService.signup(data)
+  }
+
+  @Put('signup')
+  changeSignupInfo(@Query('id') id: string,
+                   @Query('openid') openid: string,
+                   @Body() data: object) {
+    return this.activityService.changeSignupInfo(id, openid, data)
+  }
+
+  @Delete('signup')
+  cancelSignup(@Query('id') id: string, @Query('openid') openid: string) {
+    return this.activityService.cancelSignup(id, openid)
   }
 }
