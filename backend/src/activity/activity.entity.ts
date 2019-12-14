@@ -35,9 +35,10 @@ export class ActivityEntity {
   }
 
   @Column('simple-json', {
-    default: null
+    default: [],
+    nullable: true
   })
-  fields:{}
+  fields: object[]
 
   @Column('text', {
     default: '',
@@ -66,6 +67,11 @@ export class ActivityEntity {
   })
   signupEnd: string
 
+  @Column('integer', {
+    default: 100000
+  })
+  signinCode: number
+
   @Column({
     type: 'simple-array',
     default: '',
@@ -75,10 +81,16 @@ export class ActivityEntity {
 
   @Column({
     type: 'simple-json',
-    default: '',
+    default: [],
     nullable: true
   })
-  participants: {}
+  participants: object[]
+
+  @Column({
+    type: 'simple-array',
+    default: '',
+  })
+  administrators: string[]
 
   @Column('text', {
     default: ''

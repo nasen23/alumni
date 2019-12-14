@@ -26,6 +26,9 @@ export class ActivityDTO {
   @IsString()
   phone: string
 
+  @IsNumber()
+  signinCode: number
+
   @IsString()
   signupStart: string
 
