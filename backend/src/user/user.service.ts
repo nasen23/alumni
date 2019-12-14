@@ -29,8 +29,8 @@ export class UserService {
     return await this.userRepository.find()
   }
 
-  async read(data: any) {
-    return await this.userRepository.findOne(data.openid)
+  async read(openid: string) {
+    return await this.userRepository.findOne(openid)
   }
 
   async auth() {
@@ -41,7 +41,7 @@ export class UserService {
       })
       return response.data
     } catch (error) {
-      console.log(error)
+      Logger.log(error)
     }
   }
 
@@ -83,10 +83,12 @@ export class UserService {
           user.phone = ''
           user.username = data.username
           user.department = ''
+          user.avatarUrl = data.avatarUrl
 
           await this.userRepository.save(user)
         } else {
           user.username = data.username
+          user.avatarUrl = data.avatarUrl
           await this.userRepository.save(user)
         }
 
@@ -95,7 +97,7 @@ export class UserService {
         return { openid: '' }
       }
     } catch (error) {
-      console.log(error)
+      Logger.log(error)
     }
   }
 }

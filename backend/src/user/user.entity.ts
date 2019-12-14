@@ -21,6 +21,12 @@ export class UserEntity {
     type: 'text',
     default: ''
   })
+  avatarUrl: string
+
+  @Column({
+    type: 'text',
+    default: ''
+  })
   wechatId: string
 
   @Column({
