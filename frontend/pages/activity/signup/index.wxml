@@ -5,6 +5,7 @@
           wx:if="{{ item.required }}"
           required
           label="{{ item.name }}"
+          value="{{ filledFields[item.name] }}"
           placeholder="{{ item.desc ? item.desc : (holder + item.name) }}"
           data-name="{{ item.name }}"
           bind:change="onInfoFilledIn"
@@ -12,6 +13,7 @@
       <van-field
           wx:else
           label="{{ item.name }}"
+          value="{{ filledFields[item.name] }}"
           placeholder="{{ item.desc ? item.desc : (holder + item.name) }}"
           data-name="{{ item.name }}"
           bind:change="onInfoFilledIn"
@@ -19,5 +21,32 @@
     </block>
   </van-cell-group>
 
-  <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
+  <van-button
+      wx:if="{{ !hasSignedUp }}"
+      type="primary"
+      size="large"
+      bind:click="onSubmit"
+  >
+    提交
+  </van-button>
+
+  <van-button
+      wx:if="{{ hasSignedUp }}"
+      type="primary"
+      size="large"
+      bind:click="onSave"
+  >
+    保存
+  </van-button>
+
+  <van-button
+      wx:if="{{ hasSignedUp }}"
+      type="primary"
+      size="large"
+      bind:click="onCancel"
+  >
+    取消报名
+  </van-button>
+
+  <van-dialog id="van-dialog"/>
 </view>

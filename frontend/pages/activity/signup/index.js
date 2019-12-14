@@ -1,17 +1,37 @@
+import Dialog from 'vant-weapp/dialog/dialog'
+
 const app = getApp()
-const config = require('../../../config.js')
+const config = require('../../../config')
+
 Page({
 
   data: {
     id: "",
     info: [],
     fields: [],
-    participants: [],
+    filledFields: {},
+    participant: {},
+    hasSignedUp: false,
     holder: "请填写个人",
   },
 
   onLoad (options) {
-    this.setData({ id: options.id })
+    let this_ = this
+    let filledFields = {}
+    const eventChannel = this.getOpenerEventChannel()
+    eventChannel.on('changeInfo', function(data) {
+      this_.setData({
+        hasSignedUp: true
+      })
+      for (let f of data.data.info) {
+        filledFields[f.field] = f.value
+      }
+    })
+
+    this.setData({
+      filledFields,
+      id: options.id,
+    })
   },
 
   onShow () {
@@ -25,7 +45,6 @@ Page({
       },
       success (res) {
         if (Object.keys(res.data.participants).length != 0) {
-          console.log(res.data.participants)
           this_.setData({ participants: res.data.participants })
         }
         this_.setData({
@@ -91,46 +110,90 @@ Page({
     return true
   },
 
-  register () {
-    for (let participant of this.data.participants) {
-      if (participant.openid === app.globalData.openid) {
-        // registered
-        participant.info = this.data.info
-        return
-      }
-    }
-
-    this.data.participants.push({
-      openid: app.globalData.openid,
-      info: this.data.info
-    })
-  },
-
   onSubmit () {
     if (!this.checkData()) {
       return
     }
 
-    this.register()
-
     let this_ = this
+    let signupTime = new Date().toLocaleString('zh-CN', { hour12: false })
     wx.request({
       url: config.host + 'activity/signup',
       method: "POST",
       data: {
         id: this_.data.id,
-        participants: this_.data.participants
+        participant: {
+          signupTime,
+          info: this_.data.info,
+          openid: app.globalData.openid,
+          username: app.globalData.userInfo.nickName,
+          avatarUrl: app.globalData.userInfo.avatarUrl,
+        }
       },
-      success: res => {
+      success () {
         wx.showModal({
           title: "提示",
           content: "活动报名成功",
           showCancel: false,
-          success: res => {
+          success () {
             wx.navigateBack()
           }
         })
       }
     })
   },
+
+  onSave () {
+    const this_ = this
+    wx.request({
+      url: `${config.host}activity/signup?id=${this_.data.id}&openid=${app.globalData.openid}`,
+      method: "PUT",
+      data: {
+        info: this_.data.info
+      },
+      success (res) {
+        wx.showModal({
+          title: "提示",
+          content: "报名信息修改成功",
+          showCancel: false,
+          success () {
+            wx.navigateBack()
+          }
+        })
+      }
+    })
+  },
+
+  onCancel () {
+    const this_ = this
+    Dialog.confirm({
+      title: "取消确认",
+      message: "确定要取消此报名吗？"
+    }).then(() => {
+      wx.request({
+        url: `${config.host}activity/signup?id=${this_.data.id}&openid=${app.globalData.openid}`,
+        method: "DELETE",
+        success (res) {
+          wx.showModal({
+            title: "提示",
+            content: "取消报名成功",
+            showCancel: false,
+            success () {
+              wx.navigateBack()
+            }
+          })
+        },
+        fail (error) {
+          wx.showModal({
+            title: "提示",
+            content: "取消活动失败",
+            showCancel: false,
+            success (res) {
+              wx.navigateBack()
+            }
+          })
+        }
+      })
+    }).catch(() => {})
+  }
 })
