@@ -14,7 +14,8 @@
     "pages/activity/manage/index",
     "pages/mine/personal-homepage/homepage",
     "pages/mine/personal-info/fill-in/fill",
-    "pages/activity/create/field/field"
+    "pages/activity/create/field/field",
+    "pages/activity/signin/signin"
   ],
   "window": {
     "backgroundTextStyle": "light",

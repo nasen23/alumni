@@ -583,6 +583,10 @@ Page({
     this.setData({ pictureList: list.concat(file) })
   },
 
+  getSigninCode (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  },
+
   // Submit literal data, e.g. name, site, intro, etc.
   submitLiteral () {
     const this_ = this
@@ -594,7 +598,9 @@ Page({
         config.host + 'activity/add' :
         config.host + 'activity/put?id=' + this.data.id
     let method = this.data.isNewActivity ? "POST" : "PUT"
+    let signinCode = this.getSigninCode(100000, 999999)
     let data = {
+      signinCode,
       name: this_.data.name,
       site: this_.data.location,
       intro: this_.data.intro,

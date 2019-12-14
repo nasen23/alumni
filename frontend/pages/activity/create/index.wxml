@@ -68,7 +68,7 @@
         <view class="tag" wx:for="{{ allFields }}" wx:key="name">
           <van-tag
             plain
-            type="{{ item.chosen ? 'primary' : 'default' }}"
+            type="{{ item.chosen ? 'success' : 'default' }}"
             size="large"
             data-index="{{ index }}"
             bindtap="onTagTapped"

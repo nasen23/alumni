@@ -2,7 +2,7 @@
   <van-tabs class="tabs" active="{{ active }}">
     <van-tab title="我创建的">
       <view class="inner-container">
-        <view wx:if="{{ held.length == 0 }}" class="noactivity">
+        <view wx:if="{{ held.length === 0 }}" class="noactivity">
           还没有创建任何活动
         </view>
         <view wx:else class="activity-list">
