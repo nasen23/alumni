@@ -43,6 +43,15 @@
       wx:if="{{ hasSignedUp }}"
       type="primary"
       size="large"
+      bind:click="onSignin"
+  >
+    签到
+  </van-button>
+
+  <van-button
+      wx:if="{{ hasSignedUp }}"
+      type="primary"
+      size="large"
       bind:click="onCancel"
   >
     取消报名

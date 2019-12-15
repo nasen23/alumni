@@ -9,8 +9,8 @@ Page({
     id: "",
     info: [],
     fields: [],
-    filledFields: {},
     participant: {},
+    filledFields: {},
     hasSignedUp: false,
     holder: "请填写个人",
   },
@@ -124,6 +124,7 @@ Page({
         id: this_.data.id,
         participant: {
           signupTime,
+          signedIn: false,
           info: this_.data.info,
           openid: app.globalData.openid,
           username: app.globalData.userInfo.nickName,
@@ -131,6 +132,57 @@ Page({
         }
       },
       success () {
+        wx.requestSubscribeMessage({
+          tmplIds: [config.signupSuccessMsgId],
+          success (res) {
+            console.log(res)
+            wx.request({
+              url: config.authTokenServerAddr,
+              method: "GET",
+              data: {
+                grant_type: "client_credential",
+                appid: config.appId,
+                secret: config.appSecret
+              },
+              success (res) {
+                wx.request({
+                  url: config.subscribeMsgServerAddr + '?access_token=' + res.data.access_token,
+                  method: "POST",
+                  data: {
+                    touser: app.globalData.openid,
+                    template_id: config.signupSuccessMsgId,
+                    page: "pages/activity/detail/index?id=" + this_.data.id,
+                    data: {
+                      // activity name
+                      thing2: {
+                        value: "132"
+                      },
+                      // user name
+                      name1: {
+                        value: app.globalData.userInfo.nickName
+                      },
+                      // registration state
+                      phrase8: {
+                        value: "报名成功"
+                      },
+                      // activity time
+                      date4: {
+                        value: "2020/01/01"
+                      },
+                      // activity site
+                      thing5: {
+                        value: "site"
+                      }
+                    }
+                  },
+                  success (res) {
+                    console.log(res)
+                  }
+                })
+              }
+            })
+          }
+        })
         wx.showModal({
           title: "提示",
           content: "活动报名成功",
@@ -164,6 +216,12 @@ Page({
     })
   },
 
+  onSignin () {
+    wx.navigateTo({
+      url: `../signin/signin?type=parti&id=${this.data.id}`,
+    })
+  },
+
   onCancel () {
     const this_ = this
     Dialog.confirm({
@@ -188,7 +246,7 @@ Page({
             title: "提示",
             content: "取消活动失败",
             showCancel: false,
-            success (res) {
+            success () {
               wx.navigateBack()
             }
           })
