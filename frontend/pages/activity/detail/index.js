@@ -39,11 +39,11 @@ Page({
           participants: res.data.participants,
           maxParticipants: res.data.maxParticipants,
           actStart: actStart === "0" ? "0" :
-            new Date(parseInt(actStart)).toLocaleString('zh-CN'),
+            new Date(parseInt(actStart)).toLocaleString('zh-CN', { hour12: false }),
           actEnd: actEnd === "0" ? "0" :
-            new Date(parseInt(actEnd)).toLocaleString('zh-CN'),
-          signupStart: new Date(parseInt(res.data.signupStart)).toLocaleString('zh-CN'),
-          signupEnd: new Date(parseInt(res.data.signupEnd)).toLocaleString('zh-CN'),
+            new Date(parseInt(actEnd)).toLocaleString('zh-CN', { hour12: false }),
+          signupStart: new Date(parseInt(res.data.signupStart)).toLocaleString('zh-CN', { hour12: false }),
+          signupEnd: new Date(parseInt(res.data.signupEnd)).toLocaleString('zh-CN', { hour12: false }),
           signinCode: res.data.signinCode
         })
 
@@ -129,11 +129,7 @@ Page({
 
   tagEditClicked () {
     this.setData({ popupShow: false })
-    wx.navigateTo({ url: '/pages/activity/create/index?id=' + this.data.id })
-  },
-
-  tagCopyClicked () {
-    this.setData({ popupShow: false })
+    wx.navigateTo({ url: '../create/index?id=' + this.data.id })
   },
 
   tagCancelClicked () {
@@ -181,7 +177,7 @@ Page({
 
     this.setData({ popupShow: false })
     wx.navigateTo({
-      url: `../signin/signin?id=${this_.data.id}&code=${this_.data.signinCode}`
+      url: `../signin/signin?type=admin&id=${this_.data.id}&code=${this_.data.signinCode}`
     })
   },
 

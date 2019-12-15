@@ -1,1 +1,37 @@
-<text> {{ signinCode }} </text>
+<text> {{ signinCode }}
+</text>
+
+<view class="container">
+  <view wx:if="{{ type === 'admin' }}">
+    <view class="title">
+      本活动的签到码为：
+    </view>
+
+    <view class="code">
+      {{ code }}
+    </view>
+  </view>
+
+  <view wx:else class="content">
+    <view class="title">
+      请输入现场显示的六位活动签到码
+    </view>
+
+    <view class="input-container">
+      <input
+          wx:for="{{ length }}"
+          wx:key="item"
+          disabled
+          catchtap="tap"
+          type="digit"
+          class="input-box"
+          value="{{ value.length >= (index + 1) ? value[index] : '' }}"
+      />
+    </view>
+
+    <input class="input" maxlength="{{ length }}" focus="{{ isFocus }}" bindinput="input" />
+
+    <van-button type="primary" size="large" bind:click="onSubmit">确认</van-button>
+
+  </view>
+</view>

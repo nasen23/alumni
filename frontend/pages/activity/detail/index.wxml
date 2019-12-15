@@ -91,7 +91,7 @@
     </view>
   </view>
 
-  <van-tabbar fixed>
+  <van-tabbar fixed safe-area-inset-bottom="{{ true }}">
     <van-tabbar-item name="share" icon="share">分享</van-tabbar-item>
     <van-tabbar-item name="message" icon="chat-o" info="3" bindtap="toActivityMessage">消息</van-tabbar-item>
     <van-tabbar-item
@@ -130,7 +130,6 @@
   >
     <van-grid>
       <van-grid-item text="编辑修改" bind:click="tagEditClicked"/>
-      <van-grid-item text="复制创建" bind:click="tagCopyClicked"/>
       <van-grid-item text="取消活动" bind:click="tagCancelClicked"/>
       <van-grid-item text="设置管理员" bind:click="tagManagerClicked"/>
       <van-grid-item text="核销签到" bind:click="tagSignInClicked"/>
@@ -207,8 +206,7 @@
               <view
                   wx:for="{{ item.info }}"
                   wx:key="{{ item.openid }}"
-                  class="table-td"
-              >
+                  class="table-td">
                 {{ item.value }}
               </view>
             </view>
