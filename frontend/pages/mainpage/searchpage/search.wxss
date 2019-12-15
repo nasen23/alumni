@@ -1,20 +1,3 @@
-/* pages/mainpage/searchpage/search.wxss */
-.button-activity-area{
-  display: flex;
-  flex-direction: row;
-  flex-wrap:wrap;
-  justify-content:space-between;
-}
-
-.button-activity-area button{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 15px;
-  border-radius: 30px;
-  width:100%;
-  height: 20px;
-  margin-left:5px; 
-  margin-right: 5px;
-  margin-top:5px;  
+van-search {
+  width: 100%;
 }

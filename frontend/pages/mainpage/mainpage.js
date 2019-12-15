@@ -36,9 +36,10 @@ Page({
     })
   },
 
-  inputTyping() {
-    var obj = JSON.stringify(this.data.history);
-    wx.navigateTo({url:"./searchpage/search?history=" + obj})
+  toSearchPage () {
+    wx.navigateTo({
+      url: "./searchpage/search"
+    })
   },
 
   toActivityDetail(e) {

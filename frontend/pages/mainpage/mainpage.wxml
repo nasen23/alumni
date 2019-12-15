@@ -11,7 +11,7 @@
 
   <view class="search">
     <view class="search-field">
-      <input type="text" />
+      <input type="text" bindfocus="toSearchPage" />
       <text class="fa fa-search" />
     </view>
   </view>
