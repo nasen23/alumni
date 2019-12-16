@@ -1,6 +1,8 @@
 import Toast from 'vant-weapp/toast/toast'
+import { routes } from "../../../../config"
+import { request, showModal } from "../../../../utils/util"
+
 const app = getApp()
-const config = require('../../../../config.js')
 
 Page({
 
@@ -46,22 +48,19 @@ Page({
   },
 
   onSubmit () {
-    let this_ = this
+    const this_ = this
 
-    wx.request({
-      url: config.host + 'user/put?openid=' + app.globalData.openid,
-      method: "PUT",
-      data: {
-        [this_.data.type]: this_.data.value
-      },
-      success (res) {
-        Toast.success('修改成功')
-      }
+    request(routes.putUpdateUser + "?openid=" + app.globalData.openid, "PUT", {
+      [this_.data.type]: this_.data.value
+    }).then(res => {
+      Toast.success("修改成功")
+    }).catch(err => {
+      console.log(err)
+      showModal("修改失败！请检查网络状态")
     })
   },
 
   onClose () {
-    console.log('ads')
     wx.navigateBack()
   }
 })

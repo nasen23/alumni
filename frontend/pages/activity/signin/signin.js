@@ -1,5 +1,8 @@
+import { routes } from "../../../config"
+import { showModal, request } from "../../../utils/util"
+
 const app = getApp()
-const config = require('../../../config')
+
 Page({
 
   data: {
@@ -29,10 +32,6 @@ Page({
     }
   },
 
-  onShow () {
-
-  },
-
   tap () {
     this.setData({
       isFocus: true
@@ -40,52 +39,31 @@ Page({
   },
 
   input (e) {
-    let value = e.detail.value
+    const value = e.detail.value
     this.setData({ value })
   },
 
   onSubmit () {
-    let this_ = this
+    const this_ = this
 
     if (this.data.value.length < 6) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写完整的签到码",
-        showCancel: false,
-        success () {
-          this_.setData({
-            value: ""
-          })
-        }
+      showModal("请填写完整的签到码", "提示", false, function () {
+        this_.setData({ value: "" })
       })
     } else {
-      wx.request({
-        url: config.host + 'activity/signin',
-        method: "GET",
-        data: {
-          id: this_.data.id,
-          openid: app.globalData.openid,
-          code: this_.data.value
-        },
-        success (res) {
-          let content = ""
-          if (res.data.signin === 'success') {
-            content = "签到成功"
-          } else if (res.data.signin === 'fail'){
-            content = "签到码错误！签到失败"
-          }
-          wx.showModal({
-            title: "提示",
-            content,
-            showCancel: false,
-            success () {
-              wx.navigateBack()
-            }
-          })
+      request(routes.getSigninAct, "GET", {
+        id: this_.data.id,
+        openid: app.globalData.openid,
+        code: this_.data.value
+      }).then(res => {
+        let content = ""
+        if (res.data.signin === 'success') {
+          content = "签到成功"
+        } else if (res.data.signin === 'fail'){
+          content = "签到码错误！签到失败"
         }
+        showModal(content)
       })
     }
   }
-
-
 })

@@ -1,5 +1,5 @@
-const app = getApp()
-const config = require('../../../config.js')
+import { routes, host } from "../../../config"
+import { request, showModal } from "../../../utils/util"
 
 Page({
 
@@ -27,35 +27,36 @@ Page({
   },
 
   onLoad (options) {
-    let this_ = this
+    const this_ = this
     this.setData({ id: options.id })
 
-    wx.request({
-      url: config.host + 'activity/get',
-      method: "GET",
-      data: {
-        id: this_.data.id
-      },
-      success (res) {
-        console.log(res)
-        this_.setData({
-          name: res.data.name,
-          site: res.data.site,
-          intro: res.data.intro,
-          phone: res.data.phone,
-          pictureList: res.data.pictures.map(name => {
-            return {
-              path: config.host + name
-            }
-          }),
-          actTimestamp: res.data.time,
-          actTime: new Date(parseInt(res.data.time)).toLocaleString(),
-          signupStartTimestamp: res.data.signupStart,
-          signupStartTime: new Date(parseInt(res.data.signupStart)).toLocaleString(),
-          signupEndTimestamp: res.data.signupEnd,
-          signupEndTime: new Date(parseInt(res.data.signupEnd)).toLocaleString(),
-        })
-      }
+    request(routes.getSingAct, "GET", {
+      id: this_.data.id
+    }).then(
+      () => {}
+    ).catch(err => {
+      console.log(err)
+      showModal("获取活动信息失败！请检查网络状态")
+    })
+  },
+
+  initData (data) {
+    this.setData({
+      name: data.name,
+      site: data.site,
+      intro: data.intro,
+      phone: data.phone,
+      pictureList: data.pictures.map(name => {
+        return {
+          path: host + name
+        }
+      }),
+      actTimestamp: data.time,
+      actTime: new Date(parseInt(data.time)).toLocaleString(),
+      signupStartTimestamp: data.signupStart,
+      signupStartTime: new Date(parseInt(data.signupStart)).toLocaleString('zh-CN', { hour12: false }),
+      signupEndTimestamp: data.signupEnd,
+      signupEndTime: new Date(parseInt(data.signupEnd)).toLocaleString('zh-CN', { hour12: false }),
     })
   },
 
@@ -135,30 +136,17 @@ Page({
   },
 
   onSubmit () {
-    let this_ = this
-    wx.request({
-      url: config.host + 'activity/put?id=' + this_.data.id,
-      method: "PUT",
-      data: {
-        name: this_.data.name,
-        site: this_.data.site,
-        intro: this_.data.intro,
-        phone: this_.data.phone,
-        time: this_.data.actTimestamp.toString(),
-        signupStart: this_.data.signupStartTimestamp.toString(),
-        signupEnd: this_.data.signupEndTimestamp.toString(),
-      },
-      success (res) {
-        console.log(res)
-        wx.showModal({
-          title: "提示",
-          content: "活动信息修改成功",
-          showCancel: false,
-          success: res => {
-            wx.navigateBack()
-          }
-        })
-      }
+    const this_ = this
+    request(routes.putUpdataAct + '?id=' + this_.data.id, "PUT", {
+      name: this_.data.name,
+      site: this_.data.site,
+      intro: this_.data.intro,
+      phone: this_.data.phone,
+      time: this_.data.actTimestamp.toString(),
+      signupStart: this_.data.signupStartTimestamp.toString(),
+      signupEnd: this_.data.signupEndTimestamp.toString(),
+    }).then(res => {
+      showModal("活动信息修改成功")
     })
   }
 

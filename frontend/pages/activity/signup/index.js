@@ -1,7 +1,16 @@
 import Dialog from 'vant-weapp/dialog/dialog'
 
+import {
+  appId,
+  routes,
+  appSecret,
+  signupSuccessMsgId,
+  authTokenServerAddr,
+  subscribeMsgServerAddr,
+} from "../../../config"
+import { request, showModal } from "../../../utils/util"
+
 const app = getApp()
-const config = require('../../../config')
 
 Page({
 
@@ -35,22 +44,15 @@ Page({
   },
 
   onShow () {
-    let this_ = this
+    const this_ = this
 
-    wx.request({
-      url: config.host + 'activity/get',
-      method: "GET",
-      data: {
-        id: this_.data.id
-      },
-      success (res) {
-        if (Object.keys(res.data.participants).length != 0) {
-          this_.setData({ participants: res.data.participants })
-        }
-        this_.setData({
-          fields: res.data.fields,
-        })
+    request(routes.getSingAct, "GET", {
+      id: this_.data.id
+    }).then(res => {
+      if (res.data.participants.length) {
+        this_.setData({ participants: res.data.participants })
       }
+      this_.setData({ fields: res.data.fields })
     })
   },
 
@@ -98,11 +100,7 @@ Page({
   checkData (e) {
     for (let field of this.data.fields) {
       if (field.required && !this.in(field.name, this.data.info).isIn) {
-        wx.showModal({
-          title: "提示",
-          content: "请填写个人" + field.name,
-          showCancel: false
-        })
+        showModal("请填写个人" + field.name, "提示", false, function () {})
         return false
       }
     }
@@ -115,104 +113,92 @@ Page({
       return
     }
 
-    let this_ = this
-    let signupTime = new Date().toLocaleString('zh-CN', { hour12: false })
-    wx.request({
-      url: config.host + 'activity/signup',
-      method: "POST",
-      data: {
-        id: this_.data.id,
-        participant: {
-          signupTime,
-          signedIn: false,
-          info: this_.data.info,
-          openid: app.globalData.openid,
-          username: app.globalData.userInfo.nickName,
-          avatarUrl: app.globalData.userInfo.avatarUrl,
-        }
-      },
+    const this_ = this
+    const signupTime = new Date().toLocaleString('zh-CN', { hour12: false })
+
+    request(routes.postSignupAct, "POST", {
+      id: this_.data.id,
+      participant: {
+        signupTime,
+        signedIn: false,
+        info: this_.data.info,
+        openid: app.globalData.openid,
+        username: app.globalData.userInfo.nickName,
+        avatarUrl: app.globalData.userInfo.avatarUrl,
+      }
+    }).then(() => {
+      this_.getAuthToken()
+    }).catch(err => {
+      console.log(err)
+      showModal("报名活动失败！请检查网络状态")
+    })
+  },
+
+  getAuthToken () {
+    const this_ = this
+
+    wx.requestSubscribeMessage({
+      tmplIds: [signupSuccessMsgId],
       success () {
-        wx.requestSubscribeMessage({
-          tmplIds: [config.signupSuccessMsgId],
-          success (res) {
-            console.log(res)
-            wx.request({
-              url: config.authTokenServerAddr,
-              method: "GET",
-              data: {
-                grant_type: "client_credential",
-                appid: config.appId,
-                secret: config.appSecret
-              },
-              success (res) {
-                wx.request({
-                  url: config.subscribeMsgServerAddr + '?access_token=' + res.data.access_token,
-                  method: "POST",
-                  data: {
-                    touser: app.globalData.openid,
-                    template_id: config.signupSuccessMsgId,
-                    page: "pages/activity/detail/index?id=" + this_.data.id,
-                    data: {
-                      // activity name
-                      thing2: {
-                        value: "132"
-                      },
-                      // user name
-                      name1: {
-                        value: app.globalData.userInfo.nickName
-                      },
-                      // registration state
-                      phrase8: {
-                        value: "报名成功"
-                      },
-                      // activity time
-                      date4: {
-                        value: "2020/01/01"
-                      },
-                      // activity site
-                      thing5: {
-                        value: "site"
-                      }
-                    }
-                  },
-                  success (res) {
-                    console.log(res)
-                  }
-                })
-              }
-            })
-          }
-        })
-        wx.showModal({
-          title: "提示",
-          content: "活动报名成功",
-          showCancel: false,
-          success () {
-            wx.navigateBack()
-          }
+        request(authTokenServerAddr, "GET", {
+          grant_type: "client_credential",
+          appid: appId,
+          secret: appSecret
+        }).then(res => {
+          this_.sendSubscribeMsg(res)
+          showModal("活动报名成功")
+        }).catch(err => {
+          console.log(err)
+          showModal("发送订阅消息失败！请检查网络状态")
         })
       }
     })
   },
 
+  sendSubscribeMsg (res) {
+    const data = {
+      touser: app.globalData.openid,
+      template_id: signupSuccessMsgId,
+      page: "pages/activity/detail/index?id=" + this_.data.id,
+      data: {
+        // activity name
+        thing2: {
+          value: "132"
+        },
+        // user name
+        name1: {
+          value: app.globalData.userInfo.nickName
+        },
+        // registration state
+        phrase8: {
+          value: "报名成功"
+        },
+        // activity time
+        date4: {
+          value: "2020/01/01"
+        },
+        // activity site
+        thing5: {
+          value: "site"
+        }
+      }
+    }
+
+    request(subscribeMsgServerAddr + "?access_token=" + access_token, "POST", data)
+      .then(() => {})
+      .catch(err => {
+        console.log(err)
+        showModal("发送订阅消息失败！请检查网络状态")
+      })
+  },
+
   onSave () {
     const this_ = this
-    wx.request({
-      url: `${config.host}activity/signup?id=${this_.data.id}&openid=${app.globalData.openid}`,
-      method: "PUT",
-      data: {
-        info: this_.data.info
-      },
-      success (res) {
-        wx.showModal({
-          title: "提示",
-          content: "报名信息修改成功",
-          showCancel: false,
-          success () {
-            wx.navigateBack()
-          }
-        })
-      }
+    request(routes.putUpdateSignup + "?id=" + this.data.id + "&openid=" + app.globalData.openid,
+      "PUT", {
+      info: this_.data.info
+    }).then(() => {
+      showModal("报名信息修改成功")
     })
   },
 
@@ -228,29 +214,12 @@ Page({
       title: "取消确认",
       message: "确定要取消此报名吗？"
     }).then(() => {
-      wx.request({
-        url: `${config.host}activity/signup?id=${this_.data.id}&openid=${app.globalData.openid}`,
-        method: "DELETE",
-        success (res) {
-          wx.showModal({
-            title: "提示",
-            content: "取消报名成功",
-            showCancel: false,
-            success () {
-              wx.navigateBack()
-            }
-          })
-        },
-        fail (error) {
-          wx.showModal({
-            title: "提示",
-            content: "取消活动失败",
-            showCancel: false,
-            success () {
-              wx.navigateBack()
-            }
-          })
-        }
+      request(`${routes.delCancelSignup}?id=${this_.data.id}&openid=${app.globalData.openid}`,
+        "DELETE", {}).then(() => {
+          showModal("取消报名成功")
+      }).catch(err => {
+        console.log(err)
+        showModal("取消报名失败！请检查网络状态")
       })
     }).catch(() => {})
   }

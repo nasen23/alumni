@@ -1,5 +1,7 @@
+import { routes } from "../../../config"
+import { request, showModal } from "../../../utils/util"
+
 const app = getApp()
-const config = require('../../../config.js')
 
 Page({
 
@@ -13,24 +15,22 @@ Page({
   },
 
   onShow () {
-    let this_ = this
+    const this_ = this
 
-    wx.request({
-      url: config.host + 'user/get',
-      method: "GET",
-      data: {
-        openid: app.globalData.openid,
-      },
-      success (res) {
-        this_.setData({
-          realname: res.data.realname,
-          phone: res.data.phone,
-          wechatId: res.data.wechatId,
-          idNumber: res.data.idNumber,
-          email: res.data.email,
-          address: res.data.address,
-        })
-      }
+    request(routes.getSingUser, "GET", {
+      openid: app.globalData.openid,
+    }).then(res => {
+      this_.setData({
+        realname: res.data.realname,
+        phone: res.data.phone,
+        wechatId: res.data.wechatId,
+        idNumber: res.data.idNumber,
+        email: res.data.email,
+        address: res.data.address,
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("获取用户信息失败！请检查网络状态")
     })
-  },
+  }
 })

@@ -1,5 +1,7 @@
+import { routes } from "../../../config"
+import { request, showModal } from "../../../utils/util"
+
 const app = getApp()
-const config = require('../../../config.js')
 
 Page({
 
@@ -115,7 +117,8 @@ Page({
   },
 
   onLoad (options) {
-    let this_ = this
+    const this_ = this
+
     if (options.id) {
       wx.setNavigationBarTitle({
         title: "修改活动"
@@ -124,74 +127,66 @@ Page({
         id: options.id,
         isNewActivity: false
       })
-      wx.request({
-        url: config.host + 'activity/get',
-        method: "GET",
-        data: {
-          id: options.id
-        },
-        success (res) {
-          let actStartTimestamp = parseInt(res.data.actStart)
-          let actEndTimestamp = parseInt(res.data.actEnd)
-          let signupStartTimestamp = parseInt(res.data.signupStart)
-          let signupEndTimestamp = parseInt(res.data.signupEnd)
-          let actStartTime = ""
-          let actEndTime = ""
-          let switchChecked = false
-          if (actStartTimestamp) {
-            actStartTime = new Date(actStartTimestamp).toLocaleString('zh-CN')
-            switchChecked = true
-          }
-          if (actEndTimestamp) {
-            actEndTime = new Date(actEndTimestamp).toLocaleString('zh-CN')
-            switchChecked = true
-          }
-          this_.setData({
-            name: res.data.name,
-            location: res.data.site,
-            intro: res.data.intro,
-            phone: res.data.phone,
-            actStartTime,
-            actStartTimestamp,
-            actEndTime,
-            actEndTimestamp,
-            signupStartTime: new Date(signupStartTimestamp).toLocaleString('zh-CN'),
-            signupStartTimestamp,
-            signupEndTime: new Date(signupEndTimestamp).toLocaleString('zh-CN'),
-            signupEndTimestamp,
-            switchChecked,
-            maxParticipants: res.data.maxParticipants,
-            chosenFields: res.data.fields,
-            pictureList: res.data.pictures
-          })
-          let allFields = this_.data.allFields
-          let chosenFieldsString = this_.getChosenFieldsString(this_.data.chosenFields)
-          for (let field of this_.data.chosenFields) {
-            let res = this_.in(field, allFields)
-            if (res.isIn) {
-              allFields[res.index] = {
-                ...field,
-                chosen: true
-              }
-            }
-          }
-          this_.setData({
-            allFields,
-            chosenFieldsString
-          })
-        },
-        fail (error) {
-          wx.showModal({
-            title: "提示",
-            content: "获取活动数据失败",
-            showCancel: false,
-            success (res) {
-              wx.navigateBack()
-            }
-          })
-        }
+      request(routes.getSingAct, "GET", {
+        id: options.id
+      }).then(res => {
+        this_.initData(res.data)
+      }).catch(err => {
+        console.log(err)
+        showModal("获取活动信息失败！请检查网络状态")
       })
     }
+  },
+
+  initData (data) {
+    let actStartTimestamp = parseInt(data.actStart)
+    let actEndTimestamp = parseInt(data.actEnd)
+    let signupStartTimestamp = parseInt(data.signupStart)
+    let signupEndTimestamp = parseInt(data.signupEnd)
+    let actStartTime = ""
+    let actEndTime = ""
+    let switchChecked = false
+    if (actStartTimestamp) {
+      actStartTime = new Date(actStartTimestamp).toLocaleString('zh-CN', { hour12: false })
+      switchChecked = true
+    }
+    if (actEndTimestamp) {
+      actEndTime = new Date(actEndTimestamp).toLocaleString('zh-CN', { hour12: false })
+      switchChecked = true
+    }
+    this.setData({
+      name: data.name,
+      location: data.site,
+      intro: data.intro,
+      phone: data.phone,
+      actStartTime,
+      actStartTimestamp,
+      actEndTime,
+      actEndTimestamp,
+      signupStartTime: new Date(signupStartTimestamp).toLocaleString('zh-CN', { hour12: false }),
+      signupStartTimestamp,
+      signupEndTime: new Date(signupEndTimestamp).toLocaleString('zh-CN', { hour12: false }),
+      signupEndTimestamp,
+      switchChecked,
+      maxParticipants: data.maxParticipants,
+      chosenFields: data.fields,
+      pictureList: data.pictures
+    })
+    let allFields = this.data.allFields
+    let chosenFieldsString = this.getChosenFieldsString(this.data.chosenFields)
+    for (let field of this.data.chosenFields) {
+      let res = this.in(field, allFields)
+      if (res.isIn) {
+        allFields[res.index] = {
+          ...field,
+          chosen: true
+        }
+      }
+    }
+    this.setData({
+      allFields,
+      chosenFieldsString
+    })
   },
 
   // Field name has been filled in
@@ -208,9 +203,7 @@ Page({
           location: res
         })
       },
-      fail (res) {
-        console.log(res)
-      }
+      fail () {}
     })
   },
 
@@ -231,7 +224,10 @@ Page({
   setLocationDetail(e) {
     const this_ = this
     this.setData({
-      location: { ...this_.data.location, detail: e.detail }
+      location: {
+        ...this_.data.location,
+        detail: e.detail
+      }
     })
   },
 
@@ -345,50 +341,25 @@ Page({
 
     if (isNewTag) {
       if (res.isIn) {
-        wx.showModal({
-          title: "提示",
-          content: "字段名已存在",
-          showCancel: false,
-          success (res) {
-          }
-        })
+        showModal("字段名已存在", "提示", false, function () {})
         return
       } else {
         allFields.push(field)
         this.setData({ allFields })
-        wx.showModal({
-          title: "提示",
-          content: "保存成功",
-          showCancel: false,
-          success (res) {
-            wx.navigateBack()
-          }
-        })
+        showModal("保存成功")
         return
       }
     }
 
     // Update existed tag
     if (res.isIn && this.data.index != res.index) {
-      wx.showModal({
-        title: "提示",
-        content: "字段名已存在",
-        showCancel: false,
-        success (res) {}
-      })
+      showModal("字段名已存在", "提示", false, function () {})
       return
     }
     allFields[this.data.index] = field
     this.setData({ allFields })
 
-    wx.showModal({
-      title: "提示",
-      content: "保存成功",
-      showCancel: false,
-      success (res) {
-        wx.navigateBack()
-      }
-    })
+    showModal("保存成功")
   },
 
   // Whether the field(object) is in fields(object array)
@@ -514,55 +485,27 @@ Page({
   // Check if all the data has been filled in properly
   checkData () {
     if (!this.data.name) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动名称",
-        showCancel: false
-      })
+      showModal("请填写活动名称", "提示", false, function(){})
       return false
     } else if (!this.data.signupStartTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动报名开始时间",
-        showCancel: false
-      })
+      showModal("请填写活动报名开始时间", "提示", false, function(){})
       return false
     } else if (!this.data.signupEndTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动报名截止时间",
-        showCancel: false
-      })
+      showModal("请填写活动报名截止时间", "提示", false, function(){})
       return false
     } else if (!this.data.maxParticipants) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写活动报名最大报名人数",
-        showCancel: false
-      })
+      showModal("请填写活动最大报名人数", "提示", false, function(){})
       return false
     }
 
     if (this.data.signupEndTimestamp <= this.data.signupStartTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "活动报名截止时间必须晚于开始时间",
-        showCancel: false
-      })
+      showModal("报名截止时间必须晚于活动开始时间", "提示", false, function(){})
       return false
     } else if (this.data.signupStartTimestamp >= this.data.actTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "活动报名开始时间必须早于活动开始时间",
-        showCancel: false
-      })
+      showModal("报名开始时间必须早于活动开始时间", "提示", false, function(){})
       return false
     } else if (this.data.signupEndTimestamp >= this.data.actTimestamp) {
-      wx.showModal({
-        title: "提示",
-        content: "活动报名截止时间必须早于活动开始时间",
-        showCancel: false
-      })
+      showModal("报名截止时间必须早于活动开始时间", "提示", false, function(){})
       return false
     }
     return true
@@ -595,8 +538,7 @@ Page({
     }
 
     let url = this.data.isNewActivity ?
-        config.host + 'activity/add' :
-        config.host + 'activity/put?id=' + this.data.id
+        routes.postAddAct : routes.putUpdataAct + this.data.id
     let method = this.data.isNewActivity ? "POST" : "PUT"
     let signinCode = this.getSigninCode(100000, 999999)
     let data = {
@@ -615,43 +557,20 @@ Page({
     if (this.data.isNewActivity) {
       data.openid = app.globalData.openid
     }
-    return new Promise(function( resolve, reject ) {
-      wx.request({
-        url,
-        method,
-        data,
-        success: res => {
-          resolve(res)
-        },
-        fail: res => {
-          reject(res)
-        }
-      })
-    }).then(function (res) {
+
+    return request(url, method, data).then(res => {
       if (this_.data.isNewActivity) {
         this_.submitPictures(res.data.id)
         return
       }
-      let content = this_.data.isNewActivity ?
+      const content = this_.data.isNewActivity ?
           "活动创建成功" : "活动信息修改成功"
-      wx.showModal({
-        title: "提示",
-        content,
-        showCancel: false,
-        success: res => {
-          wx.navigateBack()
-        }
-      })
-    }).catch(function (res) {
-      wx.showModal({
-        title: "提示",
-        content: this_.data.isNewActivity ?
-          "创建活动失败，请检查网络状态" : "修改活动信息失败，请检查网络状态",
-        showCancel: false,
-        success (res) {
-          wx.navigateBack()
-        }
-      })
+      showModal(content)
+    }).catch(err => {
+      console.log(err)
+      const content = this_.data.isNewActivity ?
+          "创建活动失败，请检查网络状态" : "修改活动信息失败，请检查网络状态"
+      showModal(content)
     })
   },
 
@@ -659,27 +578,17 @@ Page({
   submitPictures (pictureId) {
     for (const [index, file] of this.data.pictureList.entries()) {
       wx.uploadFile({
-        url: config.host + 'activity/upload-picture',
+        url: routes.postAddPic,
         filePath: file.path,
         name: "file",
         formData: {
           pictureId,
           index,
         },
-        success: res => {
-          console.log(res)
-        }
+        success: function () {}
       })
     }
-
-    wx.showModal({
-      title: "提示",
-      content: "活动创建成功",
-      showCancel: false,
-      success: res => {
-        wx.navigateBack()
-      }
-    })
+    showModal("活动创建成功")
   },
 
 })

@@ -1,3 +1,5 @@
+import { showModal } from "../../../../utils/util"
+
 Page({
   data: {
     name: "",
@@ -20,10 +22,6 @@ Page({
       type: options.type || "text",
       isNewTag: options.isNewTag || false
     })
-  },
-
-  onShow () {
-
   },
 
   onNameFilledIn (e) {
@@ -51,11 +49,7 @@ Page({
 
   onSave () {
     if (!this.data.name) {
-      wx.showModal({
-        title: "提示",
-        content: "请填写字段名称",
-        showCancel: false
-      })
+      showModal("请填写字段名称", "提示", false, function () {})
       return
     }
 
@@ -75,6 +69,5 @@ Page({
     // Previous page
     let prevPage = pages[pages.length - 2]
     prevPage.addNewTag(field, isNewTag)
-  },
-
+  }
 })

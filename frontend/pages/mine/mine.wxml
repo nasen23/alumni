@@ -46,6 +46,8 @@
       title="关于"
       icon="info-o"
       is-link
+      clickable
+      bind:click="about"
       link-type="navigateTo"
     />
   </van-cell-group>

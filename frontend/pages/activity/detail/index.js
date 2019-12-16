@@ -1,7 +1,9 @@
 import Dialog from 'vant-weapp/dialog/dialog'
+import { routes, host } from "../../../config"
+import { request, showModal } from "../../../utils/util"
 
 const app = getApp()
-const config = require('../../../config.js')
+
 Page({
 
   data: {
@@ -16,61 +18,59 @@ Page({
   },
 
   onShow () {
-    let this_ = this
-    wx.request({
-      url: config.host + 'activity/get',
-      method: "GET",
-      data: {
-        id: this_.data.id
-      },
-      success (res) {
-        let actStart = res.data.actStart
-        let actEnd = res.data.actEnd
-        this_.setData({
-          id: this_.data.id,
-          name: res.data.name,
-          site: res.data.site,
-          rootPath: config.host,
-          intro: res.data.intro,
-          phone: res.data.phone,
-          pictures: res.data.pictures,
-          organizer: res.data.organizer,
-          administrators: res.data.administrators,
-          participants: res.data.participants,
-          maxParticipants: res.data.maxParticipants,
-          actStart: actStart === "0" ? "0" :
-            new Date(parseInt(actStart)).toLocaleString('zh-CN', { hour12: false }),
-          actEnd: actEnd === "0" ? "0" :
-            new Date(parseInt(actEnd)).toLocaleString('zh-CN', { hour12: false }),
-          signupStart: new Date(parseInt(res.data.signupStart)).toLocaleString('zh-CN', { hour12: false }),
-          signupEnd: new Date(parseInt(res.data.signupEnd)).toLocaleString('zh-CN', { hour12: false }),
-          signinCode: res.data.signinCode
-        })
+    const this_ = this
 
-        let ret = this_.isParticipant()
+    request(routes.getSingAct, "GET", {
+      id: this_.data.id
+    }).then(res => {
+      this_.initData(res.data)
+      request(routes.getSingUser, "GET", {
+        openid: this_.data.organizer
+      }).then(res => {
         this_.setData({
-          isAdministrator: this_.isAdministrator(),
-          isParticipant: ret.isIn,
-          index: ret.index
+          avatarUrl: res.data.avatarUrl,
+          nickName: res.data.username
         })
+      }).catch(err => {
+        console.log(err)
+        showModal("获取举办者信息失败！请检查网络状态")
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("获取活动信息失败！请检查网络状态")
+    })
+  },
 
-        wx.request({
-          url: config.host + 'user/get',
-          method: "GET",
-          data: {
-            openid: this_.data.organizer
-          },
-          success: res => {
-            this_.setData({
-              avatarUrl: res.data.avatarUrl,
-              nickName: res.data.username
-            })
-          }
-        })
-      },
-      fail(){}
+  initData(data) {
+    let actStart = data.actStart
+    let actEnd = data.actEnd
+    this.setData({
+      id: this.data.id,
+      name: data.name,
+      site: data.site,
+      rootPath: host,
+      intro: data.intro,
+      phone: data.phone,
+      pictures: data.pictures,
+      organizer: data.organizer,
+      administrators: data.administrators,
+      participants: data.participants,
+      maxParticipants: data.maxParticipants,
+      actStart: actStart === "0" ? "0" :
+        new Date(parseInt(actStart)).toLocaleString('zh-CN', { hour12: false }),
+      actEnd: actEnd === "0" ? "0" :
+        new Date(parseInt(actEnd)).toLocaleString('zh-CN', { hour12: false }),
+      signupStart: new Date(parseInt(data.signupStart)).toLocaleString('zh-CN', { hour12: false }),
+      signupEnd: new Date(parseInt(data.signupEnd)).toLocaleString('zh-CN', { hour12: false }),
+      signinCode: data.signinCode
     })
 
+    let ret = this.isParticipant()
+    this.setData({
+      isAdministrator: this.isAdministrator(),
+      isParticipant: ret.isIn,
+      index: ret.index
+    })
   },
 
   isAdministrator () {
@@ -138,32 +138,14 @@ Page({
     })
 
     Dialog.confirm({
-      title: "活动删除提醒",
+      title: "活动取消提醒",
       message: "是否确认删除此活动所有信息？\n（不可恢复）"
     }).then(() => {
-      wx.request({
-        url: config.host + 'activity/delete?id=' + this.data.id,
-        method: "DELETE",
-        success (res) {
-          wx.showModal({
-            title: "提示",
-            content: "活动删除成功",
-            showCancel: false,
-            success (res) {
-              wx.navigateBack()
-            }
-          })
-        },
-        fail (error) {
-          wx.showModal({
-            title: "提示",
-            content: "删除活动失败",
-            showCancel: false,
-            success (res) {
-              wx.navigateBack()
-            }
-          })
-        }
+      request(routes.delSingAct + "?id=" + this.data.id, "DELETE", {}).then(res => {
+        showModal("活动取消成功")
+      }).catch(err => {
+        console.log(err)
+        showModal("取消活动失败！请检查网络状态")
       })
     }).catch(() => {})
   },
@@ -183,6 +165,5 @@ Page({
 
   tagStatisticClicked () {
     this.setData({ popupShow: false })
-  },
-
+  }
 })

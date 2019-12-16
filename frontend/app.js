@@ -1,8 +1,8 @@
-//app.js
-const config = require('config.js')
+import { appId, appSecret, routes } from "./config"
+import { request, showToast } from "./utils/util"
+
 App({
   onLaunch () {
-    let this_ = this
     this.getUserInfo()
   },
 
@@ -38,11 +38,9 @@ App({
         this_.globalData.userInfo = userInfo
         resolve(this_.globalData.userInfo)
       }
-    }).then(function (res) {
+    }).then(function () {
       this_.getUserOpenId()
-    }).catch(function (res) {
-     
-    })
+    }).catch(function () {})
   },
 
   getUserOpenId () {
@@ -50,31 +48,23 @@ App({
     let openid = wx.getStorageSync('openid') || ''
     if (!openid) {
       // The openid has not been cached yet
-      // Get it from the backend
+      // Get it from the back-end
       wx.login({
         success: res => {
           // Send res.code to the backend to get openid
           if (res.code) {
-            wx.request({
-              url: config.host + 'user/login',
-              method: 'POST',
-              data: {
-                code: res.code,
-                appId: config.appId,
-                secret: config.appSecret,
-                username: this_.globalData.userInfo.nickName,
-                avatarUrl: this_.globalData.userInfo.avatarUrl
-              },
-              success: res => {
-                wx.setStorageSync('openid', res.data.openid)
-                this_.globalData.openid = res.data.openid
-              }
+            request(routes.postLoginUser, "POST", {
+              code: res.code,
+              appId: appId,
+              secret: appSecret,
+              username: this_.globalData.userInfo.nickName,
+              avatarUrl: this_.globalData.userInfo.avatarUrl
+            }).then(res => {
+              wx.setStorageSync('openid', res.data.openid)
+              this_.globalData.openid = res.data.openid
             })
           } else {
-            wx.showToast({
-              title: '登录失败',
-              duration: 2000
-            })
+            showToast("登录失败")
           }
         }
       })

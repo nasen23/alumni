@@ -1,5 +1,7 @@
+import { routes } from "../../config"
+import { request, showModal } from "../../utils/util"
+
 const app = getApp()
-const config = require('../../config.js')
 
 Page({
   data: {
@@ -8,18 +10,18 @@ Page({
   },
 
   onShow () {
-    wx.request({
-      url: config.host + 'activity/user',
-      method: "GET",
-      data: {
-        openid: app.globalData.openid
-      },
-      success: res => {
-        this.setData({
-          held: res.data.held,
-          attended: res.data.attended,
-        })
-      }
+    const this_ = this
+
+    request(routes.getSingUser, "GET", {
+      openid: app.globalData.openid
+    }).then(res => {
+      this_.setData({
+        held: res.data.heldActivities,
+        attended: res.data.attendedActivities,
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("获取数据失败！请检查网络状态")
     })
   },
 

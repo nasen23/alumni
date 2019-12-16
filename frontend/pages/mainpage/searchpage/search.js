@@ -1,16 +1,14 @@
-const app = getApp()
-const config = require('../../../config')
+import { routes, host } from "../../../config"
+import { request, showModal } from "../../../utils/util"
 
 Page({
   data: {
     value: "",
     activities: [],
-    rootPath: config.host
+    rootPath: host
   },
 
-  onLoad (options) {
-
-  },
+  onLoad () {},
 
   onChange (e) {
     this.setData({
@@ -22,34 +20,23 @@ Page({
     let this_ = this
 
     if (!this.data.value) {
-      wx.showModal({
-        title: "提示",
-        content: "请输入关键词",
-        showCancel: false
-      })
+      showModal("请输入关键词")
       return
     }
 
-    wx.request({
-      url: config.host + 'activity/all?name=' + this.data.value,
-      method: "POST",
-      data: {
-        fields: ["id", "name", "intro", "pictures"]
-      },
-      success (res) {
-        this_.setData({
-          activities: res.data
-        })
-      },
-      fail (e) {
-        console.log(e)
-      }
+    request(routes.postAllActs + '?name=' + this.data.value, "POST", {
+      fields: ["id", "name", "intro", "pictures"]
+    }).then(data => {
+      this_.setData({
+        activities: data
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("数据获取失败！请检查控制台输出")
     })
   },
 
-  onCancel () {
-
-  },
+  onCancel () {},
 
   toActivityDetail (e) {
     wx.navigateTo({

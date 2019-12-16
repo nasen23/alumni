@@ -1,39 +1,34 @@
+import { host, routes } from "../../config"
+import { request, showModal } from "../../utils/util"
+
 const app = getApp()
-const config = require('../../config.js');
 
 Page({
   data: {
-    rootPath: config.host,
-    activities: [],
+    rootPath: host,
+    activities: []
   },
 
   onShow() {
     let this_ = this
 
-    app.getUserInfo().then(function (res) {
+    app.getUserInfo().then(function () {
       this_.setData({
         userInfo: app.globalData.userInfo
       })
     })
 
-    wx.request({
-      url: config.host + 'activity/all',
-      method: "POST",
-      data: {
-        id: true,
-        name: true,
-        intro: true,
-        pictures: true,
-      },
-      success: res => {
-        this_.setData({
-            activities: res.data
-        })
-      },
-      fail: e => {
-        console.log(e)
-      }
+    request(routes.postAllActs, "POST", {
+      fields: ["id", "name", "intro", "pictures"]
+    }).then(res => {
+      this_.setData({
+        activities: res.data
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("数据获取失败！请检查网络状态")
     })
+
   },
 
   toSearchPage () {
@@ -44,7 +39,7 @@ Page({
 
   toActivityDetail(e) {
     wx.navigateTo({
-      url: '/pages/activity/detail/index?id=' + e.currentTarget.dataset.id,
+      url: '../activity/detail/index?id=' + e.currentTarget.dataset.id,
     })
   }
 })
