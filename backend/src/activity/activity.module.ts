@@ -4,13 +4,19 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ActivityEntity } from './activity.entity'
 import { ActivityService } from './activity.service'
 import { ActivityController } from './activity.controller'
+import { UserModule } from '../user/user.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ActivityEntity])],
+  imports: [
+    UserModule,
+    TypeOrmModule.forFeature([ActivityEntity]),
+  ],
   providers: [
     ActivityService,
   ],
-  controllers: [ActivityController],
+  controllers: [
+    ActivityController
+  ],
   exports: []
 })
 export class ActivityModule {}

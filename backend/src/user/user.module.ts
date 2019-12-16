@@ -7,8 +7,13 @@ import { UserController } from './user.controller'
 import { ConfigModule } from '../config/config.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), ConfigModule],
-  providers: [UserService],
+  imports: [
+    ConfigModule,
+    TypeOrmModule.forFeature([UserEntity])
+  ],
+  providers: [
+    UserService,
+  ],
   controllers: [UserController],
   exports: []
 })

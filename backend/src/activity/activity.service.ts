@@ -9,6 +9,7 @@ import { UserEntity } from '../user/user.entity'
 @Injectable()
 export class ActivityService {
   private logger = new Logger('ActivityServiceLogger')
+  private userRepository = getRepository(UserEntity)
 
   constructor(
     @InjectRepository(ActivityEntity)
@@ -19,16 +20,16 @@ export class ActivityService {
     return await this.activityRepository.find()
   }
 
-  async getUserActivities(data: any) {
+  async getUserActivities(openid: string) {
     const held = await this.activityRepository.find({
       where: {
-        organizer: Equal(data.openid)
+        organizer: Equal(openid)
       }
     })
 
     const attended = await this.activityRepository.find({
       where: {
-        participants: Like(`%${data.openid}%`)
+        participants: Like(`%${ openid }%`)
       }
     })
 
@@ -39,16 +40,15 @@ export class ActivityService {
   }
 
   // Return all activities including only the specified fields
-  async showAllPartially(data: Object) {
-    let selection = []
-    for (let key in data) {
-      selection = selection.concat('act.' + key)
+  async showAllPartially(name: string, data: any) {
+    let options = { select: data.fields }
+    if (name) {
+      options['where'] = {
+        name: Like(`%${ name }%`)
+      }
     }
 
-    const activities = await getRepository(ActivityEntity)
-      .createQueryBuilder('act')
-      .select(selection)
-      .getMany()
+    const activities = await this.activityRepository.find(options)
 
     return activities
   }
@@ -62,9 +62,9 @@ export class ActivityService {
     activity.fields = data['fields']
     await this.activityRepository.save(activity)
 
-    let user = await getRepository(UserEntity).findOne(data.openid)
+    let user = await this.userRepository.findOne(data.openid)
     user.heldActivities.push(activity.id)
-    await getRepository(UserEntity).save(user)
+    await this.userRepository.save(user)
 
     return activity
   }
@@ -99,6 +99,29 @@ export class ActivityService {
     }
   }
 
+  async updateUserHeldActivities(activity: ActivityEntity) {
+    const openid = activity.organizer
+    let organizer = await this.userRepository.findOne(openid)
+    const index = organizer.heldActivities.findIndex(act => {
+      return act === activity.id
+    })
+
+    organizer.heldActivities.splice(index, 1)
+    await this.userRepository.save(organizer)
+  }
+
+  async updateUserAttendedActivities(activity: ActivityEntity) {
+    for (let participant of activity.participants) {
+      const user = await this.userRepository.findOne(participant['openid'])
+      const index = user.attendedActivities.findIndex(act => {
+        return act === activity.id
+      })
+
+      user.attendedActivities.splice(index, 1)
+      await this.userRepository.save(user)
+    }
+  }
+
   async destroy(id: string) {
     try {
       const activity = await this.activityRepository.findOne(id)
@@ -106,16 +129,29 @@ export class ActivityService {
         throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
       }
 
+      this.updateUserHeldActivities(activity)
+      this.updateUserAttendedActivities(activity)
       await this.activityRepository.delete(id)
 
       return activity
-    } catch(error) {
+    } catch (error) {
       this.logger.log(error)
       throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
+  // Clear all users' heldActivities and attendedActivities fields
+  async clearHeldAttended() {
+    let users = await this.userRepository.find()
+    for (let user of users) {
+      user.heldActivities = []
+      user.attendedActivities = []
+      await this.userRepository.save(user)
+    }
+  }
+
   async destroyAll() {
+    await this.clearHeldAttended()
     await this.activityRepository.clear()
     return { delete: 'success' }
   }
@@ -167,9 +203,6 @@ export class ActivityService {
     let index = pars.findIndex(par => {
       return par['openid'] === openid
     })
-    this.logger.log(index)
-    this.logger.log(openid)
-    this.logger.log(pars)
 
     if (index != -1) {
       pars.splice(index, 1)
@@ -178,4 +211,56 @@ export class ActivityService {
 
     return { cancel: 'success' }
   }
+
+  async signin(id: string, openid: string, code: string) {
+    try {
+      let activity = await this.activityRepository.findOne(id)
+      if (!activity) {
+        throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
+      }
+
+      let participant = activity.participants.find(parti => {
+        return parti['openid'] === openid
+      })
+
+      if (!participant) {
+        throw new HttpException(`Participant ${openid} not found in activity ${id}`, HttpStatus.NOT_FOUND)
+      }
+
+      // Check the sign in code
+      if (parseInt(code) === activity.signinCode) {
+        participant['signedIn'] = true
+        await this.activityRepository.save(activity)
+        return { signin: 'success' }
+      }
+
+      return { signin: 'fail' }
+    } catch (error) {
+      this.logger.log(error)
+      throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async checkSignIn(id: string, openid: string) {
+    try {
+      let activity = await this.activityRepository.findOne(id)
+      if (!activity) {
+        throw new HttpException(`Activity ${id} Not Found`, HttpStatus.NOT_FOUND)
+      }
+
+      let participant = activity.participants.find(parti => {
+        return parti['openid'] === openid
+      })
+
+      if (!participant) {
+        throw new HttpException(`Participant ${openid} not found in activity ${id}`, HttpStatus.NOT_FOUND)
+      }
+
+      return { signedIn: participant['signedIn'] }
+    } catch (error) {
+      this.logger.log(error)
+      throw new HttpException(`Error when querying activity ${id}`, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 }
+

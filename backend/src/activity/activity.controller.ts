@@ -25,8 +25,8 @@ export class ActivityController {
   constructor(private activityService: ActivityService) {}
 
   @Get('user')
-  getUserActivities(@Query() data) {
-    return this.activityService.getUserActivities(data)
+  getUserActivities(@Query('openid') openid) {
+    return this.activityService.getUserActivities(openid)
   }
 
   @Get('all')
@@ -35,8 +35,11 @@ export class ActivityController {
   }
 
   @Post('all')
-  showAllPartially(@Body() data: object) {
-    return this.activityService.showAllPartially(data)
+  showAllPartially(
+    @Query('name') name: string,
+    @Body() data: object
+  ) {
+    return this.activityService.showAllPartially(name, data)
   }
 
   @Get('get')
@@ -85,14 +88,36 @@ export class ActivityController {
   }
 
   @Put('signup')
-  changeSignupInfo(@Query('id') id: string,
-                   @Query('openid') openid: string,
-                   @Body() data: object) {
+  changeSignupInfo(
+    @Query('id') id: string,
+    @Query('openid') openid: string,
+    @Body() data: object
+  ) {
     return this.activityService.changeSignupInfo(id, openid, data)
   }
 
   @Delete('signup')
-  cancelSignup(@Query('id') id: string, @Query('openid') openid: string) {
+  cancelSignup(
+    @Query('id') id: string,
+    @Query('openid') openid: string
+  ) {
     return this.activityService.cancelSignup(id, openid)
+  }
+
+  @Get('signin')
+  signin(
+    @Query('id') id: string,
+    @Query('openid') openid: string,
+    @Query('code') code: string
+  ) {
+    return this.activityService.signin(id, openid, code)
+  }
+
+  @Get('check-signin')
+  checkSignIn(
+    @Query('id') id: string,
+    @Query('openid') openid: string
+  ) {
+    return this.activityService.checkSignIn(id, openid)
   }
 }
