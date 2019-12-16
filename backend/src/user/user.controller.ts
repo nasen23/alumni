@@ -1,6 +1,6 @@
-import { Controller, Get, UsePipes, Post } from '@nestjs/common'
+import { Controller, Get, UsePipes, Post, Body, Query, Put } from '@nestjs/common'
 
-import { UserEntity } from './user.entity'
+import { UserDTO } from './user.dto'
 import { UserService } from './user.service'
 import { ValidationPipe } from '../shared/validation.pipe'
 
@@ -8,17 +8,32 @@ import { ValidationPipe } from '../shared/validation.pipe'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  findALl() {
+  @Get('get')
+  readUser(@Query('openid') id: string) {
+    return this.userService.read(id)
+  }
+
+  @Get('all')
+  findAll() {
     return this.userService.findAll()
   }
 
-  @Post('/auth')
+  @Post('auth')
   @UsePipes(new ValidationPipe())
   auth() {
-    let resp = this.userService.auth()
-    console.log(typeof(resp))
-    console.log(resp)
+    const resp = this.userService.auth()
     return resp
+  }
+
+  @Post('login')
+  @UsePipes(new ValidationPipe())
+  login(@Body() data: object) {
+    const resp = this.userService.login(data)
+    return resp
+  }
+
+  @Put('put')
+  updateUser(@Query('openid') id: string, @Body() data: Partial<UserDTO>) {
+    return this.userService.update(id, data)
   }
 }

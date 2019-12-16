@@ -1,21 +1,37 @@
-import { IsString } from 'class-validator'
+import { IsString, IsNumber } from 'class-validator'
 
-// import { UserEntity } from '../user/user.entity'
+import { UserEntity } from '../user/user.entity'
 
 export class ActivityDTO {
-  @IsString()
   readonly id: string
 
-  // actHost: UserEntity
+  @IsString()
+  openid: string
 
   @IsString()
-  actName: string
-
-  // actTime: Date
+  name: string
 
   @IsString()
-  actSite: string
+  intro: string
 
   @IsString()
-  actIntro: string
+  maxParticipants: string
+
+  @IsString()
+  actStart: string
+
+  @IsString()
+  actEnd: string
+
+  @IsString()
+  phone: string
+
+  @IsNumber()
+  signinCode: number
+
+  @IsString()
+  signupStart: string
+
+  @IsString()
+  signupEnd: string
 }
