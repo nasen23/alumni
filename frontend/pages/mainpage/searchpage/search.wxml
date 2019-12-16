@@ -1,10 +1,31 @@
 <view class="container">
   <van-search
     value="{{ value }}"
-    placeholder="请输入搜索关键词"
+    placeholder="请输入活动名称关键词"
     show-action
+    bind:change="onChange"
     bind:search="onSearch"
     bind:cancel="onCancel"
   />
+
+  <view class="activity-scroll-view" scroll-y>
+    <view class="activity-view"
+      wx:for="{{ activities }}"
+      wx:key="{{ item.id }}"
+      style="padding-{{ index % 2 ? 'left' : 'right' }}:10px"
+    >
+      <view class="activity-card" data-id="{{ item.id }}" bindtap="toActivityDetail">
+        <view class="activity-banner">
+          <image src="{{ rootPath + item.pictures[0] }}" class="activity-banner"/>
+        </view>
+        <view class="activity-detail">
+          <view class="activity-name">{{ item.name }}</view>
+          <view class="activity-intro">
+            <view>{{ item.intro }}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 
 </view>
