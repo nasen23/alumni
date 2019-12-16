@@ -1,0 +1,16 @@
+<view class="container">
+  <view
+    class="profile"
+    wx:if="{{ userInfo }}"
+    style="background: url({{ rootPath + 'bg.jpg' }}) no-repeat;background-size: 100% 100%">
+  <image src="{{ userInfo.avatarUrl }}" class="avatar"/>
+  <view class="username">{{ userInfo.nickName }}</view>
+  </view>
+
+  <van-divider />
+
+  <van-cell-group>
+    <van-cell title="联系方式"/>
+    <van-cell title="身份认证"/>
+  </van-cell-group>
+</view>

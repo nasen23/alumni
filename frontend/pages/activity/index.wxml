@@ -1,0 +1,55 @@
+<view class="container">
+  <van-tabs class="tabs" active="{{ active }}">
+    <van-tab title="我创建的">
+      <view class="inner-container">
+        <view wx:if="{{ held.length === 0 }}" class="noactivity">
+          还没有创建任何活动
+        </view>
+        <view wx:else class="activity-list">
+          <view
+            class="activity-card"
+            wx:for="{{ held }}"
+            wx:key="item.id"
+            bindtap="toActivityDetail"
+            data-id="{{ item.id }}"
+          >
+            <view class="activity-title">
+              {{ item.name }}
+            </view>
+            <view class="activity-introduction">
+              {{ item.intro }}
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <van-tab title="我参与的">
+      <view class="inner-container">
+        <view wx:if="{{ attended.length == 0 }}" class="noactivity">
+          还没有参加任何活动
+        </view>
+        <view wx:else class="activity-list">
+          <view
+            class="activity-card"
+            wx:for="{{ attended }}"
+            wx:key="item.id"
+            bindtap="toActivityDetail"
+            data-id="{{ item.id }}"
+          >
+            <view class="activity-title">
+              {{ item.name }}
+            </view>
+            <view class="activity-introduction">
+              {{ item.intro }}
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+  </van-tabs>
+
+  <view class="plus" bindtap="toCreateActivity">
+    <text class="fa fa-plus" />
+  </view>
+</view>

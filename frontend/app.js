@@ -1,39 +1,81 @@
-//app.js
+import { appId, appSecret, routes } from "./config"
+import { request, showToast } from "./utils/util"
+
 App({
-  onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
-      }
-    })
+  onLaunch () {
+    this.getUserInfo()
   },
+
+  getUserInfo () {
+    let this_ = this
+    return new Promise(function (resolve, reject) {
+      let userInfo = wx.getStorageSync('userInfo') || ''
+      if (!userInfo) {
+        // Get the user information
+        wx.getSetting({
+          success: res => {
+            if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                success: res => {
+                  wx.setStorageSync('userInfo', res.userInfo)
+                  this_.globalData.userInfo = res.userInfo
+                  resolve(this_.globalData.userInfo)
+                },
+                fail: error => {
+                  console.log('getUserInfo failed: ' + error)
+                  reject(error)
+                }
+              })
+            } else {
+              reject(res)
+            }
+          },
+          fail: error => {
+            reject(error)
+          }
+        })
+      } else {
+        this_.globalData.userInfo = userInfo
+        resolve(this_.globalData.userInfo)
+      }
+    }).then(function () {
+      this_.getUserOpenId()
+    }).catch(function () {})
+  },
+
+  getUserOpenId () {
+    let this_ = this
+    let openid = wx.getStorageSync('openid') || ''
+    if (!openid) {
+      // The openid has not been cached yet
+      // Get it from the back-end
+      wx.login({
+        success: res => {
+          // Send res.code to the backend to get openid
+          if (res.code) {
+            request(routes.postLoginUser, "POST", {
+              code: res.code,
+              appId: appId,
+              secret: appSecret,
+              username: this_.globalData.userInfo.nickName,
+              avatarUrl: this_.globalData.userInfo.avatarUrl
+            }).then(res => {
+              wx.setStorageSync('openid', res.data.openid)
+              this_.globalData.openid = res.data.openid
+            })
+          } else {
+            showToast("登录失败")
+          }
+        }
+      })
+    } else {
+      // The openid was already cached
+      this_.globalData.openid = openid
+    }
+  },
+
   globalData: {
-    userInfo: null
+    openid: "",
+    userInfo: null,
   }
 })

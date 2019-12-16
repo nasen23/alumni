@@ -1,42 +1,46 @@
+import { routes, host } from "../../../config"
+import { request, showModal } from "../../../utils/util"
+
 Page({
   data: {
-    inputShowed: false,
-    inputVal: "",
-    activities:["类型1","类型2","类型3","类型4","类型5"],
-    history:[]
+    value: "",
+    activities: [],
+    rootPath: host
   },
-  onLoad:function(options){
-    var obj = JSON.parse(options.history);
-    console.log(obj);
+
+  onLoad () {},
+
+  onChange (e) {
     this.setData({
-      history:obj,
-    });
+      value: e.detail
+    })
   },
-  showInput: function () {
-    this.setData({
-      inputShowed: true
-    });
+
+  onSearch () {
+    let this_ = this
+
+    if (!this.data.value) {
+      showModal("请输入关键词")
+      return
+    }
+
+    request(routes.postAllActs + '?name=' + this.data.value, "POST", {
+      fields: ["id", "name", "intro", "pictures"]
+    }).then(data => {
+      this_.setData({
+        activities: data
+      })
+    }).catch(err => {
+      console.log(err)
+      showModal("数据获取失败！请检查控制台输出")
+    })
   },
-  hideInput: function () {
-    this.setData({
-      inputVal: "",
-      inputShowed: false
-    });
-  },
-  clearInput: function () {
-    this.setData({
-      inputVal: ""
-    });
-  },
-  inputTyping: function (e) {
-    this.setData({
-      inputVal: e.detail.value
-    });
-  },
-  chooseActivityType: function(e){
-    this.setData({
-      inputVal: e.currentTarget.dataset.value,
-      inputShowed:true
-    });
+
+  onCancel () {},
+
+  toActivityDetail (e) {
+    wx.navigateTo({
+      url: '../../activity/detail/index?id=' + e.currentTarget.dataset.id
+    })
   }
 });

@@ -1,31 +1,43 @@
-<view class="container page">
-  <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:search="onSearch" />
-
-  <scroll-view class="activity-scroll-view" scroll-y>
-    <scroll-view class="history-activity-scroll-view" scroll-x>
-      <view class="history-activity-view" wx:for="{{ historyActivities }}">
-        <van-button
-            class="history-activity-button" color="red"
-            type="default" size="mini" data-value="{{ item }}" round plain >
-          {{ item }}
-        </van-button>
+<view class="container">
+  <view class="top-bar">
+    <span class="top-title">清友活动圈</span>
+    <span class="top-avatar">
+      <view wx:if="{{ userInfo }}">
+        <image wx:if="{{ userInfo.avatarUrl }}" src="{{ userInfo.avatarUrl }}" class="avatar" background-size="cover" >
+        </image>
       </view>
-    </scroll-view>
+    </span>
+  </view>
 
-    <view class="activity-view" wx:for-items="{{ activities }}" bindtap="toActivityDetail" data-id="{{ item.id }}">
-      <view class="activity-banner">
-      </view>
-      <view class="activity-detail">
-        <view class="activity-name">{{ item.name }}</view>
-        <view class="activity-intro">
-          <view>{{ item.intro }}</view>
-          <view class="activity-tags">
-            <view wx:for="{{ item.activityTag }}" wx:for-item="a">
-              <button class="tag">{{ a }}</button>
-            </view>
+  <view class="search">
+    <view class="search-field">
+      <input type="text" bindfocus="toSearchPage" />
+      <text class="fa fa-search" />
+    </view>
+  </view>
+
+  <view class="history">
+    <view class="recent">最近</view>
+    <text class="fa fa-angle-down" />
+  </view>
+
+  <view class="activity-scroll-view" scroll-y>
+    <view class="activity-view" 
+      wx:for="{{ activities }}" 
+      wx:key="{{ item.id }}"
+      style="padding-{{ index % 2 ? 'left' : 'right' }}:10px"
+    >
+      <view class="activity-card" data-id="{{ item.id }}" bindtap="toActivityDetail">
+        <view class="activity-banner">
+          <image src="{{ rootPath + item.pictures[0] }}" class="activity-banner"/>
+        </view>
+        <view class="activity-detail">
+          <view class="activity-name">{{ item.name }}</view>
+          <view class="activity-intro">
+            <view>{{ item.intro }}</view>
           </view>
         </view>
       </view>
     </view>
-  </scroll-view>
+  </view>
 </view>

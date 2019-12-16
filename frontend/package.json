@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/nasen23/alumni#readme",
   "dependencies": {
-    "vant-weapp": "^1.0.0-beta.0"
+    "vant-weapp": "^1.0.0-beta.4"
   }
 }

@@ -1,0 +1,220 @@
+<!-- BUG: van-tabbar takes up bottom space, making content under tabbar not visable -->
+<!-- consider leaving some space on the bottom of page -->
+<view class="container">
+  <view wx:if="{{ pictures.length > 0 }}" class="activity-image">
+    <swiper autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
+      <block wx:for="{{ pictures }}" wx:key="*this">
+        <swiper-item class='activity-image'>
+            <image src="{{ rootPath + item }}" class="activity-image"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <view class="activity-header">
+    <view class="activity-maininfo">
+      <view class="activity-title">
+        {{ name }}
+      </view>
+      <view class="activity-header-detail-list">
+        <view wx:if="{{ actStart != '0' }}" class="activity-header-detail">
+          <text class="fa fa-clock-o"></text>
+          活动时间：{{ (actStart != "0" ? (actStart + '-') : "")
+          + (actEnd != "0" ? actEnd : '') }}
+        </view>
+        <view wx:if="{{ site.address }}" class="activity-header-detail">
+          <text class="fa fa-map-marker"></text>
+          活动地址：{{ site.address + (site.detail || '') }}
+        </view>
+        <view class="activity-header-detail">
+          <text class="fa fa-clock-o"></text>
+          报名时间：{{ signupStart + '-' + signupEnd }}
+        </view>
+        <view class="activity-header-detail">
+          <text class="fa fa-user-o"></text>
+          报名人数：{{ (participants.length || 0) + '/' + maxParticipants }}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="line-separator"></view>
+
+  <view class="activity-detail-list">
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        关于
+      </view>
+
+      <view class="activity-detail-content">
+        {{ intro }}
+      </view>
+    </view>
+
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        活动创办者
+      </view>
+
+      <view class="activity-detail-creater">
+        <view class="avatar">
+            <image src="{{ avatarUrl }}" class="avatar"></image>
+        </view>
+
+        <view class="creater-info">
+          <view class="name">{{ nickName }}</view>
+          <view class="detail-list">
+            <view class="detail">
+              <text class="fa fa-phone" />
+              <view class="detail-content">{{ phone }}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="creater-profile">
+          个人资料
+        </view>
+      </view>
+    </view>
+
+    <view class="activity-detail-item">
+      <view class="activity-detail-title">
+        参与者
+      </view>
+      <view class="avatar-link">
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar"></view>
+        <view class="avatar avatar-link-last">+20</view>
+      </view>
+    </view>
+  </view>
+
+  <van-tabbar fixed safe-area-inset-bottom="{{ true }}">
+    <van-tabbar-item name="share" icon="share">分享</van-tabbar-item>
+    <van-tabbar-item name="message" icon="chat-o" info="3" bindtap="toActivityMessage">消息</van-tabbar-item>
+    <van-tabbar-item
+        wx:if="{{ isAdministrator }}"
+        name="manage"
+        class="wide-tabitem"
+        style="background: #42dee1"
+        bindtap="toActivityManage"
+    >
+      <text class="fa fa-bars" />
+      管理
+    </van-tabbar-item>
+    <van-tabbar-item
+        wx:if="{{ !isParticipant }}"
+        name="signup"
+        class="wide-tabitem"
+        style="background: #6decb9"
+        bindtap="toActivitySignup">
+      报名
+    </van-tabbar-item>
+    <van-tabbar-item
+        wx:if="{{ isParticipant }}"
+        name="edit"
+        class="wide-tabitem"
+        style="background: #6decb9"
+        bindtap="changeSignupInfo">
+      编辑/取消
+    </van-tabbar-item>
+  </van-tabbar>
+
+  <van-popup
+      show="{{ popupShow }}"
+      position="bottom"
+      custom-style="height: 50%;"
+      bind:click-overlay="onOverlayClicked"
+  >
+    <van-grid>
+      <van-grid-item text="编辑修改" bind:click="tagEditClicked"/>
+      <van-grid-item text="取消活动" bind:click="tagCancelClicked"/>
+      <van-grid-item text="设置管理员" bind:click="tagManagerClicked"/>
+      <van-grid-item text="核销签到" bind:click="tagSignInClicked"/>
+      <van-grid-item text="数据统计" bind:click="tagStatisticClicked"/>
+    </van-grid>
+  </van-popup>
+
+  <van-tabs class="tabs" active="{{ active }}">
+    <van-tab title="已报名">
+      <view class="inner-container">
+        <view wx:if="{{ participants.length === 0 }}" class="no-participant">
+          还没有参与者
+        </view>
+
+        <view wx:else class="participant-list">
+          <view
+              class="participant-card"
+              wx:for="{{ participants }}"
+              wx:key="item.openid"
+              data-id="{{ item.openid }}"
+          >
+            <view class="avatar-container">
+              <image class="small-avatar" src="{{ item.avatarUrl }}" />
+            </view>
+
+            <view class="name-container">
+              <view class="username">
+                {{ item.username }}
+              </view>
+
+              <view class="signup-time">
+                {{ item.signupTime }}
+              </view>
+            </view>
+
+            <view class="seq-container">
+              <view>报名成功</view>
+              <view class="seqnum">
+                No.{{ index + 1 }}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <van-tab wx:if="{{ isAdministrator }}" title="详细数据">
+      <view class="inner-container">
+        <view wx:if="{{ participants.length === 0 }}" class="no-participant">
+          还没有参与者
+        </view>
+
+        <view
+            wx:for="{{ participants }}"
+            wx:key="item.openid"
+            data-id="{{ item.openid }}"
+        >
+          <view class="table">
+            <view class="table-tr">
+              <view class="table-th">序号</view>
+              <view class="table-th">微信昵称</view>
+              <view
+                  wx:for="{{ item.info }}"
+                  wx:key="{{ item.openid }}"
+                  class="table-th"
+              >
+                {{ item.field }}
+              </view>
+            </view>
+
+            <view class="table-tr">
+              <view class="table-td">{{ index + 1 }}</view>
+              <view class="table-td">{{ item.username }}</view>
+              <view
+                  wx:for="{{ item.info }}"
+                  wx:key="{{ item.openid }}"
+                  class="table-td">
+                {{ item.value }}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+  </van-tabs>
+
+  <van-dialog id="van-dialog"/>
+</view>

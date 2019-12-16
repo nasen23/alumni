@@ -1,0 +1,46 @@
+van-cell-group {
+  width: 100%;
+  margin: 2px 0;
+}
+
+van-field {
+  width: 100%;
+}
+
+van-cell {
+  width: 100%;
+}
+
+van-uploader {
+  box-sizing: border-box;
+  margin: 10px;
+  width: 100%;
+}
+
+.activity-time-switch {
+  margin-bottom: -8px;
+}
+
+van-button {
+  width: 95%;
+  margin-bottom: 10px;
+}
+
+.tag-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+.tag-view {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tag {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}

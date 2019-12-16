@@ -1,0 +1,190 @@
+<view class="container">
+  <van-cell-group title="基本信息">
+    <van-field
+      value="{{ name }}"
+      label="活动名称"
+      placeholder="请填写活动名称"
+      bind:change="onNameFilledIn"
+      required
+    />
+
+    <van-field
+      value="{{ intro }}"
+      label="活动简介"
+      placeholder="请填写活动简介"
+      bind:change="onIntroFilledIn"
+      type="textarea"
+      autosize
+    />
+  </van-cell-group>
+
+  <van-cell-group>
+    <van-field
+      value="{{ maxParticipants }}"
+      label="最大报名人数"
+      required
+      type="digit"
+      bind:change="onMaxParticipants"
+      input-align="right"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="地点">
+    <van-cell
+      value="{{ location.name }}"
+      title="活动地点"
+      icon="location-o"
+      is-link
+      bind:click="onSiteFilledIn"
+    />
+    <van-field
+      value="{{ location.detail }}"
+      label="详细位置"
+      placeholder="选填"
+      bind:change="setLocationDetail"
+    />
+  </van-cell-group>
+
+  <van-cell-group>
+    <van-field
+      value="{{ phone }}"
+      label="联系方式"
+      placeholder="请填写举办者联系方式"
+      bind:change="onPhoneFilledIn"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="已选字段(*代表必填)">
+    <van-field
+      disabled
+      placeholder="无"
+      value="{{ chosenFieldsString }}"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="点击选择需要填写的信息">
+    <view class="tag-panel">
+      <view class="tag-view">
+        <view class="tag" wx:for="{{ allFields }}" wx:key="name">
+          <van-tag
+            plain
+            type="{{ item.chosen ? 'success' : 'default' }}"
+            size="large"
+            data-index="{{ index }}"
+            bindtap="onTagTapped"
+          >
+            {{ item.name }}
+          </van-tag>
+        </view>
+      </view>
+      <van-button
+        class="tag-button"
+        type="primary"
+        size="small"
+        bind:click="toNewTagPage"
+      >
+        添加字段
+      </van-button>
+    </view>
+  </van-cell-group>
+
+  <van-dialog use-slot id="van-dialog" show="{{ dialogShow }}" show-confirm-button="{{ false }}">
+    <van-cell-group>
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="编辑"
+        bind:click="editTag"
+      />
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="作为必填项"
+        bind:click="setTagToRequired"
+      />
+      <van-cell
+        wx:if="{{ !allFields[index].chosen }}"
+        title="作为选填项"
+        bind:click="setTagToOptional"
+      />
+
+      <van-cell
+        wx:if="{{ allFields[index].chosen }}"
+        title="不选"
+        bind:click="cancelTag"
+      />
+      <van-cell
+        wx:if="{{ allFields[index].chosen && !allFields[index].required }}"
+        title="作为必填项"
+        bind:click="setTagToRequired"
+      />
+      <van-cell
+        wx:if="{{ allFields[index].chosen && allFields[index].required }}"
+        title="作为选填项"
+        bind:click="setTagToOptional"
+      />
+    </van-cell-group>
+  </van-dialog>
+
+  <van-cell-group title="报名时间">
+    <van-cell
+      title="报名开始"
+      is-link
+      required
+      bind:click="onChooseStart"
+      value="{{ signupStartTime }}"
+    />
+    <van-cell
+      title="报名结束"
+      is-link
+      required
+      bind:click="onChooseEnd"
+      value="{{ signupEndTime }}"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="活动开始/截止时间">
+    <van-cell title="活动时间">
+      <van-switch
+        class="activity-time-switch"
+        checked="{{ switchChecked }}"
+        bind:change="onSwitchChange"
+        size="17px"
+      />
+    </van-cell>
+    <van-cell
+      wx:if="{{ switchChecked }}"
+      title="活动开始"
+      is-link
+      bind:click="onChooseActStart"
+      value="{{ actStartTime }}"
+    />
+    <van-cell
+      wx:if="{{ switchChecked }}"
+      title="活动结束"
+      is-link
+      bind:click="onChooseActEnd"
+      value="{{ actEndTime }}"
+    />
+  </van-cell-group>
+
+  <!-- Display only when create a new activity -->
+  <van-uploader
+      wx:if="{{ isNewActivity }}"
+      file-list="{{ pictureList }}"
+      max-count="3"
+      bind:after-read="afterRead"
+      bind:delete="onDeletePicture"
+  />
+
+  <van-button type="primary" size="large" bind:click="onSubmit">提交</van-button>
+
+  <van-popup show="{{ show }}" position="bottom" custom-style="height: 50%">
+    <van-datetime-picker
+      type="datetime"
+      value="{{ today }}"
+      min-date="{{ today }}"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-popup>
+
+</view>

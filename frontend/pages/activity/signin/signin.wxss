@@ -1,0 +1,45 @@
+.title {
+    font-size: 20px;
+}
+
+.code {
+    justify-content: center;
+    margin: 30px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20rpx;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-box {
+    width: 80rpx;
+    height: 80rpx;
+    border: 1rpx solid #aaa;
+    border-radius: 20rpx;
+    margin-top: 80rpx;
+    margin-bottom: 80rpx;
+    margin-left: 10rpx;
+    margin-right: 10rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.input {
+    width: 0;
+    height: 0;
+}
+
+van-button {
+    width: 100%;
+}

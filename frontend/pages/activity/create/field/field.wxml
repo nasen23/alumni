@@ -1,0 +1,103 @@
+<view class="container">
+  <van-cell-group title="字段名称">
+    <van-field
+        value="{{ name }}"
+        placeholder="请输入字段名称"
+        bind:change="onNameFilledIn"
+    />
+
+  </van-cell-group>
+
+  <van-cell-group title="字段描述">
+    <van-field
+        value="{{ desc }}"
+        placeholder="请说明该字段怎么填写（选填）"
+        bind:change="onDescFilledIn"
+    />
+  </van-cell-group>
+
+  <van-cell-group title="字段类型（支持文本/数字/日期/单选/多选）">
+    <van-cell
+        wx:if="{{ type == 'text' }}"
+        title="单行文本"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'multiLineText' }}"
+        title="多行文本"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'number' }}"
+        title="数字"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'date' }}"
+        title="日期（年月日）"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'time' }}"
+        title="时间（时分）"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'phone' }}"
+        title="手机号"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'singleChoice' }}"
+        title="单选"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'multiChoice' }}"
+        title="多选"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'location' }}"
+        title="地图位置"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+    <van-cell
+        wx:if="{{ type == 'province' }}"
+        title="省/市/区"
+        is-link
+        bind:click="onTypeFilledIn"
+    />
+  </van-cell-group>
+
+  <van-popup
+      show="{{ show }}"
+      position="bottom"
+      bind:click-overlay="onOverlayClicked"
+  >
+    <van-grid column-num="3">
+      <van-grid-item text="单行文本" data-type="text" bind:click="onTagClicked"/>
+      <van-grid-item text="多行文本" data-type="multiLineText" bind:click="onTagClicked"/>
+      <van-grid-item text="数字" data-type="number" bind:click="onTagClicked"/>
+      <van-grid-item icon="calender-o" text="日期" data-type="date" bind:click="onTagClicked"/>
+      <van-grid-item icon="clock-o" text="时间" data-type="time" bind:click="onTagClicked"/>
+      <van-grid-item icon="phone-o" text="手机号" data-type="phone" bind:click="onTagClicked"/>
+      <van-grid-item icon="flag-o" text="单项选择" data-type="singleChoice" bind:click="onTagClicked"/>
+      <van-grid-item icon="label-o" text="多项选择" data-type="multiChoice" bind:click="onTagClicked"/>
+      <van-grid-item icon="location-o" text="地理位置" data-type="location" bind:click="onTagClicked"/>
+      <van-grid-item icon="points" text="省/市/区" data-type="province" bind:click="onTagClicked"/>
+    </van-grid>
+  </van-popup>
+
+  <van-button type="primary" size="large" bind:click="onSave">保存</van-button>
+
+</view>

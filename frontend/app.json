@@ -2,18 +2,25 @@
   "pages": [
     "pages/mainpage/mainpage",
     "pages/logs/logs",
-    "pages/activity/activity-detail/index",
-    "pages/activity/activity-create/index",
+    "pages/activity/index",
+    "pages/activity/detail/index",
+    "pages/activity/create/index",
     "pages/mine/mine",
     "pages/mine/settings/settings",
     "pages/mine/status-info/info",
     "pages/mine/personal-info/info",
-    "pages/mine/help/help"
+    "pages/mine/help/help",
+    "pages/activity/signup/index",
+    "pages/activity/manage/index",
+    "pages/mine/personal-homepage/homepage",
+    "pages/mine/personal-info/fill-in/fill",
+    "pages/activity/create/field/field",
+    "pages/activity/signin/signin"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "Wechat",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
@@ -30,7 +37,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/activity/activity-create/index",
+        "pagePath": "pages/activity/index",
         "iconPath": "images/nav/activity.png",
         "selectedIconPath": "images/nav/activity.png",
         "text": "活动"
@@ -44,10 +51,28 @@
     ]
   },
   "usingComponents": {
+    "van-col": "vant-weapp/col",
+    "van-row": "vant-weapp/row",
     "van-button": "vant-weapp/button",
+    "van-dialog": "vant-weapp/dialog",
     "van-search": "vant-weapp/search",
     "van-icon": "vant-weapp/icon",
     "van-cell": "vant-weapp/cell",
-    "van-panel": "vant-weapp/panel"
+    "van-cell-group": "vant-weapp/cell-group",
+    "van-datetime-picker": "vant-weapp/datetime-picker",
+    "van-field": "vant-weapp/field",
+    "van-grid": "vant-weapp/grid",
+    "van-grid-item": "vant-weapp/grid-item",
+    "van-panel": "vant-weapp/panel",
+    "van-popup": "vant-weapp/popup",
+    "van-tabbar": "vant-weapp/tabbar",
+    "van-tabbar-item": "vant-weapp/tabbar-item",
+    "van-tab": "vant-weapp/tab",
+    "van-tabs": "vant-weapp/tabs",
+    "van-tag": "vant-weapp/tag",
+    "van-toast": "vant-weapp/toast",
+    "van-uploader": "vant-weapp/uploader",
+    "van-divider": "vant-weapp/divider",
+    "van-switch": "vant-weapp/switch"
   }
 }

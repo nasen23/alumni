@@ -1,37 +1,46 @@
-<!--pages/mine/personal-info/personal-info.wxml-->
-
-<view class="div-line-thick"></view>
-
-<view class="info-item-small">实名信息</view>
-<view class="div-line-thin"></view>
-<view class="info-item">姓名</view>
-<view class="div-line-thin"></view>
-<view class="info-item">证件类型</view>
-<view class="div-line-thin"></view>
-<view class="info-item">证件号码</view>
-<view class="div-line-thin"></view>
-
-<view class="div-line-thick"></view>
-
-<view class="info-item-small">联系方式</view>
-<view class="div-line-thin"></view>
-<view class="info-item">手机号</view>
-<view class="div-line-thin"></view>
-<view class="info-item">邮箱</view>
-<view class="div-line-thin"></view>
-<view class="info-item">居住地</view>
-
-<view class="div-line-thick"></view>
-
-<view class="info-item-small">工作信息</view>
-<view class="div-line-thin"></view>
-<view class="info-item">行业</view>
-<view class="div-line-thin"></view>
-<view class="info-item">单位</view>
-<view class="div-line-thin"></view>
-<view class="info-item">职务</view>
-
-<view class="div-line-thick"></view>
-
-<van-button type="primary" formType="submit" color="linear-gradient(to right, #4bb0ff, #6149f6)" size="large">保存</van-button>
-
+<view class="container">
+  <van-cell-group title="常用信息（填写后，报名时会自动填充）">
+    <van-cell
+      value="{{ realname }}"
+      title="姓名"
+      is-link
+      link-type="navigateTo"
+      url="./fill-in/fill?type=姓名&value={{ realname }}"
+    />
+    <van-cell
+        value="{{ phone }}"
+        title="手机号"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=手机号&value={{ phone }}"
+    />
+    <van-cell
+        value="{{ wechatId }}"
+        title="微信号"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=微信号&value={{ wechatId }}"
+    />
+    <van-cell
+        value="{{ idNumber }}"
+        title="身份证号码"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=身份证号码&value={{ idNumber }}"
+    />
+    <van-cell
+        value="{{ email }}"
+        title="邮箱"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=邮箱&value={{ email }}"
+    />
+    <van-cell
+        value="{{ address }}"
+        title="居住地"
+        is-link
+        link-type="navigateTo"
+        url="./fill-in/fill?type=居住地&value={{ address }}"
+    />
+  </van-cell-group>
+</view>

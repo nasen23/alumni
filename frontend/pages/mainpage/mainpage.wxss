@@ -1,61 +1,113 @@
 /* pages/mainpage/mainpage.wxss */
 
-van-search {
+.top-bar {
   width: 100%;
- 
-}
-
-.history-activity-scroll-view, .activity-scroll-view {
+  margin-top: 80rpx;
+  margin-bottom: 20rpx;
   display: flex;
-  margin: 0 20rpx;
+  align-items: center;
 }
 
-.history-activity-scroll-view {
-  margin-top: 10rpx;
-  flex-direction: row;
-  white-space: nowrap;
+.top-bar span {
+  padding: 0 20px;
 }
 
-.history-activity-view {
-  display: inline-block;
-  margin-left: 5px;
+.top-title {
+  font-size: 20px;
+  font-weight: 400;
 }
 
-.history-activity-button {
+.top-avatar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100%;
+  background-color: black;
+}
+
+.search {
+  width: 100%;
+  padding: 20px;
+}
+
+.search-field {
+  display: flex;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: white;
+  align-items: center;
+  box-shadow: 1px 1px 3px #aaa;
+}
+
+.search-field input {
+  flex: 1;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+}
+
+.search-field text {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.history {
+  width: 100%;
+  padding: 0 20px;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.recent {
+  font-size: 14px;
+  margin-right: 15rpx; 
 }
 
 .activity-scroll-view {
-  height: 100%;
-  flex-direction: column;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 10px;
+  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .activity-view {
-  height: 200rpx;
-  margin: 10px 10px;
-  background-color: #ffffff;
+  height: 330rpx;
+  width: 50%;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  vertical-align: center;
+  flex-wrap: wrap;
+}
+
+.activity-card {
+  width: 100%;
+  background-color: white;
+  border-radius: 10rpx;
+  overflow: hidden;
+  box-shadow: 1px 1px 3px #aaa;
 }
 
 .activity-banner {
-  align-self: center;
-  width: 220rpx;
+  width: 100%;
   height: 150rpx;
-  margin: 10px;
-  background-color: #009fff;
-  background-size: 100%;
-  border-radius: 3px;
 }
 
 .activity-detail {
   padding: 10px;
-}
-
-.activity-name {
-
 }
 
 .activity-intro {
