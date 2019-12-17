@@ -14,8 +14,8 @@ import {
 import { diskStorage } from 'multer'
 import { FileInterceptor } from '@nestjs/platform-express'
 
-import { ActivityService } from './activity.service'
 import { ActivityDTO } from './activity.dto'
+import { ActivityService } from './activity.service'
 import { ValidationPipe } from '../shared/validation.pipe'
 
 @Controller('activity')
