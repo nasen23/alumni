@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ActivityController } from './activity.controller';
-import { ActivityService } from './activity.service';
+import { ActivityController } from '../activity/activity.controller';
+import { ActivityService } from '../activity/activity.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm'
-import { ActivityEntity } from './activity.entity'
+import { ActivityEntity } from '../activity/activity.entity'
 
 describe('Activity Controller', () => {
   let controller: ActivityController;
@@ -11,8 +11,7 @@ describe('Activity Controller', () => {
 
 const mockRepository = {
        data: [
-      { id: 'f12605cd-1008-c89e-29d7-e368344f7e99', actName: 'party', actSite: 'TaoLi',actIntro:'dsafsdfsadf' },
-      { id: '7dd1c8c7-87e5-06f8-efad-2896903f2e65', actName: 'PARTY', actSite: 'ZiJing',actIntro:'qweqeqeqqwe' },
+      { id: "f12605cd-1008-c89e-29d7-e368344-f7e99",name: "tsinghua-2017-party",actStart: "2019-12-21 19:30",actEnd: "2019-12-21 21:30",site: {name:'Taoli',address:'Zijing Lu'},fields:[{address:"Florence"},{address:"Beijing"}],intro:"dsafsdfsadf",maxParticipants: "50",phone: "1345678945612",signupStart: '2019-12-15 19:30', signupEnd: '2019-12-20 19:30',signinCode: 13,pictrues:["123.jpg","456.jpg"],participants:[{name:'aaa'},{name:'bbb'}],administrators:['ccc','ddd','eee'],organizer:'fff'},
     ],
   };
 
