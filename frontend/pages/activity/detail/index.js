@@ -32,7 +32,7 @@ Page({
           nickName: res.data.username
         })
       }).catch(err => {
-        console.log(err)
+        consol
         showModal("获取举办者信息失败！请检查网络状态")
       })
     }).catch(err => {
@@ -56,12 +56,10 @@ Page({
       administrators: data.administrators,
       participants: data.participants,
       maxParticipants: data.maxParticipants,
-      actStart: actStart === "0" ? "0" :
-        new Date(parseInt(actStart)).toLocaleString('zh-CN', { hour12: false }),
-      actEnd: actEnd === "0" ? "0" :
-        new Date(parseInt(actEnd)).toLocaleString('zh-CN', { hour12: false }),
-      signupStart: new Date(parseInt(data.signupStart)).toLocaleString('zh-CN', { hour12: false }),
-      signupEnd: new Date(parseInt(data.signupEnd)).toLocaleString('zh-CN', { hour12: false }),
+      actStart: this.validDate(actStart),
+      actEnd: this.validDate(actEnd),
+      signupStart: this.validDate(data.signupStart),
+      signupEnd: this.validDate(data.signupEnd),
       signinCode: data.signinCode
     })
 
@@ -71,6 +69,18 @@ Page({
       isParticipant: ret.isIn,
       index: ret.index
     })
+  },
+
+  validDate (time) {
+    // returns a Valid date from timestamp(str or int)
+    if (time) {
+      const date = new Date(parseInt(time)).toLocaleString('zh-CN', { hour12: false });
+      if (!(isNaN(date))) {
+        return date
+      }
+    }
+
+    return null
   },
 
   isAdministrator () {

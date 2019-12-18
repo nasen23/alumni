@@ -17,77 +17,42 @@
         {{ name }}
       </view>
       <view class="activity-header-detail-list">
-        <view wx:if="{{ actStart != '0' }}" class="activity-header-detail">
+        <view wx:if="{{ actStart }}" class="activity-header-detail detail">
           <text class="fa fa-clock-o"></text>
-          活动时间：{{ (actStart != "0" ? (actStart + '-') : "")
-          + (actEnd != "0" ? actEnd : '') }}
+          活动时间: {{ actStart ? actStart : '' + (actEnd ? '-' + actEnd : '') }}
         </view>
-        <view wx:if="{{ site.address }}" class="activity-header-detail">
+        <view wx:if="{{ site.address }}" class="activity-header-detail detail">
           <text class="fa fa-map-marker"></text>
-          活动地址：{{ site.address + (site.detail || '') }}
+          活动地址: {{ site.address + (site.detail || '') }}
         </view>
-        <view class="activity-header-detail">
+        <view class="activity-header-detail detail">
           <text class="fa fa-clock-o"></text>
-          报名时间：{{ signupStart + '-' + signupEnd }}
+          报名时间: {{ signupStart + '-' + signupEnd }}
         </view>
-        <view class="activity-header-detail">
+        <view class="activity-header-detail detail">
           <text class="fa fa-user-o"></text>
-          报名人数：{{ (participants.length || 0) + '/' + maxParticipants }}
+          报名人数: {{ (participants.length || 0) + '/' + maxParticipants || 10 }}
         </view>
+      </view>
+    </view>
+    <van-divider />
+
+    <view class="activity-creater">
+      <view class="avatar small">
+        <image src="{{ avatarUrl }}"></image>
+      </view>
+      <view class="detail">
+      举办人：{{ nickName }}
       </view>
     </view>
   </view>
 
-  <view class="line-separator"></view>
-
-  <view class="activity-detail-list">
-    <view class="activity-detail-item">
-      <view class="activity-detail-title">
-        关于
-      </view>
-
-      <view class="activity-detail-content">
-        {{ intro }}
-      </view>
+  <view wx:if="{{ intro }}" class="activity-detail">
+    <view class="activity-detail-title">
+      活动简介
     </view>
-
-    <view class="activity-detail-item">
-      <view class="activity-detail-title">
-        活动创办者
-      </view>
-
-      <view class="activity-detail-creater">
-        <view class="avatar">
-            <image src="{{ avatarUrl }}" class="avatar"></image>
-        </view>
-
-        <view class="creater-info">
-          <view class="name">{{ nickName }}</view>
-          <view class="detail-list">
-            <view class="detail">
-              <text class="fa fa-phone" />
-              <view class="detail-content">{{ phone }}</view>
-            </view>
-          </view>
-        </view>
-
-        <view class="creater-profile">
-          个人资料
-        </view>
-      </view>
-    </view>
-
-    <view class="activity-detail-item">
-      <view class="activity-detail-title">
-        参与者
-      </view>
-      <view class="avatar-link">
-        <view class="avatar"></view>
-        <view class="avatar"></view>
-        <view class="avatar"></view>
-        <view class="avatar"></view>
-        <view class="avatar avatar-link-last">+20</view>
-      </view>
+    <view class="activity-detail-text">
+      {{ intro }}
     </view>
   </view>
 
@@ -137,7 +102,7 @@
     </van-grid>
   </van-popup>
 
-  <van-tabs class="tabs" active="{{ active }}">
+  <van-tabs color="#617be3" class="tabs" active="{{ active }}">
     <van-tab title="已报名">
       <view class="inner-container">
         <view wx:if="{{ participants.length === 0 }}" class="no-participant">
@@ -183,9 +148,9 @@
         </view>
 
         <view
-            wx:for="{{ participants }}"
-            wx:key="item.openid"
-            data-id="{{ item.openid }}"
+          wx:for="{{ participants }}"
+          wx:key="item.openid"
+          data-id="{{ item.openid }}"
         >
           <view class="table">
             <view class="table-tr">
