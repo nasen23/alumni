@@ -19,7 +19,7 @@
       <view class="activity-header-detail-list">
         <view wx:if="{{ actStart }}" class="activity-header-detail detail">
           <text class="fa fa-clock-o"></text>
-          活动时间: {{ actStart ? actStart : '' + (actEnd ? '-' + actEnd : '') }}
+          活动时间: {{ actTime }}
         </view>
         <view wx:if="{{ site.address }}" class="activity-header-detail detail">
           <text class="fa fa-map-marker"></text>
@@ -27,7 +27,7 @@
         </view>
         <view class="activity-header-detail detail">
           <text class="fa fa-clock-o"></text>
-          报名时间: {{ signupStart + '-' + signupEnd }}
+          报名时间: {{ signupTime }}
         </view>
         <view class="activity-header-detail detail">
           <text class="fa fa-user-o"></text>

@@ -36,6 +36,13 @@ Page({
         filledFields[f.field] = f.value
       }
     })
+    eventChannel.on('opened', function(data) {
+      this_.setData({
+        name: data.data.actName,
+        site: data.data.actSite,
+        time: data.data.actTime,
+      })
+    })
 
     this.setData({
       filledFields,
@@ -163,7 +170,7 @@ Page({
       data: {
         // activity name
         thing2: {
-          value: "132"
+          value: this.data.name
         },
         // user name
         name1: {
@@ -175,11 +182,11 @@ Page({
         },
         // activity time
         date4: {
-          value: "2020/01/01"
+          value: this.data.time
         },
         // activity site
         thing5: {
-          value: "site"
+          value: this.data.site.name
         }
       }
     }

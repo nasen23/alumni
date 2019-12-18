@@ -1,8 +1,8 @@
 const version = "0.0.1"
 
-// const host = "http://localhost:3389/"
+const host = "http://localhost:3389/"
 // const host = "http://2019-a03.iterator-traits.com:3389/"
-const host = "http://192.168.0.105:3389/"
+// const host = "http://192.168.0.105:3389/"
 
 const routes = {
   getAllActs: host + 'activity/all',

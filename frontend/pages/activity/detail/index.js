@@ -75,6 +75,8 @@ Page({
 
     let ret = this.isParticipant()
     this.setData({
+      actTime: this.getActivityTime(),
+      signupTime: this.getSignupTime(),
       isAdministrator: this.isAdministrator(),
       isParticipant: ret.isIn,
       index: ret.index
@@ -86,11 +88,31 @@ Page({
     if (time && time !== '0') {
       const date = new Date(parseInt(time));
       if (!isNaN(date)) {
-        return date.toLocaleString('zh-CN', { hour12: false })
+        return date
       }
     }
 
     return null
+  },
+
+  toLocaleString (date) {
+    return date.toLocaleString('zh', { hour12: false })
+  },
+
+  toLocaleDateString (date) {
+    return date.toLocaleDateString('zh', { hour12: false })
+  },
+
+  getActivityTime () {
+    const actStart = this.data.actStart
+    const actEnd = this.data.actEnd
+    return (actStart ? this.toLocaleString(actStart) : '') + (actEnd ? '-' + this.toLocaleString(actEnd) : '')
+  },
+
+  getSignupTime () {
+    const signupStart = this.data.signupStart
+    const signupEnd = this.data.signupEnd
+    return this.toLocaleString(signupStart) + this.toLocaleString(signupEnd)
   },
 
   isAdministrator () {
@@ -122,8 +144,19 @@ Page({
   },
 
   toActivitySignup () {
+    const this_ = this
+
     wx.navigateTo({
-      url: `../signup/index?id=${this.data.id}`
+      url: `../signup/index?id=${this.data.id}`,
+      success (res) {
+        res.eventChannel.emit('opened', {
+          data: {
+            actName: this_.data.name,
+            actSite: this_.data.site,
+            actTime: this_.data.actTime,
+          }
+        })
+      }
     })
   },
 
@@ -178,9 +211,6 @@ Page({
   },
 
   sendSubscribeMsg (access_token) {
-    const this_ = this
-
-
     for (let participant of this.data.participants) {
       const data = {
         touser: participant.openid,
@@ -188,23 +218,23 @@ Page({
         data: {
           // activity name
           thing1: {
-            value: this_.data.name
+            value: this.data.name
           },
           // activity time
           date2: {
-            value: "2020/01/01"
+            value: this.toLocaleDateString(this.data.actStart)
           },
           // activity site
           thing3: {
-            value: "site"
+            value: this.data.site
           },
           // canceller
           name4: {
-            value: this_.data.nickName
+            value: this.data.nickName
           },
           // cancel reason
           thing5: {
-            value: this_.data.cancelReason
+            value: this.data.cancelReason
           }
         }
       }
@@ -249,7 +279,7 @@ Page({
   },
 
   tagSignInClicked () {
-    let this_ = this
+    const this_ = this
 
     this.setData({ popupShow: false })
     wx.navigateTo({
