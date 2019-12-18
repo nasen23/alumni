@@ -4,36 +4,22 @@ swiper {
   height: 100%;
 }
 
-.line-separator {
-  display: block;
-  width: 95%;
-  padding: 0;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ff790e;
-}
-
 .avatar {
   width: 100rpx;
   height: 100rpx;
-  border: 1px solid #c2cbd2;
   border-radius: 100%;
-  background-color: #ff790e;
+  background-color: #aaa;
 }
 
-.detail-list {
-  color: #c2cbd2;
-  display: flex;
-  flex-direction: column;
+.small {
+  width: 17px;
+  height: 17px;
 }
 
 .detail {
-  display: flex;
-  flex-direction: row;
-}
-
-.detail text {
-  margin-right: 18rpx;
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 120;
 }
 
 .activity-image {
@@ -45,26 +31,16 @@ swiper {
 .activity-header {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  padding: 30rpx;
+  flex-direction: column;
+  padding: 13px;
   justify-content: space-between;
+  background-color: white;
 }
 
 .activity-title {
-  color: #364E65;
   font-size: 50rpx;
   font-weight: 300;
   padding: 18rpx 0;
-}
-
-.activity-header-detail-list {
-  color: #c2cbd2;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-.activity-header-detail {
-  margin: 10rpx 0;
 }
 
 .activity-header-detail text {
@@ -72,51 +48,32 @@ swiper {
   text-align: center;
 }
 
-.activity-status {
+.activity-creater {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  background: #58CEAE;
-  font-size: 46rpx;
-  font-weight: 50;
-  width: 30%;
+  flex-direction: row;
 }
 
-.activity-status view {
-  text-align: center;
-  margin: 7rpx 0;
+.activity-creater .detail {
+  margin: 0 5px;
 }
 
-.activity-detail-list {
+.activity-detail {
+  margin: 9px 0;
+  padding: 13px;
+  background-color: white;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30rpx;
-}
-
-.activity-detail-item {
-  width: 100%;
-  margin-bottom: 20rpx;
 }
 
 .activity-detail-title {
-  font-size: 35rpx;
-  color: #3796F6;
-  margin-bottom: 15rpx;
+  color: #9aceff;
+  font-size: 18px;
+  font-weight: 150;
+  margin-bottom: 5px;
 }
 
-.activity-detail-content {
-  color: #90A8BE;
-}
-
-.activity-detail-creater {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.activity-detail-text {
+  font-size: 13px;
+  font-weight: 125;
 }
 
 .name {
