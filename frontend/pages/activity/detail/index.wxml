@@ -39,7 +39,7 @@
 
     <view class="activity-creater">
       <view class="avatar small">
-        <image src="{{ avatarUrl }}"></image>
+        <image class="small" src="{{ avatarUrl }}"></image>
       </view>
       <view class="detail">
       举办人：{{ nickName }}
