@@ -72,11 +72,11 @@ Page({
   },
 
   validDate (time) {
-    // returns a Valid date from timestamp(str or int)
-    if (time) {
-      const date = new Date(parseInt(time)).toLocaleString('zh-CN', { hour12: false });
-      if (!(isNaN(date))) {
-        return date
+    // returns a Valid date string from timestamp(str or int)
+    if (time && time !== '0') {
+      const date = new Date(parseInt(time));
+      if (!isNaN(date)) {
+        return date.toLocaleString('zh-CN', { hour12: false })
       }
     }
 

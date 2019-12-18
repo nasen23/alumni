@@ -1,7 +1,7 @@
 <!-- BUG: van-tabbar takes up bottom space, making content under tabbar not visable -->
 <!-- consider leaving some space on the bottom of page -->
 <view class="container">
-  <view wx:if="{{ pictures.length > 0 }}" class="activity-image">
+  <view wx:if="{{ pictures && pictures.length }}" class="activity-image">
     <swiper autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
       <block wx:for="{{ pictures }}" wx:key="*this">
         <swiper-item class='activity-image'>
