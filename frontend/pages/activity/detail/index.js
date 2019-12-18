@@ -1,5 +1,13 @@
 import Dialog from 'vant-weapp/dialog/dialog'
-import { routes, host } from "../../../config"
+import {
+  host,
+  appId,
+  routes,
+  appSecret,
+  authTokenServerAddr,
+  activityCancelMsgId,
+  subscribeMsgServerAddr
+} from "../../../config"
 import { request, showModal } from "../../../utils/util"
 
 const app = getApp()
@@ -8,6 +16,8 @@ Page({
 
   data: {
     popupShow: false,
+    dialogShow: false,
+    cancelReason: "",
   },
 
   onLoad (e) {
@@ -132,22 +142,98 @@ Page({
     wx.navigateTo({ url: '../create/index?id=' + this.data.id })
   },
 
+  onReasonChanged (e) {
+    this.setData({
+      cancelReason: e.detail
+    })
+  },
+
+  getAuthToken () {
+    return new Promise(function (resolve, reject) {
+      wx.requestSubscribeMessage({
+        tmplIds: [activityCancelMsgId],
+        success () {
+          request(authTokenServerAddr, "GET", {
+            grant_type: "client_credential",
+            appid: appId,
+            secret: appSecret
+          }).then(res => {
+            resolve(res.data.access_token)
+          }).catch(err => {
+            reject(err)
+          })
+        }
+      })
+    })
+  },
+
+  sendSubscribeMsg (access_token) {
+    const this_ = this
+
+
+    for (let participant of this.data.participants) {
+      const data = {
+        touser: participant.openid,
+        template_id: activityCancelMsgId,
+        data: {
+          // activity name
+          thing1: {
+            value: this_.data.name
+          },
+          // activity time
+          date2: {
+            value: "2020/01/01"
+          },
+          // activity site
+          thing3: {
+            value: "site"
+          },
+          // canceller
+          name4: {
+            value: this_.data.nickName
+          },
+          // cancel reason
+          thing5: {
+            value: this_.data.cancelReason
+          }
+        }
+      }
+
+      request(subscribeMsgServerAddr + "?access_token=" + access_token, "POST", data)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+
+  async onDialogConfirm () {
+    if (this.data.cancelReason) {
+      // Send cancel message to all participants
+      try {
+        const access_token = await this.getAuthToken()
+        this.sendSubscribeMsg(access_token)
+      } catch (err) {
+        console.log(err)
+        showModal("获取token失败！请检查网络状态")
+      }
+    }
+
+    request(routes.delSingAct + "?id=" + this.data.id, "DELETE", {}).then(() => {
+      showModal("活动取消成功")
+    }).catch(err => {
+      console.log(err)
+      showModal("取消活动失败！请检查网络状态")
+    })
+  },
+
   tagCancelClicked () {
     this.setData({
       popupShow: false,
+      dialogShow: true
     })
-
-    Dialog.confirm({
-      title: "活动取消提醒",
-      message: "是否确认删除此活动所有信息？\n（不可恢复）"
-    }).then(() => {
-      request(routes.delSingAct + "?id=" + this.data.id, "DELETE", {}).then(res => {
-        showModal("活动取消成功")
-      }).catch(err => {
-        console.log(err)
-        showModal("取消活动失败！请检查网络状态")
-      })
-    }).catch(() => {})
   },
 
   tagManagerClicked () {

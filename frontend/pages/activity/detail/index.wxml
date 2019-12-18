@@ -204,9 +204,10 @@
               <view class="table-td">{{ index + 1 }}</view>
               <view class="table-td">{{ item.username }}</view>
               <view
-                  wx:for="{{ item.info }}"
-                  wx:key="{{ item.openid }}"
-                  class="table-td">
+                wx:for="{{ item.info }}"
+                wx:key="{{ item.openid }}"
+                class="table-td"
+              >
                 {{ item.value }}
               </view>
             </view>
@@ -216,5 +217,19 @@
     </van-tab>
   </van-tabs>
 
-  <van-dialog id="van-dialog"/>
+  <van-dialog
+    use-slot
+    id="van-dialog"
+    title="活动取消提醒"
+    show="{{ dialogShow }}"
+    show-cancel-button
+    bind:confirm="onDialogConfirm"
+  >
+    <van-field
+      size="large" 
+      placeholder="请填写取消原因，告知参与者"
+      bind:change="onReasonChanged"
+    >
+    </van-field>
+  </van-dialog>
 </view>

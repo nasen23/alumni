@@ -1,8 +1,8 @@
 const version = "0.0.1"
 
-const host = "http://localhost:3389/"
-// const host: "http://2019-a03.iterator-traits.com:3389/"
-// const host: "http://192.168.0.104:3389/"
+// const host = "http://localhost:3389/"
+// const host = "http://2019-a03.iterator-traits.com:3389/"
+const host = "http://192.168.0.105:3389/"
 
 const routes = {
   getAllActs: host + 'activity/all',
@@ -35,11 +35,12 @@ const routes = {
 const appId = "wx97a987f625c04b01"
 const appSecret = "c0121d2e27bc2c1e1f394c83b503d4e6"
 const signupSuccessMsgId = "Cs1N92eQh3MxC5lx-i7jR_-Ru0f4YhOuchF7VNjRlVA"
+const activityCancelMsgId = "to4bd7D7UooXyfl3tBro8sQs8VNnB5JHBLwOBKWjq0A"
 const authTokenServerAddr = "https://api.weixin.qq.com/cgi-bin/token"
 const subscribeMsgServerAddr = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send"
 
 export {
   version, host, routes, appId, appSecret,
-  signupSuccessMsgId, authTokenServerAddr,
-  subscribeMsgServerAddr
+  activityCancelMsgId, signupSuccessMsgId,
+  authTokenServerAddr, subscribeMsgServerAddr
 }

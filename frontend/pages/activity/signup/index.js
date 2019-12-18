@@ -145,7 +145,7 @@ Page({
           appid: appId,
           secret: appSecret
         }).then(res => {
-          this_.sendSubscribeMsg(res)
+          this_.sendSubscribeMsg(res.data.access_token)
           showModal("活动报名成功")
         }).catch(err => {
           console.log(err)
@@ -155,11 +155,11 @@ Page({
     })
   },
 
-  sendSubscribeMsg (res) {
+  sendSubscribeMsg (access_token) {
     const data = {
       touser: app.globalData.openid,
       template_id: signupSuccessMsgId,
-      page: "pages/activity/detail/index?id=" + this_.data.id,
+      page: "pages/activity/detail/index?id=" + this.data.id,
       data: {
         // activity name
         thing2: {
