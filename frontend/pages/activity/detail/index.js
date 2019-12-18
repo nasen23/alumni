@@ -210,9 +210,7 @@ Page({
       }
 
       request(subscribeMsgServerAddr + "?access_token=" + access_token, "POST", data)
-        .then(res => {
-          console.log(res)
-        })
+        .then(() => {})
         .catch(err => {
           console.log(err)
         })

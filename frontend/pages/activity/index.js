@@ -12,12 +12,12 @@ Page({
   onShow () {
     const this_ = this
 
-    request(routes.getSingUser, "GET", {
+    request(routes.getUserActs, "GET", {
       openid: app.globalData.openid
     }).then(res => {
       this_.setData({
-        held: res.data.heldActivities,
-        attended: res.data.attendedActivities,
+        held: res.data.held,
+        attended: res.data.attended
       })
     }).catch(err => {
       console.log(err)
