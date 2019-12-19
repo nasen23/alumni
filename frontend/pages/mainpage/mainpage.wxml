@@ -21,9 +21,15 @@
     <text class="fa fa-angle-down" />
   </view>
 
-  <view class="activity-scroll-view" scroll-y>
-    <view class="activity-view" 
-      wx:for="{{ activities }}" 
+  <!-- only show this message when request failed and no activity in memory -->
+  <view wx:if="{{ requestFailed && !activities.length }}" class="request-failed">
+    <view class="request-fail-info">似乎出了点问题...</view>
+    <view class="reload" bindtap="makeRequest">重新加载</view>
+  </view>
+
+  <view wx:else class="activity-scroll-view" scroll-y>
+    <view class="activity-view"
+      wx:for="{{ activities }}"
       wx:key="{{ item.id }}"
       style="padding-{{ index % 2 ? 'left' : 'right' }}:10px"
     >

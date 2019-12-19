@@ -6,18 +6,23 @@ const app = getApp()
 Page({
   data: {
     rootPath: host,
-    activities: []
+    activities: [],
+    requestFailed: false
   },
 
   onShow() {
-    let this_ = this
-
+    const this_ = this
     app.getUserInfo().then(function () {
       this_.setData({
         userInfo: app.globalData.userInfo
       })
     })
 
+    this.makeRequest()
+  },
+
+  makeRequest () {
+    const this_ = this
     request(routes.postAllActs, "POST", {
       fields: ["id", "name", "intro", "pictures"]
     }).then(res => {
@@ -26,9 +31,13 @@ Page({
       })
     }).catch(err => {
       console.log(err)
-      showModal("数据获取失败！请检查网络状态")
+      this_.setData({ requestFailed: true })
+      wx.showToast({
+        title: '请求失败',
+        icon: 'none',
+        duration: 1000
+      })
     })
-
   },
 
   toSearchPage () {
