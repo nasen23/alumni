@@ -2,7 +2,13 @@
   <van-tabs class="tabs" active="{{ active }}">
     <van-tab title="我创建的">
       <view class="inner-container">
-        <view wx:if="{{ held.length === 0 }}" class="noactivity">
+        <!-- only show this message when request failed and no activity in memory -->
+        <view wx:if="{{ requestFailed && !held.length }}" class="request-failed">
+          <view class="request-fail-info">似乎出了点问题...</view>
+          <view class="reload" bindtap="makeRequest">重新加载</view>
+        </view>
+
+        <view wx:elif="{{ held.length === 0 }}" class="noactivity">
           还没有创建任何活动
         </view>
         <view wx:else class="activity-list">
@@ -26,7 +32,12 @@
 
     <van-tab title="我参与的">
       <view class="inner-container">
-        <view wx:if="{{ attended.length == 0 }}" class="noactivity">
+        <view wx:if="{{ requestFailed && !held.length }}" class="request-failed">
+          <view class="request-fail-info">似乎出了点问题...</view>
+          <view class="reload" bindtap="makeRequest">重新加载</view>
+        </view>
+
+        <view wx:elif="{{ attended.length == 0 }}" class="noactivity">
           还没有参加任何活动
         </view>
         <view wx:else class="activity-list">

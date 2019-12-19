@@ -1,5 +1,5 @@
 import { routes } from "../../config"
-import { request, showModal } from "../../utils/util"
+import { request } from "../../utils/util"
 
 const app = getApp()
 
@@ -7,9 +7,14 @@ Page({
   data: {
     held: [],
     attended: [],
+    requestFailed: false
   },
 
   onShow () {
+    this.makeRequest()
+  },
+
+  makeRequest () {
     const this_ = this
 
     request(routes.getUserActs, "GET", {
@@ -21,7 +26,12 @@ Page({
       })
     }).catch(err => {
       console.log(err)
-      showModal("获取数据失败！请检查网络状态")
+      this_.setData({ requestFailed: true })
+      wx.showToast({
+        title: '请求失败',
+        icon: 'none',
+        duration: 1000
+      })
     })
   },
 

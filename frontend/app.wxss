@@ -18,3 +18,23 @@ page {
 view, scroll-view {
   box-sizing: border-box;
 }
+
+.request-failed {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.request-fail-info {
+  color: #aaa;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.reload {
+  font-size: 13px;
+  font-weight: 300;
+  color: #8688dd;
+}

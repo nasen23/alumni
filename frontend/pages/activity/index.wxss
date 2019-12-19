@@ -63,7 +63,7 @@ van-tab {
 }
 
 .plus text {
-  color: #3a3535;
+  color: #aaa;
   font-weight: 100;
   font-size: 15px;
 }
