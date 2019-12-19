@@ -59,11 +59,24 @@ van-tab {
   border-radius: 50%;
   height: 40px;
   width: 40px;
-  box-shadow: 1px 2px #aaa;
+  box-shadow: 1px 1px 3px #aaa;
+  animation: scaling 1.6s ease infinite;
 }
 
 .plus text {
   color: #aaa;
   font-weight: 100;
   font-size: 15px;
+}
+
+@keyframes scaling {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
