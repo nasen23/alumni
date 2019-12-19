@@ -1,4 +1,4 @@
-const request = (url, method, data) => {
+export const request = (url, method, data) => {
   return new Promise(function (resolve, reject) {
     wx.request({
       url,
@@ -15,7 +15,7 @@ const request = (url, method, data) => {
 }
 
 // Show modal dialog
-const showModal = (
+export const showModal = (
   content,
   title="提示",
   showCancel=false,
@@ -36,7 +36,7 @@ const showModal = (
 }
 
 // Show toast dialog
-const showToast = (
+export const showToast = (
   title,
   duration=2000,
   success=function () {},
@@ -52,8 +52,12 @@ const showToast = (
   })
 }
 
-export {
-  request,
-  showModal,
-  showToast
+export function dateString (date) {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+
+  return `${year}/${month}/${day} ${hour}:${minute}`
 }

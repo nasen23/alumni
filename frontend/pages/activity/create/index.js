@@ -1,5 +1,5 @@
 import { routes } from "../../../config"
-import { request, showModal } from "../../../utils/util"
+import { request, showModal, dateString } from "../../../utils/util"
 
 const app = getApp()
 
@@ -147,11 +147,11 @@ Page({
     let actEndTime = ""
     let switchChecked = false
     if (actStartTimestamp) {
-      actStartTime = new Date(actStartTimestamp).toLocaleString('zh-CN', { hour12: false })
+      actStartTime = dateString(new Date(actStartTimestamp))
       switchChecked = true
     }
     if (actEndTimestamp) {
-      actEndTime = new Date(actEndTimestamp).toLocaleString('zh-CN', { hour12: false })
+      actEndTime = dateString(new Date(actEndTimestamp))
       switchChecked = true
     }
     this.setData({
@@ -163,9 +163,9 @@ Page({
       actStartTimestamp,
       actEndTime,
       actEndTimestamp,
-      signupStartTime: new Date(signupStartTimestamp).toLocaleString('zh-CN', { hour12: false }),
+      signupStartTime: dateString(new Date(signupStartTimestamp)),
       signupStartTimestamp,
-      signupEndTime: new Date(signupEndTimestamp).toLocaleString('zh-CN', { hour12: false }),
+      signupEndTime: dateString(new Date(signupEndTimestamp)),
       signupEndTimestamp,
       switchChecked,
       maxParticipants: data.maxParticipants,
@@ -266,7 +266,7 @@ Page({
   onConfirm (e) {
     this.setData({ show: false })
 
-    const dateStr = new Date(e.detail).toLocaleString('zh-CN')
+    const dateStr = dateString(new Date(e.detail))
     switch (this.data.popupType) {
       case this.data.PopupTypeEnum.ACTSTART:
         this.setData({

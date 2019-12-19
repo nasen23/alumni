@@ -4,7 +4,7 @@
   <view wx:if="{{ pictures && pictures.length }}" class="activity-image">
     <swiper autoplay="True" indicator-dots="True" indicator-color="rgba(255, 255, 255, .3)" interval="5000" easing-function="easeInOutCubic" circular="True">
       <block wx:for="{{ pictures }}" wx:key="*this">
-        <swiper-item class='activity-image'>
+        <swiper-item class="activity-image">
             <image src="{{ rootPath + item }}" class="activity-image"/>
         </swiper-item>
       </block>
@@ -191,7 +191,7 @@
     bind:confirm="onDialogConfirm"
   >
     <van-field
-      size="large" 
+      size="large"
       placeholder="请填写取消原因，告知参与者"
       bind:change="onReasonChanged"
     >

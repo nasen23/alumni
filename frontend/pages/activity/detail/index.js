@@ -8,7 +8,7 @@ import {
   activityCancelMsgId,
   subscribeMsgServerAddr
 } from "../../../config"
-import { request, showModal } from "../../../utils/util"
+import { request, showModal, dateString } from "../../../utils/util"
 
 const app = getApp()
 
@@ -42,7 +42,7 @@ Page({
           nickName: res.data.username
         })
       }).catch(err => {
-        consol
+        console.log(err)
         showModal("获取举办者信息失败！请检查网络状态")
       })
     }).catch(err => {
@@ -95,10 +95,6 @@ Page({
     return null
   },
 
-  toLocaleString (date) {
-    return date.toLocaleString('zh', { hour12: false })
-  },
-
   toLocaleDateString (date) {
     return date.toLocaleDateString('zh', { hour12: false })
   },
@@ -106,13 +102,13 @@ Page({
   getActivityTime () {
     const actStart = this.data.actStart
     const actEnd = this.data.actEnd
-    return (actStart ? this.toLocaleString(actStart) : '') + (actEnd ? '-' + this.toLocaleString(actEnd) : '')
+    return (actStart ? dateString(actStart) : '') + (actEnd ? '-' + dateString(actEnd) : '')
   },
 
   getSignupTime () {
     const signupStart = this.data.signupStart
     const signupEnd = this.data.signupEnd
-    return this.toLocaleString(signupStart) + this.toLocaleString(signupEnd)
+    return dateString(signupStart) + '-' + dateString(signupEnd)
   },
 
   isAdministrator () {
