@@ -1,5 +1,5 @@
 <view class="container">
-  <van-tabs class="tabs" active="{{ active }}">
+  <van-tabs color="#6567bd" class="tabs" active="{{ active }}">
     <van-tab title="我创建的">
       <view class="inner-container">
         <!-- only show this message when request failed and no activity in memory -->
