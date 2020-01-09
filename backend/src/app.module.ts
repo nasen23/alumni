@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { APP_FILTER } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ServeStaticModule } from '@nestjs/serve-static'
+import { DefaultAdminModule } from 'nestjs-admin'
 
 import { AppService } from './app.service'
 import { AppController } from './app.controller'
@@ -17,6 +18,7 @@ import { ConfigModule } from './config/config.module'
     ConfigModule,
     ActivityModule,
     TypeOrmModule.forRoot(),
+    DefaultAdminModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'imgs'),
     }),

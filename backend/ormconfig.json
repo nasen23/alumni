@@ -6,7 +6,8 @@
   "password": "",
   "database": "users",
   "entities": [
-    "./dist/**/*.entity.js"
+    "./dist/**/*.entity.js",
+    "./node_modules/nestjs-admin/**/*.entity.js"
   ],
   "synchronize": true,
   "logging": false

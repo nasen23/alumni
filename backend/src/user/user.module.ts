@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { DefaultAdminSite, DefaultAdminModule } from 'nestjs-admin'
 
 import { UserEntity } from './user.entity'
 import { UserService } from './user.service'
@@ -9,7 +10,8 @@ import { ConfigModule } from '../config/config.module'
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([UserEntity])
+    TypeOrmModule.forFeature([UserEntity]),
+    DefaultAdminModule
   ],
   providers: [
     UserService,
@@ -17,4 +19,8 @@ import { ConfigModule } from '../config/config.module'
   controllers: [UserController],
   exports: []
 })
-export class UserModule {}
+export class UserModule {
+  constructor (private readonly adminSite: DefaultAdminSite) {
+      adminSite.register('User', UserEntity)
+  }
+}
